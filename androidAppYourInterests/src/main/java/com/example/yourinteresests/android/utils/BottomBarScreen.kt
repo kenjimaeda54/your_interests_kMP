@@ -7,12 +7,12 @@ sealed  class BottomBarScreen (
 ) {
 
     data object Favorite : BottomBarScreen(
-        route = "favorite",
-        icon = com.example.yourinteresests.android.R.drawable.favorite
+        route = "yourLocation",
+        icon = com.example.yourinteresests.android.R.drawable.pin
     )
 
     data object Search : BottomBarScreen(
-        route = "yourLocation",
+        route = "search",
         icon = com.example.yourinteresests.android.R.drawable.search
     )
 
