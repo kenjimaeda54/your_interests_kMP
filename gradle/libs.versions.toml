@@ -10,6 +10,9 @@ viewModel-ktx = "2.8.4"
 coroutines-ktx = "1.8.1"
 navigationCompose = "2.7.7"
 compose-navigation = "1.6.8"
+mapbox-compose = "11.5.1"
+play-services-location = "21.3.0"
+play-services = "18.5.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -27,6 +30,11 @@ coroutines-ktx = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", ver
 androidx-lifecycle-viewmodel-android = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-android", version.ref = "viewModel-ktx" }
 bottom-navigation = { module = "androidx.compose.material:material", version.ref = "compose-navigation" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+mapbox-compose = { module = "com.mapbox.extension:maps-compose", version.ref = "mapbox-compose" }
+mapbox-android = {module = "com.mapbox.maps:android",version.ref = "mapbox-compose" }
+play-service-location = {module = "com.google.android.gms:play-services-location",version.ref = "play-services-location" }
+play-service = {module  = "com.google.android.gms:play-services-base",version.ref = "play-services"}
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

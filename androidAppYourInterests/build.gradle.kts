@@ -45,4 +45,8 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.bottom.navigation)
     debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.mapbox.compose)
+    implementation(libs.mapbox.android)
+    implementation(libs.play.service.location)
+    implementation(libs.play.service)
 }
