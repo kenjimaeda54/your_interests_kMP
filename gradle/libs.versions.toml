@@ -13,6 +13,7 @@ compose-navigation = "1.6.8"
 mapbox-compose = "11.5.1"
 compass = "1.2.0"
 koin = "3.5.6"
+touchlab-skie = "0.8.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -49,3 +50,4 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+touchlab-skie = { id = "co.touchlab.skie", version.ref = "touchlab-skie" }

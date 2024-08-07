@@ -19,7 +19,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
 
 
 private  val clientModule = module {
-    single { RecoveryLocationClient() }
+    factory { RecoveryLocationClient() }
 }
 
 private  val viewModelModule  = module {

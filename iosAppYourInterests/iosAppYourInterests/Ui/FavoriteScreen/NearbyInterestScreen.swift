@@ -8,40 +8,40 @@
 
 import SwiftUI
 import _MapKit_SwiftUI
-
+import shared
 
 
 @available(iOS 17.0, *)
-struct FavoriteScreen: View {
+struct NearbyInterestScreen: View {
 	@Namespace var mapScope
-	@StateObject private var locationManager = LocationManager()
+	@StateObject private var nearbyState = NearbyInterestsState()
 	@State private var initialPosition: MapCameraPosition?
 	@Environment(\.scenePhase) var scenePhase
-
-
-
+	
+	
+	
 	var body: some View {
 		GeometryReader { geometry in
 			
 			VStack {
 				
-				if(locationManager.anotationMap.lastKnownLocation == nil && locationManager.authorizationStatus != .denied)  {
-  					Loading()
-  				}
+				if(nearbyState.loadingState == .loading)  {
+					Loading()
+				}
 				Group  {
-					if(locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse && locationManager.anotationMap.lastKnownLocation != nil) {
+					if(nearbyState.loadingState == .success) {
 						Map(
 							initialPosition: {
-								let center = locationManager.anotationMap.lastKnownLocation ?? CLLocationCoordinate2D(latitude: 00.00, longitude: 00.00)
+								let center = nearbyState.location ?? CLLocationCoordinate2D(latitude: 00.00, longitude: 00.00)
 								let span = MKCoordinateSpan(latitudeDelta: 0.020, longitudeDelta: 0.020)
 								let region = MKCoordinateRegion(center: center, span: span)
 								return .region(region)
 							}()
 							
 						) {
-							if(locationManager.anotationMap.lastKnownLocation != nil) {
-								Annotation("", coordinate: locationManager.anotationMap.lastKnownLocation!) {
-									MapAnotation(anotationMap: locationManager.anotationMap, geometryProxy: geometry)
+							if(nearbyState.location != nil) {
+								Annotation("", coordinate:  nearbyState.location!) {
+									MapAnotation( geometryProxy: geometry)
 								}
 							}
 							
@@ -53,7 +53,7 @@ struct FavoriteScreen: View {
 						.mapScope(mapScope)
 					}
 					
-					if(locationManager.authorizationStatus == .denied) {
+					if(nearbyState.gelocationError == GeolocationError.permissionError) {
 						Button(action:{
 							
 							UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
@@ -81,17 +81,22 @@ struct FavoriteScreen: View {
 				ColorsApp.gray.opacity(0.4)
 			)
 			.onChange(of: scenePhase) {_, newPhase in
-				  
+				
 				//para lidar com ciclo de viida sempre que retornar a tetla esse codigo e chamado
 				//https://www.hackingwithswift.com/books/ios-swiftui/how-to-be-notified-when-your-swiftui-app-moves-to-the-background
 				if(newPhase == .active) {
-					locationManager.requestLocationPermission()
+					Task {
+						await	nearbyState.fetchLocation()
+					}
 				}
 				
 			}
+			.task {
+				await	nearbyState.fetchLocation()
+			}
 		}
 		.ignoresSafeArea()
- 
+		
 	}
 }
 

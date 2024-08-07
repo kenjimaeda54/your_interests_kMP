@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct MapAnotation: View {
-	var anotationMap: AnotationMap
-	var geometryProxy: GeometryProxy
+ 	var geometryProxy: GeometryProxy
 	
 	var body: some View {
 		//precisa de ser ZStack para anotacao ficar mais proxima do ponto de origem
@@ -21,7 +20,7 @@ struct MapAnotation: View {
 				.rotation3DEffect(.degrees(3), axis: (x: 0, y: 0, z: 50))
 				.offset(x: 0, y: -10)
 				.padding([.bottom],geometryProxy.size.height * 0.07)
- 			Text("\(anotationMap.street),\(anotationMap.streetNumber)")
+ 			Text("ola")
 				.font(.custom(FontsApp.light, size: 13))
 				.foregroundStyle(ColorsApp.white)
 				.padding([.horizontal],13)
