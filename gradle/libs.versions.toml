@@ -11,8 +11,8 @@ coroutines-ktx = "1.8.1"
 navigationCompose = "2.7.7"
 compose-navigation = "1.6.8"
 mapbox-compose = "11.5.1"
-play-services-location = "21.3.0"
-play-services = "18.5.0"
+compass = "1.2.0"
+koin = "3.5.6"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -32,8 +32,14 @@ bottom-navigation = { module = "androidx.compose.material:material", version.ref
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 mapbox-compose = { module = "com.mapbox.extension:maps-compose", version.ref = "mapbox-compose" }
 mapbox-android = {module = "com.mapbox.maps:android",version.ref = "mapbox-compose" }
-play-service-location = {module = "com.google.android.gms:play-services-location",version.ref = "play-services-location" }
-play-service = {module  = "com.google.android.gms:play-services-base",version.ref = "play-services"}
+compass-geocoder = { module = "dev.jordond.compass:geocoder", version.ref = "compass" }
+compass-geocoder-mobile = { module = "dev.jordond.compass:geocoder-mobile", version.ref = "compass" }
+compass-geolocation = { module = "dev.jordond.compass:geolocation", version.ref = "compass" }
+compass-geolocation-mobile = { module = "dev.jordond.compass:geolocation-mobile", version.ref = "compass" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-androidx-core = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+
 
 
 [plugins]

@@ -27,10 +27,16 @@ kotlin {
         commonMain.dependencies {
             //put your multiplatform dependencies here
             implementation(libs.coroutines.ktx)
+            implementation(libs.compass.geocoder)
+            implementation(libs.compass.geocoder.mobile)
+            implementation(libs.compass.geolocation)
+            implementation(libs.compass.geolocation.mobile)
+            implementation(libs.koin.core)
         }
 
         androidMain.dependencies {
             implementation(libs.viewModel.ktx)
+            implementation(libs.koin.android)
         }
 
         iosMain.dependencies {  }

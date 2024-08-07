@@ -47,6 +47,8 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.mapbox.compose)
     implementation(libs.mapbox.android)
-    implementation(libs.play.service.location)
-    implementation(libs.play.service)
-}
+
+    //koin
+    implementation(libs.koin.androidx.core)
+    implementation(libs.koin.android)
+ }
