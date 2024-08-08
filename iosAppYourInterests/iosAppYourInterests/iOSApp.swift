@@ -1,13 +1,16 @@
 import SwiftUI
+import shared
 
 @available(iOS 17.0, *)
 @main
 struct iOSApp: App {
-	var body: some Scene {
-		
- 
 	
-		
+	init() {
+		CommonModuleKt.doInitKoin()
+	}
+
+	
+	var body: some Scene {
 		WindowGroup {
 			 TabCustomView()
 				.environmentObject(StateNavigationTabView())

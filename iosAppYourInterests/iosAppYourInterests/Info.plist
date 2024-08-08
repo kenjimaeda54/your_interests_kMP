@@ -46,6 +46,8 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>App precisa da sua localização para indicar lugares proximos</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>App precisa da sua localização para indicar lugares proximos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>KulimPark-Bold.ttf</string>

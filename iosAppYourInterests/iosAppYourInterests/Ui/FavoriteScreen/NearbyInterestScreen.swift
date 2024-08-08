@@ -94,6 +94,7 @@ struct NearbyInterestScreen: View {
 			.task {
 				await	nearbyState.fetchLocation()
 			}
+			
 		}
 		.ignoresSafeArea()
 		
