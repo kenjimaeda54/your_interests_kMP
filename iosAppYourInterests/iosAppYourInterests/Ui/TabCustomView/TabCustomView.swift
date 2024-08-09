@@ -17,7 +17,7 @@ struct TabCustomView: View {
 	
 	var body: some View {
 		TabView(selection: $stateTagSelected.tagSelected){
-			FavoriteScreen()
+			NearbyInterestScreen()
 				.tabItem {
 					Image(systemName: "bookmark")
 						

@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-}
+ }
 
 kotlin {
     androidTarget {
@@ -32,7 +32,7 @@ kotlin {
             implementation(libs.compass.geolocation)
             implementation(libs.compass.geolocation.mobile)
             implementation(libs.koin.core)
-        }
+         }
 
         androidMain.dependencies {
             implementation(libs.viewModel.ktx)
