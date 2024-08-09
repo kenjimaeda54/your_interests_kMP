@@ -1,34 +1,38 @@
 package com.example.yourinterest.client
 
 import com.example.yourinterest.model.Coordinates
-import com.example.yourinterest.model.Location
+import com.example.yourinterest.util.GeolocationError
+import com.example.yourinterest.util.GeolocationException
 import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.GeolocatorResult
-import dev.jordond.compass.geolocation.TrackingStatus
+import dev.jordond.compass.geolocation.Locator
 import dev.jordond.compass.geolocation.mobile
-import kotlinx.coroutines.flow.map
-
-
-enum class  GeolocationError {
-    PermissionError,
-    LocationError
-}
+import dev.jordond.compass.geolocation.mobile.MobileLocator
+import dev.jordond.compass.geolocation.mobile.mobile
+import dev.jordond.compass.permissions.LocationPermissionController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.SupervisorJob
 
 
 class RecoveryLocationClient {
-    private  val geolocation: Geolocator = Geolocator.mobile()
 
-    suspend fun getLocation(): Pair<Location?, GeolocationError?> {
-        val resultGeolocation = geolocation.current(priority = Priority.HighAccuracy)
-        return when(resultGeolocation){
-            is GeolocatorResult.Success ->
-                Pair(Location(Coordinates(resultGeolocation.data.coordinates.longitude,resultGeolocation.data.coordinates.latitude),resultGeolocation.data.accuracy,resultGeolocation.data.timestampMillis), null)
-            is GeolocatorResult.Error -> when(resultGeolocation) {
-                is GeolocatorResult.PermissionError -> Pair(null, GeolocationError.PermissionError)
-                else ->  Pair(null,  GeolocationError.LocationError)
+    suspend fun getLocation(): Pair<Coordinates?, GeolocationException?> {
+        val locator: Locator = Locator.mobile()
+        val geolocation: Geolocator = Geolocator(locator, dispatcher = Dispatchers.IO)
+        return when (val resultGeolocation = geolocation.current(Priority.HighAccuracy)) {
+            is GeolocatorResult.GeolocationFailed -> Pair(null, GeolocationException(error = GeolocationError.LocationError, messageError = resultGeolocation.message))
+            is GeolocatorResult.NotFound -> Pair(null, GeolocationException(error = GeolocationError.LocationError, messageError = resultGeolocation.message))
+            is GeolocatorResult.NotSupported -> Pair(null, GeolocationException(error = GeolocationError.LocationError, messageError = resultGeolocation.message))
+            is GeolocatorResult.Success -> Pair(Coordinates(resultGeolocation.data.coordinates.longitude, resultGeolocation.data.coordinates.latitude), null)
+            is GeolocatorResult.Error -> when (resultGeolocation) {
+                is GeolocatorResult.PermissionError ->  Pair(null, GeolocationException(error = GeolocationError.PermissionError, messageError = resultGeolocation.message))
+                is GeolocatorResult.PermissionDenied ->  Pair(null, GeolocationException(error = GeolocationError.PermissionError, messageError = resultGeolocation.message))
+                else -> Pair(null, GeolocationException(error = GeolocationError.LocationError, messageError = resultGeolocation.message))
+
             }
         }
-     }
 
+    }
 }

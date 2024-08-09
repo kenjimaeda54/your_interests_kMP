@@ -7,8 +7,3 @@ data class Coordinates (
      val latitude: Double
 )
 
-data class Location(
-     val coordinates: Coordinates,
-     val accuracy: Double,
-     val timestampMillis: Long,
-)

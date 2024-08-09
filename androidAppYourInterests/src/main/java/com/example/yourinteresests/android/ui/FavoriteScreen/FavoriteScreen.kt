@@ -18,7 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.example.yourinteresests.android.utils.ComposableLifecycle
-import com.example.yourinterest.client.GeolocationError
+import com.example.yourinterest.util.GeolocationError
+import com.example.yourinterest.util.GeolocationException
 import com.example.yourinterest.viewmodel.RecoveryLocation
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapboxExperimental
@@ -64,7 +65,7 @@ fun FavoriteScreen() {
         Text(text = "loading")
 
     } else if(location.exception  != null){
-        if(location.exception == GeolocationError.PermissionError) Text(text = "Aceita as permissoes") else Text(text = "Erro com gps")
+        if(location.exception!!.error == GeolocationError.PermissionError) Text(text = "Aceita as permissoes") else Text(text = "Erro com gps")
 
     } else {
         MapboxMap(
@@ -89,7 +90,7 @@ fun FavoriteScreen() {
                     .padding(horizontal = 5.dp, vertical = 7.dp)
                     .background(
                         MaterialTheme.colorScheme.tertiary
-                    ),text = "${location.data?.coordinates?.latitude} ${location.data?.coordinates?.longitude}", color = MaterialTheme.colorScheme.onTertiary)
+                    ),text = "${location.data?.latitude} ${location.data?.longitude}", color = MaterialTheme.colorScheme.onTertiary)
             }
         }
 

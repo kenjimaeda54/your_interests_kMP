@@ -5,7 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import androidx.lifecycle.viewModelScope
 
 
-actual  open class CoroutineViewModel: ViewModel() {
+actual  abstract class CoroutineViewModel: ViewModel() {
 
     actual val scope: CoroutineScope = viewModelScope
 
