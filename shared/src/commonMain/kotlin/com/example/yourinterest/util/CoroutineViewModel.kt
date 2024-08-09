@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 
-expect open  class CoroutineViewModel() {
+expect abstract  class CoroutineViewModel() {
 
    val scope: CoroutineScope
 
