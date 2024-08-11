@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
- }
+}
 
 kotlin {
     androidTarget {
@@ -24,6 +24,7 @@ kotlin {
     }
 
     sourceSets {
+
         commonMain.dependencies {
             //put your multiplatform dependencies here
             implementation(libs.coroutines.ktx)
@@ -32,7 +33,7 @@ kotlin {
             implementation(libs.compass.geolocation)
             implementation(libs.compass.geolocation.mobile)
             implementation(libs.koin.core)
-         }
+        }
 
         androidMain.dependencies {
             implementation(libs.viewModel.ktx)

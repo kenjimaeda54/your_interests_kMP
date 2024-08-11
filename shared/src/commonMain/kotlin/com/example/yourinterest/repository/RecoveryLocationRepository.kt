@@ -21,4 +21,9 @@ class RecoveryLocationRepository : KoinComponent {
 
     }
 
+    suspend fun  fetchReverseLocation(latitude: Double,longitude: Double): String {
+       return recoveryClient.getReverseLocation(latitude,longitude)
+    }
+
+
 }

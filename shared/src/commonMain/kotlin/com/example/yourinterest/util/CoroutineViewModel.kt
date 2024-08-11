@@ -7,7 +7,7 @@ import kotlinx.coroutines.IO
 
 
 // modifcadores https://medium.com/@HugoMatilla/kotlin-basics-inheritance-modifiers-final-open-abstract-and-override-b1072d728088
-expect abstract  class CoroutineViewModel() {
+expect open  class CoroutineViewModel() {
 
    val scope: CoroutineScope
 

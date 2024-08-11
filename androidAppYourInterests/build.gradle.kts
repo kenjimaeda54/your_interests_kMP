@@ -51,4 +51,4 @@ dependencies {
     //koin
     implementation(libs.koin.androidx.core)
     implementation(libs.koin.android)
- }
+}

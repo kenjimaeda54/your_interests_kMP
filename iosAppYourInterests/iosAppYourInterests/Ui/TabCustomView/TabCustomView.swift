@@ -10,7 +10,7 @@ import SwiftUI
 
 @available(iOS 17.0, *)
 struct TabCustomView: View {
-	@StateObject var stateTagSelected = StateNavigationTabView()
+	@ObservedObject var stateTagSelected = StateNavigationTabView()
 	
 	
 	

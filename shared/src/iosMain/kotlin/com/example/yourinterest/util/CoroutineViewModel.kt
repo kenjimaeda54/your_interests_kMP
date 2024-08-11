@@ -5,10 +5,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.invoke
 
 
-
-actual abstract class CoroutineViewModel {
+actual open class CoroutineViewModel {
 
     actual val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 

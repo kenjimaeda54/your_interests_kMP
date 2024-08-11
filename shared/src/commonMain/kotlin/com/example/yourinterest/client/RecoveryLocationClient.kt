@@ -4,6 +4,8 @@ import com.example.yourinterest.model.Coordinates
 import com.example.yourinterest.util.GeolocationError
 import com.example.yourinterest.util.GeolocationException
 import dev.jordond.compass.Priority
+import dev.jordond.compass.geocoder.Geocoder
+import dev.jordond.compass.geocoder.placeOrNull
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.GeolocatorResult
 import dev.jordond.compass.geolocation.Locator
@@ -34,5 +36,11 @@ class RecoveryLocationClient {
             }
         }
 
+    }
+
+    suspend fun getReverseLocation(latitude: Double, longitude: Double): String {
+        val geocoder = Geocoder()
+        val reverseGeocoder = geocoder.placeOrNull(latitude, longitude) ?: return ""
+        return "${reverseGeocoder.thoroughfare},${reverseGeocoder.subThoroughfare}"
     }
 }
