@@ -1,6 +1,12 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+
+    //seriliation
+    alias(libs.plugins.serialization)
+
+    //touchlab para view model
+    alias(libs.plugins.touchlab.skie)
 }
 
 kotlin {
@@ -33,14 +39,20 @@ kotlin {
             implementation(libs.compass.geolocation)
             implementation(libs.compass.geolocation.mobile)
             implementation(libs.koin.core)
+            implementation(libs.ktor.negotiation)
+            implementation(libs.ktor.serialization)
+            implementation(libs.ktor.client.core)
         }
 
         androidMain.dependencies {
             implementation(libs.viewModel.ktx)
             implementation(libs.koin.android)
+            implementation(libs.ktor.client.android)
         }
 
-        iosMain.dependencies {  }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)

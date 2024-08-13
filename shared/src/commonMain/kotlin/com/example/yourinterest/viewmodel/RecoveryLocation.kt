@@ -1,8 +1,8 @@
 package com.example.yourinterest.viewmodel
 
- import com.example.yourinterest.data.DataOrException
- import com.example.yourinterest.model.Coordinates
- import com.example.yourinterest.repository.RecoveryLocationRepository
+ import com.example.yourinterest.util.DataOrException
+ import com.example.yourinterest.data.model.Coordinates
+ import com.example.yourinterest.data.repository.RecoveryLocationRepository
  import com.example.yourinterest.util.CoroutineViewModel
  import com.example.yourinterest.util.GeolocationException
  import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,12 +14,12 @@ package com.example.yourinterest.viewmodel
 
 class  RecoveryLocation: CoroutineViewModel(), KoinComponent {
     private  val recoveryLocationRepository: RecoveryLocationRepository by inject()
-    private  val  _location = MutableStateFlow<DataOrException<Coordinates, GeolocationException,Boolean>>(DataOrException(data = null, isLoading = true, exception = null))
+    private  val  _location = MutableStateFlow<DataOrException<Coordinates, GeolocationException, Boolean>>(
+        DataOrException(data = null, isLoading = true, exception = null)
+    )
     private  val _address = MutableStateFlow<String>("")
-    val location: StateFlow<DataOrException<Coordinates, GeolocationException,Boolean>> = _location
+    val location: StateFlow<DataOrException<Coordinates, GeolocationException, Boolean>> = _location
     val address: StateFlow<String> = _address
-
-
 
     fun getLocation() {
         scope.launch {

@@ -1,7 +1,13 @@
 package com.example.yourinterest.di
 
-import com.example.yourinterest.client.RecoveryLocationClient
-import com.example.yourinterest.repository.RecoveryLocationRepository
+import com.example.yourinterest.data.client.KtorApi
+import com.example.yourinterest.data.client.KtorApiImplementation
+import com.example.yourinterest.data.client.PhotosPlaceClient
+import com.example.yourinterest.data.client.PlacesNearbyClient
+import com.example.yourinterest.data.client.RecoveryLocationClient
+import com.example.yourinterest.data.repository.PlacesNearbyRepository
+import com.example.yourinterest.data.repository.RecoveryLocationRepository
+import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
 import com.example.yourinterest.viewmodel.RecoveryLocation
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -18,16 +24,30 @@ fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
 }
 
 
+
+
 private  val clientModule = module {
     factory { RecoveryLocationClient() }
+    factory { PlacesNearbyClient(get()) }
+    factory { PhotosPlaceClient(get()) }
+    factory  <KtorApi> { KtorApiImplementation()  }
 }
+
+
 
 private  val viewModelModule  = module {
      single { RecoveryLocation() }
+     single { PlacesNearbyViewModel() }
+
 }
 
 private  val repositoryModule = module {
     single { RecoveryLocationRepository() }
+    single { PlacesNearbyRepository() }
 }
 
+
+
+
+//para ios
 fun initKoin() = initKoin {}
