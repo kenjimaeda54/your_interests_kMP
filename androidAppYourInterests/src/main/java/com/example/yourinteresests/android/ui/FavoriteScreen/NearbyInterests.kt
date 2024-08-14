@@ -44,17 +44,21 @@ import com.mapbox.maps.MapOptions
 import com.mapbox.maps.MapboxExperimental
 import com.mapbox.maps.MapboxStyleManager
 import com.mapbox.maps.Style
+import com.mapbox.maps.StyleLoaded
 import com.mapbox.maps.StylePackLoadOptions
 import com.mapbox.maps.extension.compose.ComposeMapInitOptions
 import com.mapbox.maps.extension.compose.MapboxMap
 import com.mapbox.maps.extension.compose.animation.viewport.MapViewportState
 import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 import com.mapbox.maps.extension.compose.annotation.ViewAnnotation
+import com.mapbox.maps.extension.compose.style.GenericStyle
 import com.mapbox.maps.extension.compose.style.ImportConfigs
 import com.mapbox.maps.extension.compose.style.MapStyle
 import com.mapbox.maps.extension.compose.style.standard.MapboxStandardStyle
+import com.mapbox.maps.extension.compose.style.styleImportsConfig
 import com.mapbox.maps.viewannotation.geometry
 import com.mapbox.maps.viewannotation.viewAnnotationOptions
+import kotlin.coroutines.coroutineContext
 
 
 //https://github.com/mapbox/mapbox-maps-android/blob/extension-compose-v0.1.0/extension-compose/README.md?source=post_page-----408cbea98866--------------------------------#add-viewannotation-to-the-map
@@ -107,10 +111,15 @@ fun FavoriteScreen() {
                     0.0,
                     0.0
 
-                )
-            ),
+                ),
 
-            ) {
+                ),
+            style = {
+                //usa o maapbox studio para alterar os estilos
+                //removi pontos de interesse usando o mapbox studio
+                MapStyle(style = "mapbox://styles/kenjimaeda/clhnjjmrg039d01pa3bz482gg")
+            }
+        ) {
             ViewAnnotation(options = viewAnnotationOptions {
                 allowOverlap(false)
                 geometry(Point.fromLngLat(location.data!!.longitude, location.data!!.latitude))

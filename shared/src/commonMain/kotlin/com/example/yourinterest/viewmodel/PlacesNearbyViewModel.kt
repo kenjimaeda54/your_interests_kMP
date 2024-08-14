@@ -1,7 +1,6 @@
 package com.example.yourinterest.viewmodel
 
-import com.example.yourinterest.data.model.photosplaces.PhotosPlacesWithRelationNearbyModel
-import com.example.yourinterest.data.model.placesnearby.PlacesNearbyModel
+import com.example.yourinterest.data.model.photosrelationswithplace.PhotosPlacesWithRelationNearbyModel
 import com.example.yourinterest.data.repository.PlacesNearbyRepository
 import com.example.yourinterest.util.CoroutineViewModel
 import com.example.yourinterest.util.DataOrException

@@ -2,7 +2,6 @@ package com.example.yourinterest.di
 
 import com.example.yourinterest.data.client.KtorApi
 import com.example.yourinterest.data.client.KtorApiImplementation
-import com.example.yourinterest.data.client.PhotosPlaceClient
 import com.example.yourinterest.data.client.PlacesNearbyClient
 import com.example.yourinterest.data.client.RecoveryLocationClient
 import com.example.yourinterest.data.repository.PlacesNearbyRepository
@@ -29,7 +28,6 @@ fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
 private  val clientModule = module {
     factory { RecoveryLocationClient() }
     factory { PlacesNearbyClient(get()) }
-    factory { PhotosPlaceClient(get()) }
     factory  <KtorApi> { KtorApiImplementation()  }
 }
 

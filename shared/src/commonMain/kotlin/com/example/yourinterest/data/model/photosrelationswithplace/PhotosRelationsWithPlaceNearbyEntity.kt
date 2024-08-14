@@ -1,4 +1,4 @@
-package com.example.yourinterest.data.model.placesnearby
+package com.example.yourinterest.data.model.photosrelationswithplace
 
 import kotlinx.serialization.Serializable
 
@@ -48,4 +48,14 @@ data class  GeocodesMain(
 @Serializable
 data class  Location(
     val formatted_address: String
+)
+
+
+
+
+@Serializable
+data class PhotoPlacesEntityResponse(
+    val id: String,
+    val prefix: String,
+    val suffix: String
 )
