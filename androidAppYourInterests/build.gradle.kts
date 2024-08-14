@@ -55,4 +55,8 @@ dependencies {
 
     //coil imagem
     implementation(libs.coil.compose)
+
+
+    //loading
+    implementation(libs.loading.compose)
 }

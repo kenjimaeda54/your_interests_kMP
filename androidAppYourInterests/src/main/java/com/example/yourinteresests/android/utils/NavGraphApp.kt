@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.exampl.yourinteresests.android.ui.ProfileScreen
-import com.example.yourinteresests.android.ui.FavoriteScreen.FavoriteScreen
+import com.example.yourinteresests.android.ui.screens.proflescreen.FavoriteScreen.FavoriteScreen
 import com.example.yourinteresests.android.ui.SearchScreen.SearchScreen
 
 @Composable

@@ -162,12 +162,10 @@
 		816FD64E2C5BC46700232E27 /* Ui */ = {
 			isa = PBXGroup;
 			children = (
+				81CD62EB2C6D302400413CE9 /* Screens */,
 				816AE01A2C5D647500ECF775 /* Modifiers */,
 				81FE464B2C5D156600FCE904 /* Theme */,
 				81C046132C5EB7EF0072EFD4 /* View */,
-				816FD6562C5BC72E00232E27 /* ProfileScreen */,
-				816FD6552C5BC6FE00232E27 /* ResearchScreen */,
-				816FD6542C5BC6E600232E27 /* NearbyIInterests */,
 				816FD6512C5BC52C00232E27 /* TabCustomView */,
 			);
 			path = Ui;
@@ -224,6 +222,16 @@
 				81511B962C6A337500E67BF0 /* CustomAsyncImage.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		81CD62EB2C6D302400413CE9 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				816FD6542C5BC6E600232E27 /* NearbyIInterests */,
+				816FD6552C5BC6FE00232E27 /* ResearchScreen */,
+				816FD6562C5BC72E00232E27 /* ProfileScreen */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		81FE464B2C5D156600FCE904 /* Theme */ = {

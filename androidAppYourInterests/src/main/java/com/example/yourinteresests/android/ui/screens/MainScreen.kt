@@ -1,4 +1,4 @@
-package com.example.yourinteresests.android.ui
+package com.example.yourinteresests.android.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.material3.Scaffold
