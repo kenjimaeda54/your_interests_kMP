@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -24,11 +25,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.yourinteresests.android.theme.fontsKulimPark
 import com.example.yourinteresests.android.utils.ComposableLifecycle
 import com.example.yourinterest.util.GeolocationError
@@ -83,9 +89,7 @@ fun FavoriteScreen() {
         }
 
     }
-
-
-
+    
 
     if (location.isLoading) {
 
@@ -106,8 +110,7 @@ fun FavoriteScreen() {
             mapViewportState = MapViewportState(
                 initialCameraState = CameraState(
                     Point.fromLngLat(location.data!!.longitude, location.data!!.latitude),
-                    EdgeInsets(0.0, 0.0, 0.0, 0.0),
-                    13.0,
+                    EdgeInsets(0.0, 0.0, 0.0, 0.0), 18.0,
                     0.0,
                     0.0
 
@@ -117,7 +120,7 @@ fun FavoriteScreen() {
             style = {
                 //usa o maapbox studio para alterar os estilos
                 //removi pontos de interesse usando o mapbox studio
-                MapStyle(style = "mapbox://styles/kenjimaeda/clhnjjmrg039d01pa3bz482gg")
+                MapStyle(style = "mapbox://styles/kenjimaeda/clzu6cgv300qe01pd35jr9y81")
             }
         ) {
             ViewAnnotation(options = viewAnnotationOptions {
@@ -159,9 +162,6 @@ fun FavoriteScreen() {
                 if (dataPlaces.isNotEmpty()) {
                     dataPlaces.forEach {
 
-                        if (it.places.category.id.isNotEmpty()) {
-
-
                             ViewAnnotation(options = viewAnnotationOptions {
                                 allowOverlap(false)
                                 geometry(
@@ -171,18 +171,46 @@ fun FavoriteScreen() {
                                     )
                                 )
                             }) {
-                                Box {
-                                    Box {
-                                        Text(text = it.photoPlacesModel.icon)
-                                    }
-                                    Box {
-                                        Text(text = it.places.category.shortName)
-                                    }
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(5.dp)
+                                ) {
+                                    if (it.places.name.isEmpty())
+                                        Box(modifier = Modifier)
+                                    else
+                                        AsyncImage(
+                                            model =
+                                            ImageRequest.Builder(context = LocalContext.current)
+                                                .data(it.photoPlacesModel.icon)
+                                                .build(),
+                                            contentDescription = "Image marker",
+                                            contentScale = ContentScale.FillBounds,
+                                            filterQuality = FilterQuality.High,
+                                            modifier = Modifier
+                                                .size(40.dp)
+                                                .clip(
+                                                    CircleShape
+                                                )
+                                        )
+                                    Text(
+                                        text = it.places.name,
+                                        modifier = Modifier
+                                            .background(
+                                                MaterialTheme.colorScheme.tertiary,
+                                                shape = RoundedCornerShape(corner = CornerSize(10.dp))
+                                            )
+                                            .padding(5.dp),
+                                        color = MaterialTheme.colorScheme.onTertiary,
+                                        fontFamily = fontsKulimPark,
+                                        fontWeight = FontWeight.Light,
+                                        fontSize = 13.sp
+
+                                    )
                                 }
                             }
                         }
 
-                    }
+
                 }
 
             }

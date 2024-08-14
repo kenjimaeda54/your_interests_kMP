@@ -28,7 +28,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
 private  val clientModule = module {
     factory { RecoveryLocationClient() }
     factory { PlacesNearbyClient(get()) }
-    factory  <KtorApi> { KtorApiImplementation()  }
+    factory <KtorApi> { KtorApiImplementation()  }
 }
 
 

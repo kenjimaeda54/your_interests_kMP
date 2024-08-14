@@ -36,7 +36,9 @@ class NearbyInterestsState: ObservableObject {
 	}
 	
 	
-	
+	deinit {
+		viewModel.clear()
+	}
 	
 	
 }

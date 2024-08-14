@@ -12,7 +12,6 @@ data class PlacesNearbyEntity(
 @Serializable
 data class PlacesNearbyResultResponse(
     val fsq_id: String,
-    val categories: List<Category>,
     val geocodes: Geocodes,
     val distance: Int,
     val location: Location,
@@ -20,13 +19,7 @@ data class PlacesNearbyResultResponse(
 
 )
 
-@Serializable
-data class  Category(
-    val id: String,
-    val name: String,
-    val short_name: String,
-    val icon: Icon
-)
+
 
 @Serializable
 data class Icon(

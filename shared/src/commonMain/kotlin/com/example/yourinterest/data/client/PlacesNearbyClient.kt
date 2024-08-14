@@ -13,7 +13,8 @@ class PlacesNearbyClient(private  val ktorApi: KtorApi): KtorApi by ktorApi {
       suspend fun fetchPlacesNearby(latitude: Double,longitude: Double): DataOrException<PlacesNearbyEntity, Exception, Boolean> {
 
            return try {
-              val result = client.get("/v3/places/nearby?l=${latitude},${longitude}")
+              val result = client.get("/v3/places/nearby?ll=${latitude},${longitude}")
+
               if (result.status != HttpStatusCode.OK) {
                   throw Exception("Error fetching places nearby")
               }

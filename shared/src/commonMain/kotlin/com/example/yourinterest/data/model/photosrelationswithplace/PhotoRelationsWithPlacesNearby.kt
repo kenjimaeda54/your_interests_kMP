@@ -2,18 +2,14 @@ package com.example.yourinterest.data.model.photosrelationswithplace
 
 
 data class PlacesNearbyModel(
-    val category: CategoryModel,
     val geocode: GeocodeModel,
+    val address: String,
+    val name: String,
     val distance: Int,
     val fsqId: String
 )
 
 
-data class CategoryModel(
-    val id : String,
-    val shortName: String,
-    val icon: String
-)
 
 data class  GeocodeModel(
     val latitude: Double,
@@ -21,18 +17,17 @@ data class  GeocodeModel(
 )
 
 
+
+
 fun PlacesNearbyResultResponse.toPlacesNearbyModel() = PlacesNearbyModel(
     fsqId = fsq_id,
-    category = if( categories.isNotEmpty())  CategoryModel(
-        id = categories.first().id,
-        shortName = categories.first().short_name.ifEmpty { categories.first().name },
-        icon = "${categories.first().icon.prefix}${categories.first().icon.suffix}"
-    ) else CategoryModel(id = "",shortName = "",icon = ""),
+    name = name,
     distance = distance,
     geocode = GeocodeModel(
         latitude = geocodes.main.latitude,
         longitude =  geocodes.main.longitude
-    )
+    ),
+    address = location.formatted_address
 )
 
 
