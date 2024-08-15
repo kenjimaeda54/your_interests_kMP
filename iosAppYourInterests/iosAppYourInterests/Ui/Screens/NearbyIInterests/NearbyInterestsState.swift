@@ -9,11 +9,12 @@
 import Foundation
 import shared
 
+
 @MainActor
 class NearbyInterestsState: ObservableObject {
 	@Published  var loading: LoadingState = .loading
 	private var viewModel = PlacesNearbyViewModel()
-	var placesRelationsWithPhoto: [PhotosPlacesWithRelationNearbyModel]?
+	var placesRelationsWithPhoto: [WrapperIdentifiblePhotosPlaces]?
 	
 	func getPlaces(latitude: Double, longitude: Double) async {
 		loading = .loading
@@ -28,13 +29,17 @@ class NearbyInterestsState: ObservableObject {
 			
 			if let places = places.data as? [PhotosPlacesWithRelationNearbyModel] {
 				loading = .success
-				self.placesRelationsWithPhoto = places
+				let wrapperModel = places.map {
+					WrapperIdentifiblePhotosPlaces(photoPlacesModel: $0.photoPlacesModel, places: $0.places)
+				}
+				self.placesRelationsWithPhoto = wrapperModel
  			}
 			
 		}
 		
 	}
 	
+
 	
 	deinit {
 		viewModel.clear()

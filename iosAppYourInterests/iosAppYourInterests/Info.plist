@@ -48,6 +48,8 @@
 	<string>App precisa da sua localização para indicar lugares proximos</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>App precisa da sua localização para indicar lugares proximos</string>
+	<key>MBXAccessToken</key>
+	<string>pk.eyJ1Ijoia2VuamltYWVkYSIsImEiOiJjbGdoYWoxZHIwanYwM2dvMm92Mno2M2JwIn0.BOijx8XvFrrqZwwBC1Uizg</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>KulimPark-Bold.ttf</string>

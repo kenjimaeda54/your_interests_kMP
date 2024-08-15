@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import _MapKit_SwiftUI
+import MapboxMaps
 
 
 
@@ -16,7 +16,6 @@ struct NearbyInterestScreen: View {
 	@Namespace var mapScope
 	@StateObject private var locationManager = LocationManager()
 	@StateObject private var placesNearbyState = NearbyInterestsState()
-	@State private var initialPosition: MapCameraPosition?
 	@Environment(\.scenePhase) var scenePhase
 	
 	
@@ -31,41 +30,31 @@ struct NearbyInterestScreen: View {
 				}
 				Group  {
 					if(locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse && locationManager.anotationMap.lastKnownLocation != nil) {
+				
+						//https://docs.mapbox.com/ios/maps/api/11.6.0/documentation/mapboxmaps/swiftui-user-guide/
+						//https://stackoverflow.com/questions/38905767/how-to-remove-info-button-on-ios-mapbox
 						Map(
-							initialPosition: {
-								let center = locationManager.anotationMap.lastKnownLocation ?? CLLocationCoordinate2D(latitude: 00.00, longitude: 00.00)
-								let span = MKCoordinateSpan(latitudeDelta: 0.020, longitudeDelta: 0.020)
-								let region = MKCoordinateRegion(center: center, span: span)
-								return .region(region)
-							}()
-							
-						) {
-							
-							if(placesNearbyState.loading == .success) {
-								ForEach(placesNearbyState.placesRelationsWithPhoto!,id: \.self) { place in
-									
-									Annotation("",coordinate: CLLocationCoordinate2D(latitude: place.places.geocode.latitude, longitude: place.places.geocode.longitude)) {
-										PlaceAnnotation(place: place,geometryProxy: geometry)
-										
-										
-									}
-									
-								}						
-							}
-						
-							
-							if(locationManager.anotationMap.lastKnownLocation != nil) {
-								Annotation("", coordinate: locationManager.anotationMap.lastKnownLocation!) {
-									PinAnnotation(anotationMap: locationManager.anotationMap, geometryProxy: geometry)
-								}
-							}
-							
-							
-						}
-						.mapControlVisibility(.hidden)
-						//.mapStyle(.hybrid(elevation: .flat,showsTraffic: true))//customizar para mostrar pontos de interesse
-						.mapStyle(.imagery)
-						.mapScope(mapScope)
+						initialViewport: .camera(center: locationManager.anotationMap.lastKnownLocation,zoom: 17)
+					 
+					 ) {
+						 
+ 
+						 MapViewAnnotation(coordinate: locationManager.anotationMap.lastKnownLocation!) {
+							 PinAnnotation(anotationMap: locationManager.anotationMap, geometryProxy: geometry)
+
+						 }
+						 .allowOverlap(true)
+						 
+						 if(placesNearbyState.loading == .success) {
+							 ForEvery(placesNearbyState.placesRelationsWithPhoto!) { place in
+								 MapViewAnnotation(coordinate: CLLocationCoordinate2D(latitude: place.places.geocode.latitude, longitude: place.places.geocode.longitude)) {
+									 PlaceAnnotation(place: place, geometryProxy: geometry)
+								 }
+								 .allowOverlap(false)
+							 }
+						 }
+ 					 }
+					 .mapStyle(MapStyle(uri: StyleURI(url: URL(string: "mapbox://styles/kenjimaeda/clzu6cgv300qe01pd35jr9y81")!)!))
 						.task {
 							await placesNearbyState.getPlaces(latitude: locationManager.anotationMap.lastKnownLocation!.latitude,
 																								longitude: locationManager.anotationMap.lastKnownLocation!.longitude)

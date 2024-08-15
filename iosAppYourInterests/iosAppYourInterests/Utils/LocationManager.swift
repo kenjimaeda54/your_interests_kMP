@@ -30,8 +30,9 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
 	override init() {
 		super.init()
 		locationManager.delegate = self
+		locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "Sugerimos aceitar para melhor precisão da sua localização.")
 		locationManager.desiredAccuracy = kCLLocationAccuracyBest
-		locationManager.requestLocation()
+ 		locationManager.requestLocation()
 		//para requesitar sempre pode usar o startUpdatingLocation()
 	}
 	
