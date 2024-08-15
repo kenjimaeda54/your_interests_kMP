@@ -17,7 +17,7 @@ struct NearbyInterestScreen: View {
 	@StateObject private var locationManager = LocationManager()
 	@StateObject private var placesNearbyState = NearbyInterestsState()
 	@Environment(\.scenePhase) var scenePhase
-	
+	@State var viewport: Viewport = .styleDefault
 	
 	
 	var body: some View {
@@ -32,11 +32,10 @@ struct NearbyInterestScreen: View {
 					if(locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse && locationManager.anotationMap.lastKnownLocation != nil) {
 				
 						//https://docs.mapbox.com/ios/maps/api/11.6.0/documentation/mapboxmaps/swiftui-user-guide/
-						//https://stackoverflow.com/questions/38905767/how-to-remove-info-button-on-ios-mapbox
+						//examples mapbox https://github.com/mapbox/mapbox-maps-ios/tree/main/Apps/Examples/Examples/SwiftUI%20Examples
 						Map(
-						initialViewport: .camera(center: locationManager.anotationMap.lastKnownLocation,zoom: 17)
-					 
-					 ) {
+							viewport: $viewport
+						) {
 						 
  
 						 MapViewAnnotation(coordinate: locationManager.anotationMap.lastKnownLocation!) {
@@ -49,16 +48,29 @@ struct NearbyInterestScreen: View {
 							 ForEvery(placesNearbyState.placesRelationsWithPhoto!) { place in
 								 MapViewAnnotation(coordinate: CLLocationCoordinate2D(latitude: place.places.geocode.latitude, longitude: place.places.geocode.longitude)) {
 									 PlaceAnnotation(place: place, geometryProxy: geometry)
+										 .onTapGesture {
+											 
+										 }
 								 }
 								 .allowOverlap(false)
 							 }
-						 }
+						 } 
+							
  					 }
 					 .mapStyle(MapStyle(uri: StyleURI(url: URL(string: "mapbox://styles/kenjimaeda/clzu6cgv300qe01pd35jr9y81")!)!))
+					 .ornamentOptions(
+						OrnamentOptions(
+							logo: .init(margins: .init(x: -10000, y: 0)) , attributionButton: .init(margins: .init(x: -10000, y: 0)))
+						)
 						.task {
 							await placesNearbyState.getPlaces(latitude: locationManager.anotationMap.lastKnownLocation!.latitude,
 																								longitude: locationManager.anotationMap.lastKnownLocation!.longitude)
-						}				
+						
+						}
+						.onAppear {
+							viewport = .camera(center: locationManager.anotationMap.lastKnownLocation,zoom: 16,pitch: 0)
+						}
+						
 					}
 					
 					if(locationManager.authorizationStatus == .denied) {
@@ -68,7 +80,7 @@ struct NearbyInterestScreen: View {
 							
 						}) {
 							VStack {
-								Text("Voce recusou acesso a Localização �.\nPara visualizar o mapa acesse no celular:")
+								Text("Voce recusou acesso a Localização.\nPara visualizar o mapa acesse no celular:")
 									.font(.custom(FontsApp.regular , size: 15))
 									.foregroundStyle(ColorsApp.black) +
 								Text(" Ajustes > Privacidade  e Segurança >  Serviços de Localização  e iosAppYourInterests.\n")

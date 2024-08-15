@@ -19,7 +19,7 @@ struct TabCustomView: View {
 		TabView(selection: $stateTagSelected.tagSelected){
 			NearbyInterestScreen()
 				.tabItem {
-					Image(systemName: "bookmark")
+					Image(systemName: "mappin")
 						
 				}
   				.tag(0)
