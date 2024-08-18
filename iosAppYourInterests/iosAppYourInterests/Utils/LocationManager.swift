@@ -55,6 +55,11 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
 		print("error:: \(error.localizedDescription)")
 	}
 	
+	func requestUpdateLocation() {
+		locationManager.startUpdatingHeading()
+	}
+	
+	
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		self.anotationMap.lastKnownLocation = CLLocationCoordinate2D(
 			latitude: locations.first?.coordinate.latitude ?? 00.00,

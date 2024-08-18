@@ -10,7 +10,17 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
+		8123FBB52C7120B0000A8761 /* NavigationRouteScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8123FBB42C7120B0000A8761 /* NavigationRouteScreen.swift */; };
+		81263DC12C701C8300CE92D8 /* CustomViewportDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81263DC02C701C8300CE92D8 /* CustomViewportDataSource.swift */; };
+		81263DC42C70259F00CE92D8 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81263DC32C70259F00CE92D8 /* NavigationViewController.swift */; };
+		81263DC62C70262800CE92D8 /* CustoCameraStateTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81263DC52C70262800CE92D8 /* CustoCameraStateTransition.swift */; };
+		81263DC92C7033A800CE92D8 /* UiColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81263DC82C7033A800CE92D8 /* UiColor.swift */; };
+		81263DCB2C7036AA00CE92D8 /* CustomStandardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81263DCA2C7036AA00CE92D8 /* CustomStandardStyle.swift */; };
 		81511B972C6A337500E67BF0 /* CustomAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81511B962C6A337500E67BF0 /* CustomAsyncImage.swift */; };
+		8153C8262C6E7CD900BDC64E /* NavigationMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8153C8252C6E7CD900BDC64E /* NavigationMapController.swift */; };
+		8153C8292C6E8ECC00BDC64E /* MapboxNavigationCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8153C8282C6E8ECC00BDC64E /* MapboxNavigationCore */; };
+		8153C82B2C6E8ECC00BDC64E /* MapboxNavigationUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8153C82A2C6E8ECC00BDC64E /* MapboxNavigationUIKit */; };
+		8153C82D2C6E8ECC00BDC64E /* mapbox-directions-swift in Frameworks */ = {isa = PBXBuildFile; productRef = 8153C82C2C6E8ECC00BDC64E /* mapbox-directions-swift */; };
 		816AE01C2C5D648D00ECF775 /* FontWithLineHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816AE01B2C5D648D00ECF775 /* FontWithLineHeight.swift */; };
 		816AE01F2C5DAFF300ECF775 /* PinAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816AE01E2C5DAFF300ECF775 /* PinAnnotation.swift */; };
 		816FD6502C5BC50300232E27 /* TabCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816FD64F2C5BC50300232E27 /* TabCustomView.swift */; };
@@ -59,7 +69,14 @@
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosAppYourInterests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosAppYourInterests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8123FBB42C7120B0000A8761 /* NavigationRouteScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouteScreen.swift; sourceTree = "<group>"; };
+		81263DC02C701C8300CE92D8 /* CustomViewportDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewportDataSource.swift; sourceTree = "<group>"; };
+		81263DC32C70259F00CE92D8 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		81263DC52C70262800CE92D8 /* CustoCameraStateTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustoCameraStateTransition.swift; sourceTree = "<group>"; };
+		81263DC82C7033A800CE92D8 /* UiColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiColor.swift; sourceTree = "<group>"; };
+		81263DCA2C7036AA00CE92D8 /* CustomStandardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStandardStyle.swift; sourceTree = "<group>"; };
 		81511B962C6A337500E67BF0 /* CustomAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAsyncImage.swift; sourceTree = "<group>"; };
+		8153C8252C6E7CD900BDC64E /* NavigationMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationMapController.swift; sourceTree = "<group>"; };
 		816AE01B2C5D648D00ECF775 /* FontWithLineHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontWithLineHeight.swift; sourceTree = "<group>"; };
 		816AE01E2C5DAFF300ECF775 /* PinAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinAnnotation.swift; sourceTree = "<group>"; };
 		816FD64F2C5BC50300232E27 /* TabCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCustomView.swift; sourceTree = "<group>"; };
@@ -93,6 +110,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8153C82B2C6E8ECC00BDC64E /* MapboxNavigationUIKit in Frameworks */,
+				8153C82D2C6E8ECC00BDC64E /* mapbox-directions-swift in Frameworks */,
+				8153C8292C6E8ECC00BDC64E /* MapboxNavigationCore in Frameworks */,
 				81CD62F32C6D7A3800413CE9 /* MapboxMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,6 +148,8 @@
 		7555FF7D242A565900829871 /* iosAppYourInterests */ = {
 			isa = PBXGroup;
 			children = (
+				81263DC72C70339900CE92D8 /* Extensions */,
+				8153C8242C6E7CC700BDC64E /* Representable */,
 				816FD65D2C5BC86700232E27 /* Utils */,
 				816AE01A2C5D647500ECF775 /* Modifiers */,
 				81FE464B2C5D156600FCE904 /* Theme */,
@@ -145,6 +167,42 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8123FBB32C711F84000A8761 /* NavigationRoute */ = {
+			isa = PBXGroup;
+			children = (
+				8123FBB42C7120B0000A8761 /* NavigationRouteScreen.swift */,
+			);
+			path = NavigationRoute;
+			sourceTree = "<group>";
+		};
+		81263DC22C70256000CE92D8 /* NavigationMapbox */ = {
+			isa = PBXGroup;
+			children = (
+				81263DC02C701C8300CE92D8 /* CustomViewportDataSource.swift */,
+				8153C8252C6E7CD900BDC64E /* NavigationMapController.swift */,
+				81263DC32C70259F00CE92D8 /* NavigationViewController.swift */,
+				81263DC52C70262800CE92D8 /* CustoCameraStateTransition.swift */,
+				81263DCA2C7036AA00CE92D8 /* CustomStandardStyle.swift */,
+			);
+			path = NavigationMapbox;
+			sourceTree = "<group>";
+		};
+		81263DC72C70339900CE92D8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				81263DC82C7033A800CE92D8 /* UiColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8153C8242C6E7CC700BDC64E /* Representable */ = {
+			isa = PBXGroup;
+			children = (
+				81263DC22C70256000CE92D8 /* NavigationMapbox */,
+			);
+			path = Representable;
 			sourceTree = "<group>";
 		};
 		816AE01A2C5D647500ECF775 /* Modifiers */ = {
@@ -232,6 +290,7 @@
 		81CD62EB2C6D302400413CE9 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				8123FBB32C711F84000A8761 /* NavigationRoute */,
 				816FD6542C5BC6E600232E27 /* NearbyIInterests */,
 				816FD6552C5BC6FE00232E27 /* ResearchScreen */,
 				816FD6562C5BC72E00232E27 /* ProfileScreen */,
@@ -286,6 +345,9 @@
 			name = iosAppYourInterests;
 			packageProductDependencies = (
 				81CD62F22C6D7A3800413CE9 /* MapboxMaps */,
+				8153C8282C6E8ECC00BDC64E /* MapboxNavigationCore */,
+				8153C82A2C6E8ECC00BDC64E /* MapboxNavigationUIKit */,
+				8153C82C2C6E8ECC00BDC64E /* mapbox-directions-swift */,
 			);
 			productName = iosAppYourInterests;
 			productReference = 7555FF7B242A565900829871 /* iosAppYourInterests.app */;
@@ -317,6 +379,7 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				81CD62F12C6D7A3800413CE9 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */,
+				8153C8272C6E8ECC00BDC64E /* XCRemoteSwiftPackageReference "mapbox-navigation-ios" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -377,20 +440,27 @@
 				81ED9BE62C699B7B004BF053 /* PlaceAnnotation.swift in Sources */,
 				81511B972C6A337500E67BF0 /* CustomAsyncImage.swift in Sources */,
 				816FD6502C5BC50300232E27 /* TabCustomView.swift in Sources */,
+				81263DC12C701C8300CE92D8 /* CustomViewportDataSource.swift in Sources */,
 				816AE01C2C5D648D00ECF775 /* FontWithLineHeight.swift in Sources */,
 				81F1F4642C666ED000511205 /* LocationManager.swift in Sources */,
+				8123FBB52C7120B0000A8761 /* NavigationRouteScreen.swift in Sources */,
 				81FE464D2C5D160300FCE904 /* ColorsApp.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				816FD6532C5BC55C00232E27 /* StateNavigationTabView.swift in Sources */,
 				816AE01F2C5DAFF300ECF775 /* PinAnnotation.swift in Sources */,
 				816FD65C2C5BC7FC00232E27 /* NearbyInterestScreen.swift in Sources */,
+				81263DC42C70259F00CE92D8 /* NavigationViewController.swift in Sources */,
+				81263DC92C7033A800CE92D8 /* UiColor.swift in Sources */,
 				816FD65A2C5BC7F300232E27 /* ResearchScreen.swift in Sources */,
 				81ED9BE32C695B2D004BF053 /* NearbyInterestsState.swift in Sources */,
 				8180646D2C6435A200C0908E /* LoadingState.swift in Sources */,
 				81FE46642C5D1A5D00FCE904 /* FontsApp.swift in Sources */,
 				81CD62F52C6D853B00413CE9 /* WrapperIdentifiblePhotosPlaces.swift in Sources */,
+				81263DC62C70262800CE92D8 /* CustoCameraStateTransition.swift in Sources */,
 				81C046152C5EF9510072EFD4 /* ContentAlignCenter.swift in Sources */,
 				81C046122C5EB7E70072EFD4 /* Loading.swift in Sources */,
+				8153C8262C6E7CD900BDC64E /* NavigationMapController.swift in Sources */,
+				81263DCB2C7036AA00CE92D8 /* CustomStandardStyle.swift in Sources */,
 				816FD6582C5BC7E100232E27 /* ProfileScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -598,6 +668,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8153C8272C6E8ECC00BDC64E /* XCRemoteSwiftPackageReference "mapbox-navigation-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mapbox/mapbox-navigation-ios.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		81CD62F12C6D7A3800413CE9 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mapbox/mapbox-maps-ios.git";
@@ -609,6 +687,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8153C8282C6E8ECC00BDC64E /* MapboxNavigationCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8153C8272C6E8ECC00BDC64E /* XCRemoteSwiftPackageReference "mapbox-navigation-ios" */;
+			productName = MapboxNavigationCore;
+		};
+		8153C82A2C6E8ECC00BDC64E /* MapboxNavigationUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8153C8272C6E8ECC00BDC64E /* XCRemoteSwiftPackageReference "mapbox-navigation-ios" */;
+			productName = MapboxNavigationUIKit;
+		};
+		8153C82C2C6E8ECC00BDC64E /* mapbox-directions-swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8153C8272C6E8ECC00BDC64E /* XCRemoteSwiftPackageReference "mapbox-navigation-ios" */;
+			productName = "mapbox-directions-swift";
+		};
 		81CD62F22C6D7A3800413CE9 /* MapboxMaps */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 81CD62F12C6D7A3800413CE9 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */;

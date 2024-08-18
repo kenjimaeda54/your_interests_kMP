@@ -14,7 +14,7 @@ import shared
 class NearbyInterestsState: ObservableObject {
 	@Published  var loading: LoadingState = .loading
 	private var viewModel = PlacesNearbyViewModel()
-	var placesRelationsWithPhoto: [WrapperIdentifiblePhotosPlaces]?
+	var placesRelationsWithPhoto: [PhotosPlacesWithRelationNearbyModel]?
 	
 	func getPlaces(latitude: Double, longitude: Double) async {
 		loading = .loading
@@ -29,10 +29,7 @@ class NearbyInterestsState: ObservableObject {
 			
 			if let places = places.data as? [PhotosPlacesWithRelationNearbyModel] {
 				loading = .success
-				let wrapperModel = places.map {
-					WrapperIdentifiblePhotosPlaces(photoPlacesModel: $0.photoPlacesModel, places: $0.places)
-				}
-				self.placesRelationsWithPhoto = wrapperModel
+				self.placesRelationsWithPhoto = places
  			}
 			
 		}

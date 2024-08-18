@@ -15,7 +15,7 @@ import shared
 
 
 struct PlaceAnnotation: View {
-	let place: WrapperIdentifiblePhotosPlaces
+	let place: PhotosPlacesWithRelationNearbyModel
 	var geometryProxy: GeometryProxy
 	
 	var body: some View {
@@ -47,15 +47,9 @@ struct PlaceAnnotation: View {
 							.clipShape(RoundedRectangle(cornerRadius: 10))
 					)
 			}
-			
-			
-			
-			
+		
 		}
 		 
-		
-		
-		
 	}
 	
 }
