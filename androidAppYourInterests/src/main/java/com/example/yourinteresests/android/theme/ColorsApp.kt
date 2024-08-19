@@ -9,3 +9,5 @@ val gray = Color(0xFFD9D9D9)
 val white = Color(0xFFFFFFFF)
 val green = Color(0xFF3C6E71)
 val error = Color(0xFFD32F2F)
+
+

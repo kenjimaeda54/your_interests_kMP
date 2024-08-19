@@ -29,9 +29,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.yourinteresests.android.theme.fontsKulimPark
+import com.example.yourinteresests.android.utils.BottomBarScreen
 import com.example.yourinteresests.android.utils.ComposableLifecycle
 import com.example.yourinterest.util.GeolocationError
 import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
@@ -46,7 +48,6 @@ import com.mapbox.maps.extension.compose.annotation.ViewAnnotation
 import com.mapbox.maps.extension.compose.style.MapStyle
 import com.mapbox.maps.viewannotation.geometry
 import com.mapbox.maps.viewannotation.viewAnnotationOptions
-import com.spr.jetpack_loading.components.indicators.BallClipRotatePulseIndicator
 import com.spr.jetpack_loading.components.indicators.CircularPulsatingIndicator
 
 
@@ -54,13 +55,9 @@ import com.spr.jetpack_loading.components.indicators.CircularPulsatingIndicator
 
 @OptIn(MapboxExperimental::class)
 @Composable
-fun FavoriteScreen() {
-    val recoveryLocationModel = remember {
-        RecoveryLocation()
-    } //precisa do remember
-    val nearbyViewModel = remember {
-        PlacesNearbyViewModel()
-    }
+fun  NearbyInterests() {
+    val recoveryLocationModel = viewModel<RecoveryLocation>()
+    val nearbyViewModel = viewModel<PlacesNearbyViewModel>()
 
     val location by recoveryLocationModel.location.collectAsState()
     val address by recoveryLocationModel.address.collectAsState()

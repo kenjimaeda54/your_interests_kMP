@@ -4,7 +4,7 @@ class BottomScreens {
     companion object{
         fun screens(): List<BottomBarScreen> {
             return listOf(
-                BottomBarScreen.Favorite,
+                BottomBarScreen.NearbyInterests,
                 BottomBarScreen.Search,
                 BottomBarScreen.Profile,
                 )

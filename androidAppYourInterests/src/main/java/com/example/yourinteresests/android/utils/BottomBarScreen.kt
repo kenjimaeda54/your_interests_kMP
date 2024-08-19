@@ -6,8 +6,8 @@ sealed  class BottomBarScreen (
 
 ) {
 
-    data object Favorite : BottomBarScreen(
-        route = "yourLocation",
+    data object NearbyInterests : BottomBarScreen(
+        route = "nearbyInterests",
         icon = com.example.yourinteresests.android.R.drawable.pin
     )
 

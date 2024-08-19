@@ -9,16 +9,17 @@ import com.example.yourinterest.data.repository.RecoveryLocationRepository
 import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
 import com.example.yourinterest.viewmodel.RecoveryLocation
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
-import org.koin.dsl.module
-
+import org.koin.dsl.*
 
 fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
     appDeclaration()
     modules(
         clientModule,
         viewModelModule,
-        repositoryModule
+        repositoryModule,
+
     )
 }
 
@@ -48,4 +49,6 @@ private  val repositoryModule = module {
 
 
 //para ios
-fun initKoin() = initKoin {}
+fun initKoin() = initKoin {
+
+}
