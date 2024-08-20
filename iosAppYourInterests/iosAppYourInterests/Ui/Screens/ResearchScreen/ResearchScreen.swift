@@ -12,44 +12,22 @@ import SwiftUI
 struct ResearchScreen: View {
 	@EnvironmentObject private var placeEnviroment: PlacesPhotoEnviroment
 	@State private var searchPlace: String = ""
+	@FocusState private var searchIsFocused: Bool
+	
 	
 	var body: some View {
 		VStack(alignment: .leading){
-			HStack {
-				Image(systemName: "magnifyingglass")
-					.resizable()
-					.frame(width: 22, height: 22)
-					.foregroundColor(ColorsApp.white)
-					.offset(x: 10,y: 0)
-				
-				TextField("", text: $searchPlace, prompt:Text("Pesquisar")
-					.font(.custom(FontsApp.light, size: 16))
-					.foregroundStyle(ColorsApp.black.opacity(0.5))
-									
-				)
-				.padding([.horizontal],15)
-				.autocorrectionDisabled()
-				.font(.custom(FontsApp.regular, size: 16))
-				.foregroundStyle(ColorsApp.black)
-				
-			}
-			.padding([.horizontal],10)
-			.padding([.vertical],11)
-			.background(
-				ColorsApp.gray
-					.clipShape(RoundedRectangle(cornerRadius: 10))
-			)
 			
+
 			Text("Pesquise por: telefone, categoria ou telefone")
 				.font(.custom(FontsApp.light, size: 15))
 			
 			List  {
 				
 				ForEach(Array(placeEnviroment.places.enumerated()),id: \.1.fsqId) { (index,item) in
-				
 					
 					RowItemPlace(place: item)
-						
+					
 				}
 				.listRowInsets(EdgeInsets())
 				.listRowBackground(Color.clear)
@@ -61,7 +39,7 @@ struct ResearchScreen: View {
 			.scrollContentBackground(.hidden)
 			.scrollIndicators(.hidden)
 			.listRowSpacing(15)
-
+			
 		}
 		.padding([.horizontal],13)
 		.padding([.vertical],20)

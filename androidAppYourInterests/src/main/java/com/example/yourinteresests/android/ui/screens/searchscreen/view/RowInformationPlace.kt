@@ -59,11 +59,13 @@ fun RowInformationPlacePreview() {
         ) {
             RowInformationPlace(
                 place = PhotosPlacesWithRelationNearbyModel(
+                    fsqId = "34343",
                     photoPlacesModel = PhotoPlacesModel(
                         id = "",
                         icon = "https://github/kenjimaeda54.png"
                     ),
                     places = PlacesNearbyModel(
+                        fsqId = "3434343",
                         geocode = GeocodeModel(
                             latitude = 0.0,
                             longitude = 0.0
@@ -71,7 +73,6 @@ fun RowInformationPlacePreview() {
                         name = "Casa do parafuso",
                         address = "",
                         distance = 13,
-                        fsqId = ""
                     )
                 )
             )
