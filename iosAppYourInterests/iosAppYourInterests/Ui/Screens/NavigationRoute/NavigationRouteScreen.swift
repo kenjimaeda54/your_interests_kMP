@@ -13,6 +13,7 @@ import shared
 @available(iOS 17.0, *)
 struct NavigationRouteScreen: View {
 	@StateObject private var locationManager = LocationManager()
+	@EnvironmentObject private var tabEnviroment: ManagerTabEnvironment
 	@State private var position: MapCameraPosition = .automatic //autommatico vai fazer com qque o zom fica o sufficente conforme a linah tracada
 	var destination: CLLocationCoordinate2D
 	var selectedResult: MKMapItem
@@ -55,6 +56,9 @@ struct NavigationRouteScreen: View {
 			}
 			.ignoresSafeArea(.all)
 			.navigationBarBackButtonHidden()
+			.onAppear {
+				tabEnviroment.isShowTab = false
+			}
 			.safeAreaInset(edge: .top, content: {
 				HStack {
 					Button( action: actionBackButton ) {

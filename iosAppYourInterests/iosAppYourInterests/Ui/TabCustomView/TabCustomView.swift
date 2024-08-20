@@ -11,8 +11,8 @@ import SwiftUI
 @available(iOS 17.0, *)
 struct TabCustomView: View {
 	@ObservedObject var stateTagSelected = StateNavigationTabView()
-	
-	
+	@StateObject private var photoPlacesEnviroment: PlacesPhotoEnviroment = PlacesPhotoEnviroment()
+	@StateObject private var tabEnviroment = ManagerTabEnvironment()
 	
 	
 	var body: some View {
@@ -22,7 +22,8 @@ struct TabCustomView: View {
 					Image(systemName: "mappin")
 						
 				}
-  				.tag(0)
+				.toolbar(tabEnviroment.isShowTab ? .visible : .hidden, for: .tabBar)
+				.tag(0)
 				
 				
 			
@@ -64,6 +65,9 @@ struct TabCustomView: View {
 			scrollEdgeAppearance.backgroundColor = UIColor(ColorsApp.white)
 			
 		}
+		.environmentObject(photoPlacesEnviroment)
+		.environmentObject(tabEnviroment
+		)
 	}
 		
 	

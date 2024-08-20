@@ -39,7 +39,8 @@ data class PhotoPlacesModel(
 
 data class  PhotosPlacesWithRelationNearbyModel(
     val photoPlacesModel: PhotoPlacesModel,
-    val places: PlacesNearbyModel
+    val places: PlacesNearbyModel,
+    val fsqId: String
 )
 
 fun PhotoPlacesEntityResponse.toPhotoPlacesModel(): PhotoPlacesModel {

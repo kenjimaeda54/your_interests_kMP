@@ -26,12 +26,14 @@ class PlacesNearbyRepository: KoinComponent{
                    if (result.data != null) {
                         PhotosPlacesWithRelationNearbyModel(
                          places = place,
-                         photoPlacesModel = if(result.data.isEmpty())  PhotoPlacesModel(id = "",icon = "") else result.data.map { it.toPhotoPlacesModel() }.first()
+                         photoPlacesModel = if(result.data.isEmpty())  PhotoPlacesModel(id = "",icon = "") else result.data.map { it.toPhotoPlacesModel() }.first(),
+                         fsqId = place.fsqId
                      )
                     }else {
                        PhotosPlacesWithRelationNearbyModel(
                            places = place,
-                           photoPlacesModel  = PhotoPlacesModel(id = "",icon = "")
+                           photoPlacesModel  = PhotoPlacesModel(id = "",icon = ""),
+                           fsqId = "3434343"
                        )
                     }
 

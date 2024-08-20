@@ -32,7 +32,7 @@ struct PlaceAnnotation: View {
 						.padding([.bottom],geometryProxy.size.height * 0.1)
 					
 				} placeholder: {
-					Image("pin")
+					Image("imageNotFound")
 						.resizable()
 						.frame(width: 60,height: 60)
 						.padding([.bottom],geometryProxy.size.height * 0.1)

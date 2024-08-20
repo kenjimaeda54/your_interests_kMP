@@ -16,6 +16,8 @@ struct NearbyInterestScreen: View {
 	@Namespace var mapScope
 	@StateObject private var locationManager = LocationManager()
 	@StateObject private var placesNearbyState = NearbyInterestsState()
+	@EnvironmentObject var placeEnviroment: PlacesPhotoEnviroment
+	@EnvironmentObject var tabEnviroment: ManagerTabEnvironment
 	@Environment(\.scenePhase) var scenePhase
 	@State var originLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 	@State var destinationLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
@@ -64,7 +66,7 @@ struct NearbyInterestScreen: View {
 														isPresentedNewScreen = true
 														placeSelected = place
 													}
-												
+													
 											}
 											
 										}
@@ -81,6 +83,13 @@ struct NearbyInterestScreen: View {
 										
 									}
 									
+									
+								}
+								.onChange(of: placesNearbyState.placesRelationsWithPhoto) { _, __ in
+									placeEnviroment.places = placesNearbyState.placesRelationsWithPhoto ?? []
+									if(!placeEnviroment.places.isEmpty) {
+										tabEnviroment.isShowTab = true
+									}
 								}
 								.navigationDestination(isPresented: $isPresentedNewScreen) {
 									if let route = route, let selectedResult = selectedResult, let placeSelected = placeSelected {
@@ -189,6 +198,12 @@ struct NearbyInterestScreen: View {
 						
 					}
 					.ignoresSafeArea()
+					.environmentObject(placeEnviroment)
+					.onAppear {
+						if(!placeEnviroment.places.isEmpty) {
+							tabEnviroment.isShowTab = true
+						}
+					}
 					
 				}
 				
