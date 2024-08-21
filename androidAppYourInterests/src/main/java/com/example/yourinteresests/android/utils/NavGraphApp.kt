@@ -10,7 +10,7 @@ import com.exampl.yourinteresests.android.ui.ProfileScreen
 import com.example.yourinteresests.android.ui.SearchScreen.SearchScreen
 import com.example.yourinteresests.android.ui.screens.proflescreen.FavoriteScreen.NearbyInterests
 import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
-
+import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
 
 
 @Composable
@@ -28,9 +28,10 @@ fun NavGraphApp(navController: NavHostController) {
             val parent = remember(it) {
                 navController.getBackStackEntry(BottomBarScreen.NearbyInterests.route)
             }
-            val photosPlaces = viewModel<PlacesNearbyViewModel>(parent)
-            if(photosPlaces.placesNearby.value.data == null) return@composable
-            SearchScreen(photosPlaces = photosPlaces.placesNearby.value.data!!)
+
+            val location = viewModel<RecoveryLocationViewModel>(parent)
+            if( location.location.value.data == null) return@composable
+            SearchScreen( location = location.location.value.data!!)
         }
 
         composable(BottomBarScreen.Profile.route) {

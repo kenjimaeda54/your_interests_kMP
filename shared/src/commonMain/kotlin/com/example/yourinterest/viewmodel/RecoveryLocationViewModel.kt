@@ -12,7 +12,7 @@ package com.example.yourinterest.viewmodel
  import org.koin.core.component.inject
 
 
-class  RecoveryLocation: CoroutineViewModel(), KoinComponent {
+class  RecoveryLocationViewModel: CoroutineViewModel(), KoinComponent {
     private  val recoveryLocationRepository: RecoveryLocationRepository by inject()
     private  val  _location = MutableStateFlow<DataOrException<Coordinates, GeolocationException, Boolean>>(
         DataOrException(data = null, isLoading = true, exception = null)

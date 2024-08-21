@@ -17,7 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,11 +32,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.yourinteresests.android.theme.fontsKulimPark
-import com.example.yourinteresests.android.utils.BottomBarScreen
 import com.example.yourinteresests.android.utils.ComposableLifecycle
 import com.example.yourinterest.util.GeolocationError
 import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
-import com.example.yourinterest.viewmodel.RecoveryLocation
+import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraState
 import com.mapbox.maps.EdgeInsets
@@ -56,16 +54,15 @@ import com.spr.jetpack_loading.components.indicators.CircularPulsatingIndicator
 @OptIn(MapboxExperimental::class)
 @Composable
 fun  NearbyInterests() {
-    val recoveryLocationModel = viewModel<RecoveryLocation>()
+    val recoveryLocationViewModelModel = viewModel<RecoveryLocationViewModel>()
     val nearbyViewModel = viewModel<PlacesNearbyViewModel>()
-
-    val location by recoveryLocationModel.location.collectAsState()
-    val address by recoveryLocationModel.address.collectAsState()
+    val location by recoveryLocationViewModelModel.location.collectAsState()
+    val address by recoveryLocationViewModelModel.address.collectAsState()
     val dataPlacesNearby by nearbyViewModel.placesNearby.collectAsState()
 
     ComposableLifecycle { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
-            recoveryLocationModel.getLocation()
+            recoveryLocationViewModelModel.getLocation()
         }
 
     }

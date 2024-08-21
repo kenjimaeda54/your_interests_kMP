@@ -22,11 +22,11 @@ class PlacesNearbyRepository: KoinComponent{
             val placesNearby = result.data.results.map {    it.toPlacesNearbyModel()}
 
             val photosPlacesNearby: List<PhotosPlacesWithRelationNearbyModel> =  placesNearby.map { place ->
-                   val result = clientPlacesNearby.fetchPhotos(fsqId = place.fsqId)
-                   if (result.data != null) {
+                   val resultPlaces = clientPlacesNearby.fetchPhotos(fsqId = place.fsqId)
+                   if (resultPlaces.data != null) {
                         PhotosPlacesWithRelationNearbyModel(
                          places = place,
-                         photoPlacesModel = if(result.data.isEmpty())  PhotoPlacesModel(id = "",icon = "") else result.data.map { it.toPhotoPlacesModel() }.first(),
+                         photoPlacesModel = if(resultPlaces.data.isEmpty())  PhotoPlacesModel(id = "",icon = "") else resultPlaces.data.map { it.toPhotoPlacesModel() }.first(),
                          fsqId = place.fsqId
                      )
                     }else {
