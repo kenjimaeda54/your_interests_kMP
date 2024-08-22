@@ -48,8 +48,7 @@ import com.example.yourinteresests.android.ui.screens.searchscreen.view.RowInfor
 import com.example.yourinteresests.android.ui.screens.searchscreen.view.RowInformationShimmer
 import com.example.yourinteresests.android.utils.ComposableLifecycle
 import com.example.yourinterest.data.model.Coordinates
-import com.example.yourinterest.data.model.photosrelationswithplace.PhotosPlacesWithRelationNearbyModel
-import com.example.yourinterest.viewmodel.SearchPlacesByViewModel
+import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
 
 @SuppressLint("UnrememberedGetBackStackEntry")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +59,7 @@ fun SearchScreen( location: Coordinates) {
     }
     val interactionSource = remember { MutableInteractionSource() }
     val keyboardController = LocalSoftwareKeyboardController.current
-    val placesByQueryViewModel = viewModel<SearchPlacesByViewModel>()
+    val placesByQueryViewModel = viewModel<SearchPlacesByQueryViewModel>()
     val listPlaces by placesByQueryViewModel.placesByQuery.collectAsState()
 
 

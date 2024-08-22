@@ -10,7 +10,7 @@ import com.example.yourinterest.data.repository.RecoveryLocationRepository
 import com.example.yourinterest.data.repository.SearchPlacesByQueryRepository
 import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
 import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
-import com.example.yourinterest.viewmodel.SearchPlacesByViewModel
+import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -40,7 +40,7 @@ private  val clientModule = module {
 private  val viewModelModule  = module {
      single { RecoveryLocationViewModel() }
      single { PlacesNearbyViewModel() }
-    single { SearchPlacesByViewModel() }
+    single { SearchPlacesByQueryViewModel() }
 
 }
 

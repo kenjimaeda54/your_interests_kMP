@@ -16,9 +16,9 @@ struct NearbyInterestScreen: View {
 	@Namespace var mapScope
 	@StateObject private var locationManager = LocationManager()
 	@StateObject private var placesNearbyState = NearbyInterestsState()
-	@EnvironmentObject var placeEnviroment: PlacesPhotoEnviroment
-	@EnvironmentObject var tabEnviroment: ManagerTabEnvironment
 	@Environment(\.scenePhase) var scenePhase
+	@EnvironmentObject private var locationEnvironment: LocationEnvironment
+	@EnvironmentObject private var managerTabEnrionment: ManagerTabEnvironment
 	@State var originLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 	@State var destinationLocation = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 	@State private var isPresentedNewScreen = false
@@ -78,18 +78,14 @@ struct NearbyInterestScreen: View {
 											PinAnnotation(anotationMap: locationManager.anotationMap, geometryProxy: geometry)
 												.onAppear {
 													originLocation = locationManager.anotationMap.lastKnownLocation!
+													locationEnvironment.location = locationManager.anotationMap.lastKnownLocation!
+													managerTabEnrionment.isShowTab = true
 												}
 										}
 										
 									}
 									
 									
-								}
-								.onChange(of: placesNearbyState.placesRelationsWithPhoto) { _, __ in
-									placeEnviroment.places = placesNearbyState.placesRelationsWithPhoto ?? []
-									if(!placeEnviroment.places.isEmpty) {
-										tabEnviroment.isShowTab = true
-									}
 								}
 								.navigationDestination(isPresented: $isPresentedNewScreen) {
 									if let route = route, let selectedResult = selectedResult, let placeSelected = placeSelected {
@@ -198,12 +194,9 @@ struct NearbyInterestScreen: View {
 						
 					}
 					.ignoresSafeArea()
-					.environmentObject(placeEnviroment)
-					.onAppear {
-						if(!placeEnviroment.places.isEmpty) {
-							tabEnviroment.isShowTab = true
-						}
-					}
+					.environmentObject(locationEnvironment)
+					.environmentObject(managerTabEnrionment)
+					 
 					
 				}
 				
@@ -219,7 +212,7 @@ extension NearbyInterestScreen {
 	func getDirections() {
 		
 		self.route = nil
-		guard let selectedResult else { return }
+		guard selectedResult != nil else { return }
 		
 		
 		let request = MKDirections.Request()

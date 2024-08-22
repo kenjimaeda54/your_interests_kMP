@@ -30,7 +30,8 @@ struct RowItemPlace: View {
 					.font(.custom(FontsApp.regular, size: 15))
 					.foregroundStyle(ColorsApp.black.opacity(0.8))
 			}
-    }
+			.frame(minWidth: 0,maxWidth: .infinity, minHeight: 0,maxHeight: .infinity,alignment: .leading)
+		}
 }
 
 #Preview {

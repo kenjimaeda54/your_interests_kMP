@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class SearchPlacesByViewModel: CoroutineViewModel(), KoinComponent{
+class SearchPlacesByQueryViewModel: CoroutineViewModel(), KoinComponent{
     private  val repository: SearchPlacesByQueryRepository by inject()
     private  val _placesByQuery = MutableStateFlow<DataOrException<List<PhotosPlacesWithRelationNearbyModel>, Exception, Boolean>>(DataOrException(isLoading = true, data = null, exception = null))//<List<PhotosPlacesWithRelationNearbyModel>>()
     val placesByQuery: StateFlow<DataOrException<List<PhotosPlacesWithRelationNearbyModel>, Exception, Boolean>> = _placesByQuery

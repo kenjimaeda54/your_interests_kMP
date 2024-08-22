@@ -11,8 +11,8 @@ import SwiftUI
 @available(iOS 17.0, *)
 struct TabCustomView: View {
 	@ObservedObject var stateTagSelected = StateNavigationTabView()
-	@StateObject private var photoPlacesEnviroment: PlacesPhotoEnviroment = PlacesPhotoEnviroment()
 	@StateObject private var tabEnviroment = ManagerTabEnvironment()
+	@StateObject private var locationEnviroment = LocationEnvironment()
 	
 	
 	var body: some View {
@@ -20,39 +20,39 @@ struct TabCustomView: View {
 			NearbyInterestScreen()
 				.tabItem {
 					Image(systemName: "mappin")
-						
+					
 				}
 				.toolbar(tabEnviroment.isShowTab ? .visible : .hidden, for: .tabBar)
 				.tag(0)
-				
-				
+			
+			
 			
 			ResearchScreen()
 				.tabItem {
 					Image(systemName: "magnifyingglass")
 						.resizable()
-						
-					}
+					
+				}
 				.tag(1)
 			
 			ProfileScreen()
 				.tabItem {
 					Image(systemName: "person")
 						.resizable()
-									.aspectRatio(contentMode: .fit)
-									.frame(width: 30, height: 30) 			
+						.aspectRatio(contentMode: .fit)
+						.frame(width: 30, height: 30)
 				}
 				.tag(2)
 			
-			  //da para fazer assm porem sem tranparente
-				//.toolbarBackground(ColorsApp.white, for: .tabBar)
-				//.toolbarBackground(.visible, for: .tabBar)
-				//.toolbarColorScheme(.none, for: .tabBar)
+			//da para fazer assm porem sem tranparente
+			//.toolbarBackground(ColorsApp.white, for: .tabBar)
+			//.toolbarBackground(.visible, for: .tabBar)
+			//.toolbarColorScheme(.none, for: .tabBar)
 			
 		}
 		.tint(ColorsApp.blue)
 		.environmentObject(stateTagSelected)
- 		.onAppear {
+		.onAppear {
 			UITabBar.appearance().unselectedItemTintColor = UIColor(ColorsApp.black)
 			let standardAppearance = UITabBarAppearance()
 			standardAppearance.configureWithDefaultBackground()
@@ -65,11 +65,10 @@ struct TabCustomView: View {
 			scrollEdgeAppearance.backgroundColor = UIColor(ColorsApp.white)
 			
 		}
-		.environmentObject(photoPlacesEnviroment)
-		.environmentObject(tabEnviroment
-		)
+		.environmentObject(tabEnviroment)
+		.environmentObject(locationEnviroment)
 	}
-		
+	
 	
 }
 
