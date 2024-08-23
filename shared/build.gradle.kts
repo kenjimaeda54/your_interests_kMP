@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -7,6 +9,9 @@ plugins {
 
     //touchlab para view model
     alias(libs.plugins.touchlab.skie)
+
+    //build config
+    alias(libs.plugins.config.build)
 }
 
 kotlin {
@@ -17,7 +22,17 @@ kotlin {
             }
         }
     }
+
+
+    val properties = Properties()
+    properties.load(project.rootProject.file("local.properties").inputStream())
+    val apikey = properties.getProperty("API_KEY")
     
+    buildConfig {
+        buildConfigField("String", "API_KEY", "\"$apikey\"")
+    }
+
+
     listOf(
         iosX64(),
         iosArm64(),

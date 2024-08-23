@@ -18,6 +18,8 @@ serialization = "1.9.20"
 touchlab-skia = "0.8.3"
 coil-compose = "2.7.0"
 beatiful-loading = "1.1.0"
+config-build = "5.4.0"
+
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -63,3 +65,4 @@ kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = 
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 serialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization"}
 touchlab-skie = { id = "co.touchlab.skie", version.ref = "touchlab-skia" }
+config-build = { id = "com.github.gmazzo.buildconfig", version.ref = "config-build" }

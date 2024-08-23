@@ -2,6 +2,7 @@ package com.example.yourinteresests.android.ui.SearchScreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,17 +44,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.yourinteresests.android.theme.fontsKulimPark
 import com.example.yourinteresests.android.ui.screens.searchscreen.view.RowInformationPlace
 import com.example.yourinteresests.android.ui.screens.searchscreen.view.RowInformationShimmer
 import com.example.yourinteresests.android.utils.ComposableLifecycle
+import com.example.yourinteresests.android.utils.StackScreens
 import com.example.yourinterest.data.model.Coordinates
 import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
 
 @SuppressLint("UnrememberedGetBackStackEntry")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen( location: Coordinates) {
+fun SearchScreen( location: Coordinates, navController: NavHostController) {
     var searchPlace by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -160,7 +163,7 @@ fun SearchScreen( location: Coordinates) {
             Text(
                 text = "Pesquise por: nome, categoria ou telefone",
                 fontFamily = fontsKulimPark,
-                fontWeight = FontWeight.Light,
+                fontWeight = FontWeight.Bold,
                 fontSize = 11.sp,
                 color = MaterialTheme.colorScheme.primaryContainer,
 
@@ -183,7 +186,9 @@ fun SearchScreen( location: Coordinates) {
                             modifier = Modifier.padding(
                                 bottom = 15.dp,
                                 top = if (it == 0) 30.dp else 0.dp
-                            ),
+                            ).clickable {
+                                navController.navigate(route = StackScreens.DetailsPlace.name + "/${listPlaces.data!![it].fsqId}")
+                            },
                             place = listPlaces.data!![it]
                         )
                     }

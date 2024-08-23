@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.sp
 
 
 val fontsKulimPark = FontFamily(
-    Font(com.example.yourinteresests.android.R.font.kulimpark_bold),
-    Font(com.example.yourinteresests.android.R.font.kulimpark_regular),
-    Font(com.example.yourinteresests.android.R.font.kulimpark_light),
-    Font(com.example.yourinteresests.android.R.font.kulimpark_semibold)
+    Font(com.example.yourinteresests.android.R.font.kulimpark_bold, FontWeight.Bold),
+    Font(com.example.yourinteresests.android.R.font.kulimpark_regular, FontWeight.Normal),
+    Font(com.example.yourinteresests.android.R.font.kulimpark_light, FontWeight.Light),
+    Font(com.example.yourinteresests.android.R.font.kulimpark_semibold, FontWeight.SemiBold)
 )
 
 val Typography = Typography(

@@ -1,5 +1,6 @@
 package com.example.yourinterest.data.client
 
+import Your_Interesests.shared.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -9,7 +10,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 class KtorApiImplementation() : KtorApi {
-
+    private val apiKey = BuildConfig.API_KEY
     private val apiURl = "https://api.foursquare.com"
 
 
@@ -20,7 +21,7 @@ class KtorApiImplementation() : KtorApi {
                 protocol = URLProtocol.HTTPS
             }
             headers {
-                append("Authorization", "fsq3jysPCZjatMEn6A70xuWH08gnXTk8KZ4xH087DxCF+Gs=")
+                append("Authorization", apiKey)
             }
         }
         //https://ktor.io/docs/client-basic-auth.html auth no ktor
