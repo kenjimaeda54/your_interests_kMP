@@ -1,7 +1,9 @@
 package com.example.yourinteresests.android.ui.screens.detailsplace
 
+import Your_Interesests.androidAppYourInterests.BuildConfig
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.MaterialTheme
@@ -37,12 +40,11 @@ import com.example.yourinterest.data.model.Coordinates
 import com.example.yourinterest.data.model.photosrelationswithplace.PhotosPlacesWithRelationNearbyModel
 
 
+@SuppressLint( "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailsPlace(place: PhotosPlacesWithRelationNearbyModel, location: Coordinates) {
     val configuration = LocalConfiguration.current
-
-
-
+    val accessToken =  BuildConfig.ACCESS_TOKEN_MAP
     fun shouldReturnDistance(distance: Int): String {
         if (distance > 1000) {
             return  String.format("%.2f", distance.toFloat() / 1000) + " km"
@@ -52,12 +54,13 @@ fun DetailsPlace(place: PhotosPlacesWithRelationNearbyModel, location: Coordinat
     }
 
 
-    Surface(
+    Scaffold(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.onPrimaryContainer
+
     ) {
 
         Column(
+            modifier = Modifier.background(MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
@@ -109,7 +112,7 @@ fun DetailsPlace(place: PhotosPlacesWithRelationNearbyModel, location: Coordinat
                     modifier = Modifier
                         .fillMaxWidth().clip(RoundedCornerShape(13.dp)),
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-l+3C6E71(${location.longitude},${location.latitude})/${location.longitude},${location.latitude},14/600x600?access_token=sk.eyJ1Ijoia2VuamltYWVkYSIsImEiOiJjbTA2bWJ0c3QwNXpmMmxvcWtvaHRnZ2pwIn0.aMeRjYcDf3sJuaPYRNGqZw")
+                        .data("https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-l+3C6E71(${location.longitude},${location.latitude})/${location.longitude},${location.latitude},14/600x600?access_token=${accessToken}")
                         .build(),
                     contentDescription = "Image map",
                     contentScale = ContentScale.FillWidth,

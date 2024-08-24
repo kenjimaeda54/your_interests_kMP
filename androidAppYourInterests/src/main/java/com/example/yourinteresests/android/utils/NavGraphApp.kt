@@ -2,6 +2,7 @@ package com.example.yourinteresests.android.utils
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -13,21 +14,20 @@ import com.exampl.yourinteresests.android.ui.ProfileScreen
 import com.example.yourinteresests.android.ui.SearchScreen.SearchScreen
 import com.example.yourinteresests.android.ui.screens.detailsplace.DetailsPlace
 import com.example.yourinteresests.android.ui.screens.proflescreen.FavoriteScreen.NearbyInterests
-import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
 import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
 import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
 
 
 @SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
-fun NavGraphApp(navController: NavHostController) {
+fun NavGraphApp(navController: NavHostController, isShowBottomBar: MutableState<Boolean>) {
 
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.NearbyInterests.route
     ) {
         composable(BottomBarScreen.NearbyInterests.route) {
-            NearbyInterests()
+            NearbyInterests(isShowBottomBar = isShowBottomBar)
         }
 
 

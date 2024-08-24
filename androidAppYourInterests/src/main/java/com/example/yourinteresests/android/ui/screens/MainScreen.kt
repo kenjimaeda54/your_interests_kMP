@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.yourinteresests.android.utils.BottomCustomNavigation
@@ -19,11 +22,14 @@ fun MainScreen() {
     val currentRoute =
         navBackStackEntry?.destination?.route?.split("/")
     val stringBottomRoute = BottomScreens.screens().map { it.route }
-
+    //quando for passar precisa ser dessa maneira sem o by
+    val isShowBottomBar = remember {
+         mutableStateOf(false)
+    }
 
     Scaffold(
         bottomBar = {
-            if(stringBottomRoute.contains(currentRoute?.get(0))) currentDestination?.let {
+            if(stringBottomRoute.contains(currentRoute?.get(0)) && isShowBottomBar.value) currentDestination?.let {
                 BottomCustomNavigation(
                     navHostController = navController,
                     navDestination = it
@@ -31,7 +37,7 @@ fun MainScreen() {
             }
         }
     ) {
-       NavGraphApp(navController = navController)
+       NavGraphApp(navController = navController,isShowBottomBar = isShowBottomBar)
      }
 
 

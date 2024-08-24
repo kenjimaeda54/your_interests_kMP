@@ -1,12 +1,21 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
+
+    //build config
+    alias(libs.plugins.config.build)
 }
 
 android {
     namespace = "com.example.yourinteresests.android"
     compileSdk = 34
+
+
+
     defaultConfig {
         applicationId = "com.example.yourinteresests.android"
         minSdk = 24
@@ -14,6 +23,17 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
+
+    val properties = Properties()
+    properties.load(project.rootProject.file("local.properties").inputStream())
+    val accessToken = properties.getProperty("ACCESS_TOKEN_MAP")
+
+
+    buildConfig {
+        buildConfigField("String", "ACCESS_TOKEN_MAP", "\"$accessToken\"")
+    }
+
     buildFeatures {
         compose = true
     }
