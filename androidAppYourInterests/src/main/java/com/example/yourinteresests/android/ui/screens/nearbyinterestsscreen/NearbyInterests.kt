@@ -100,11 +100,7 @@ fun NearbyInterests(isShowBottomBar: MutableState<Boolean>) {
             longitude = location.data!!.longitude
         )
         CustomMapBox(
-            pointCamera = Coordinates(
-                longitude = location.data!!.longitude,
-                latitude = location.data!!.latitude
-            ),
-            pointAnnotation = Coordinates(
+            point = Coordinates(
                 longitude = location.data!!.longitude,
                 latitude = location.data!!.latitude
             ), address = address,

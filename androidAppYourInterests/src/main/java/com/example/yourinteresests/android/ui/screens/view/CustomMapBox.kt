@@ -25,37 +25,45 @@ import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraState
 import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.MapboxExperimental
+import com.mapbox.maps.ViewAnnotationAnchor
 import com.mapbox.maps.extension.compose.MapboxMap
 import com.mapbox.maps.extension.compose.animation.viewport.MapViewportState
+import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 import com.mapbox.maps.extension.compose.annotation.ViewAnnotation
 import com.mapbox.maps.extension.compose.style.MapStyle
+import com.mapbox.maps.viewannotation.annotationAnchor
 import com.mapbox.maps.viewannotation.geometry
 import com.mapbox.maps.viewannotation.viewAnnotationOptions
 
 @OptIn(MapboxExperimental::class)
 @Composable
-fun CustomMapBox(modifier: Modifier = Modifier, pointCamera: Coordinates, pointAnnotation: Coordinates, address: String, content: @Composable () -> Unit = {}) {
+fun CustomMapBox(modifier: Modifier = Modifier, point: Coordinates, address: String, content: @Composable () -> Unit = {}) {
+
+    val mapViewportState = rememberMapViewportState {
+        // Set the initial camera position
+        setCameraOptions {
+            center(Point.fromLngLat(point.longitude, point.latitude))
+            zoom(16.0)
+            pitch(0.0)
+        }
+    }
     MapboxMap(
-        Modifier.fillMaxSize(),
-        mapViewportState = MapViewportState(
-            initialCameraState = CameraState(
-                Point.fromLngLat(pointCamera.longitude, pointCamera.latitude),
-                EdgeInsets(0.0, 0.0, 0.0, 0.0), 17.0,
-                0.0,
-                0.0
-
-            ),
-
-            ),
+        modifier = modifier.fillMaxSize(),
+        mapViewportState = mapViewportState,
         style = {
             //usa o maapbox studio para alterar os estilos
             //removi pontos de interesse usando o mapbox studio
             MapStyle(style = "mapbox://styles/kenjimaeda/clzu6cgv300qe01pd35jr9y81")
         }
     ){
+
         ViewAnnotation(options = viewAnnotationOptions {
             allowOverlap(true)
-            geometry(Point.fromLngLat(pointAnnotation.longitude,pointAnnotation.latitude))
+            geometry(Point.fromLngLat(point.longitude,point.latitude))
+            EdgeInsets(0.0, 0.0, 0.0, 0.0)
+            annotationAnchor {
+                anchor(ViewAnnotationAnchor.CENTER)
+            }
         }) {
             Column(
                 modifier = modifier,
@@ -68,19 +76,22 @@ fun CustomMapBox(modifier: Modifier = Modifier, pointCamera: Coordinates, pointA
                     contentDescription = "Image marker",
                     colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(MaterialTheme.colorScheme.error)
                 )
-                Text(
-                    modifier = Modifier
-                        .background(
-                            MaterialTheme.colorScheme.tertiary,
-                            shape = RoundedCornerShape(corner = CornerSize(10.dp))
-                        )
-                        .padding(5.dp),
-                    text = address,
-                    color = MaterialTheme.colorScheme.onTertiary,
-                    fontFamily = fontsKulimPark,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 13.sp
-                )
+                if (address.isNotEmpty()) {
+                    Text(
+                        modifier = Modifier
+                            .background(
+                                MaterialTheme.colorScheme.tertiary,
+                                shape = RoundedCornerShape(corner = CornerSize(10.dp))
+                            )
+                            .padding(5.dp),
+                        text = address,
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        fontFamily = fontsKulimPark,
+                        fontWeight = FontWeight.Light,
+                        fontSize = 13.sp
+                    )
+                }
+
 
             }
 

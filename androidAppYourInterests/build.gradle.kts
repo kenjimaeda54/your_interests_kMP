@@ -79,4 +79,7 @@ dependencies {
 
     //loading
     implementation(libs.loading.compose)
+
+    //animation
+    implementation(libs.compose.animation)
 }

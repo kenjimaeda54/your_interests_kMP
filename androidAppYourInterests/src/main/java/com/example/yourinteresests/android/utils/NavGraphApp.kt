@@ -1,6 +1,8 @@
 package com.example.yourinteresests.android.utils
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
@@ -12,54 +14,64 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.exampl.yourinteresests.android.ui.ProfileScreen
 import com.example.yourinteresests.android.ui.SearchScreen.SearchScreen
-import com.example.yourinteresests.android.ui.screens.detailsplace.DetailsPlace
+import com.example.yourinteresests.android.ui.screens.detailsplace.SharedDetailsPlace
 import com.example.yourinteresests.android.ui.screens.proflescreen.FavoriteScreen.NearbyInterests
 import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
 import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
 
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
 fun NavGraphApp(navController: NavHostController, isShowBottomBar: MutableState<Boolean>) {
 
-    NavHost(
-        navController = navController,
-        startDestination = BottomBarScreen.NearbyInterests.route
-    ) {
-        composable(BottomBarScreen.NearbyInterests.route) {
-            NearbyInterests(isShowBottomBar = isShowBottomBar)
-        }
-
-
-        composable(BottomBarScreen.Search.route) {
-            val parent = remember(it) {
-                navController.getBackStackEntry(BottomBarScreen.NearbyInterests.route)
+    SharedTransitionLayout {
+        NavHost(
+            navController = navController,
+            startDestination = BottomBarScreen.NearbyInterests.route
+        ) {
+            composable(BottomBarScreen.NearbyInterests.route) {
+                NearbyInterests(isShowBottomBar = isShowBottomBar)
             }
 
-            val location = viewModel<RecoveryLocationViewModel>(parent)
-            if( location.location.value.data == null) return@composable
-            SearchScreen( location = location.location.value.data!!,navController = navController)
-        }
 
-        composable(StackScreens.DetailsPlace.name + "/{fsqId}", arguments = listOf(navArgument("fsqId") { type = NavType.StringType })) {
-            val parentSearchRoute = remember(it) {
-                navController.getBackStackEntry(BottomBarScreen.Search.route)
-            }
-            val parentNearbyRoute = remember {
-                navController.getBackStackEntry(BottomBarScreen.NearbyInterests.route)
-            }
-            val place =  viewModel<SearchPlacesByQueryViewModel>(parentSearchRoute)
-            val location = viewModel<RecoveryLocationViewModel>(parentNearbyRoute)
-            if (place.placesByQuery.value.data == null || location.location.value.data == null) return@composable
-            val findPlace = place.placesByQuery.value.data!!.find { placeByQuery -> placeByQuery.fsqId == it.arguments?.getString("fsqId") }
-            if(findPlace == null) return@composable
-            DetailsPlace(place = findPlace, location = location.location.value.data!!)
-        }
+            composable(BottomBarScreen.Search.route) {
+                val parent = remember(it) {
+                    navController.getBackStackEntry(BottomBarScreen.NearbyInterests.route)
+                }
 
-        composable(BottomBarScreen.Profile.route) {
-            ProfileScreen()
+                val location = viewModel<RecoveryLocationViewModel>(parent)
+                if( location.location.value.data == null) return@composable
+                SearchScreen( location = location.location.value.data!!,navController = navController)
+            }
+
+            composable(StackScreens.DetailsPlace.name + "/{fsqId}", arguments = listOf(navArgument("fsqId") { type = NavType.StringType })) {
+                val parentSearchRoute = remember(it) {
+                    navController.getBackStackEntry(BottomBarScreen.Search.route)
+                }
+                val parentNearbyRoute = remember {
+                    navController.getBackStackEntry(BottomBarScreen.NearbyInterests.route)
+                }
+                val place =  viewModel<SearchPlacesByQueryViewModel>(parentSearchRoute)
+                if (place.placesByQuery.value.data == null ) return@composable
+                val findPlace = place.placesByQuery.value.data!!.find { placeByQuery -> placeByQuery.fsqId == it.arguments?.getString("fsqId") }
+                if(findPlace == null) return@composable
+                SharedDetailsPlace(
+                    place = findPlace,
+                    navController = navController
+                    )
+            }
+
+
+
+
+
+            composable(BottomBarScreen.Profile.route) {
+                ProfileScreen()
+            }
         }
     }
+
 
 
 }
