@@ -19,7 +19,6 @@ struct NavigationRouteScreen: View {
 	var selectedResult: MKMapItem
 	var route: MKRoute
 	var placeAnnotaion: PhotosPlacesWithRelationNearbyModel
-	@Environment(\.dismiss) var dimiss
 	
     var body: some View {
 			GeometryReader { geometry in
@@ -59,16 +58,7 @@ struct NavigationRouteScreen: View {
 			.onAppear {
 				tabEnviroment.isShowTab = false
 			}
-			.safeAreaInset(edge: .top, content: {
-				HStack {
-					Button( action: actionBackButton ) {
-						Image(systemName: "chevron.left")
-							.foregroundColor(ColorsApp.white)
-					}
-					.padding([.leading],30)
-					Spacer()
-				}
-			})
+		
 		 .frame(minWidth: 0, maxWidth: .infinity,minHeight: 0, maxHeight: .infinity)
 		}
 		
@@ -76,11 +66,4 @@ struct NavigationRouteScreen: View {
 }
 
 
-@available(iOS 17.0, *)
-extension NavigationRouteScreen {
-	func actionBackButton() {
-		dimiss()
-	}
-	
-	
-}
+ 

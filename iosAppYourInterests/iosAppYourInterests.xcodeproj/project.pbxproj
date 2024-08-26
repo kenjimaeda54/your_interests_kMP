@@ -29,6 +29,10 @@
 		816FD6582C5BC7E100232E27 /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816FD6572C5BC7E100232E27 /* ProfileScreen.swift */; };
 		816FD65A2C5BC7F300232E27 /* ResearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816FD6592C5BC7F300232E27 /* ResearchScreen.swift */; };
 		816FD65C2C5BC7FC00232E27 /* NearbyInterestScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816FD65B2C5BC7FC00232E27 /* NearbyInterestScreen.swift */; };
+		817EFC932C7B97B4005FC448 /* DetailsPlaceScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817EFC922C7B97B4005FC448 /* DetailsPlaceScreen.swift */; };
+		817EFC962C7B9E27005FC448 /* InformationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817EFC952C7B9E27005FC448 /* InformationItem.swift */; };
+		817EFC982C7BDAF0005FC448 /* ButtonBackTopAppBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817EFC972C7BDAF0005FC448 /* ButtonBackTopAppBar.swift */; };
+		817EFC9C2C7BE963005FC448 /* DetailsPlaceShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817EFC9B2C7BE963005FC448 /* DetailsPlaceShared.swift */; };
 		8180646D2C6435A200C0908E /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8180646C2C6435A200C0908E /* LoadingState.swift */; };
 		81A9391A2C7657740081F298 /* ResearchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A939192C7657740081F298 /* ResearchState.swift */; };
 		81A9391C2C765B0B0081F298 /* LocationEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9391B2C765B0B0081F298 /* LocationEnvironment.swift */; };
@@ -93,6 +97,10 @@
 		816FD6572C5BC7E100232E27 /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
 		816FD6592C5BC7F300232E27 /* ResearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchScreen.swift; sourceTree = "<group>"; };
 		816FD65B2C5BC7FC00232E27 /* NearbyInterestScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyInterestScreen.swift; sourceTree = "<group>"; };
+		817EFC922C7B97B4005FC448 /* DetailsPlaceScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPlaceScreen.swift; sourceTree = "<group>"; };
+		817EFC952C7B9E27005FC448 /* InformationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationItem.swift; sourceTree = "<group>"; };
+		817EFC972C7BDAF0005FC448 /* ButtonBackTopAppBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonBackTopAppBar.swift; sourceTree = "<group>"; };
+		817EFC9B2C7BE963005FC448 /* DetailsPlaceShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPlaceShared.swift; sourceTree = "<group>"; };
 		8180646C2C6435A200C0908E /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		81A939192C7657740081F298 /* ResearchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchState.swift; sourceTree = "<group>"; };
 		81A9391B2C765B0B0081F298 /* LocationEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEnvironment.swift; sourceTree = "<group>"; };
@@ -300,6 +308,24 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		817EFC912C7B978D005FC448 /* DetailsPlaceScreen */ = {
+			isa = PBXGroup;
+			children = (
+				817EFC942C7B9E11005FC448 /* View */,
+				817EFC922C7B97B4005FC448 /* DetailsPlaceScreen.swift */,
+				817EFC9B2C7BE963005FC448 /* DetailsPlaceShared.swift */,
+			);
+			path = DetailsPlaceScreen;
+			sourceTree = "<group>";
+		};
+		817EFC942C7B9E11005FC448 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				817EFC952C7B9E27005FC448 /* InformationItem.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		81ABCF632C74B94500C0E9B7 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +341,7 @@
 			children = (
 				81C046112C5EB7E70072EFD4 /* Loading.swift */,
 				81511B962C6A337500E67BF0 /* CustomAsyncImage.swift */,
+				817EFC972C7BDAF0005FC448 /* ButtonBackTopAppBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -322,6 +349,7 @@
 		81CD62EB2C6D302400413CE9 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				817EFC912C7B978D005FC448 /* DetailsPlaceScreen */,
 				8123FBB32C711F84000A8761 /* NavigationRoute */,
 				816FD6542C5BC6E600232E27 /* NearbyIInterests */,
 				816FD6552C5BC6FE00232E27 /* ResearchScreen */,
@@ -470,6 +498,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81ED9BE62C699B7B004BF053 /* PlaceAnnotation.swift in Sources */,
+				817EFC962C7B9E27005FC448 /* InformationItem.swift in Sources */,
 				81511B972C6A337500E67BF0 /* CustomAsyncImage.swift in Sources */,
 				816FD6502C5BC50300232E27 /* TabCustomView.swift in Sources */,
 				81263DC12C701C8300CE92D8 /* CustomViewportDataSource.swift in Sources */,
@@ -485,6 +514,7 @@
 				81A939202C765F1A0081F298 /* Shimmer.swift in Sources */,
 				816FD65C2C5BC7FC00232E27 /* NearbyInterestScreen.swift in Sources */,
 				81263DC42C70259F00CE92D8 /* NavigationViewController.swift in Sources */,
+				817EFC932C7B97B4005FC448 /* DetailsPlaceScreen.swift in Sources */,
 				81263DC92C7033A800CE92D8 /* UiColor.swift in Sources */,
 				81A9391C2C765B0B0081F298 /* LocationEnvironment.swift in Sources */,
 				816FD65A2C5BC7F300232E27 /* ResearchScreen.swift in Sources */,
@@ -493,8 +523,10 @@
 				8180646D2C6435A200C0908E /* LoadingState.swift in Sources */,
 				815611D22C739A0300AFB1CE /* MaganagerTabEnvironment.swift in Sources */,
 				81FE46642C5D1A5D00FCE904 /* FontsApp.swift in Sources */,
+				817EFC982C7BDAF0005FC448 /* ButtonBackTopAppBar.swift in Sources */,
 				81CD62F52C6D853B00413CE9 /* WrapperIdentifiblePhotosPlaces.swift in Sources */,
 				81263DC62C70262800CE92D8 /* CustoCameraStateTransition.swift in Sources */,
+				817EFC9C2C7BE963005FC448 /* DetailsPlaceShared.swift in Sources */,
 				81C046152C5EF9510072EFD4 /* ContentAlignCenter.swift in Sources */,
 				81C046122C5EB7E70072EFD4 /* Loading.swift in Sources */,
 				8153C8262C6E7CD900BDC64E /* NavigationMapController.swift in Sources */,

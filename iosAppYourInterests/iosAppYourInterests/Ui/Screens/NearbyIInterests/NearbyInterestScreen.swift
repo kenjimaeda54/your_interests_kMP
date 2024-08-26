@@ -66,7 +66,7 @@ struct NearbyInterestScreen: View {
 														isPresentedNewScreen = true
 														placeSelected = place
 													}
-													
+												
 											}
 											
 										}
@@ -90,6 +90,11 @@ struct NearbyInterestScreen: View {
 								.navigationDestination(isPresented: $isPresentedNewScreen) {
 									if let route = route, let selectedResult = selectedResult, let placeSelected = placeSelected {
 										NavigationRouteScreen(destination: destinationLocation, selectedResult: selectedResult, route: route, placeAnnotaion: placeSelected)
+											.safeAreaInset(edge: .top, content: {
+												
+												ButtonBackTopAppBar()
+												
+											})
 									}
 								}
 								.mapControlVisibility(.hidden)
@@ -196,7 +201,7 @@ struct NearbyInterestScreen: View {
 					.ignoresSafeArea()
 					.environmentObject(locationEnvironment)
 					.environmentObject(managerTabEnrionment)
-					 
+					
 					
 				}
 				
