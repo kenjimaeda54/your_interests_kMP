@@ -21,6 +21,12 @@ struct DetailsPlaceScreen: View {
 	@Binding var isShowMap: Bool
 	@EnvironmentObject private var tabEnviroment: ManagerTabEnvironment
 	@EnvironmentObject private var locationEnviroment: LocationEnvironment
+	var mapboxKey: String  {
+		if let mapboxKey = ProcessInfo.processInfo.environment["MAPBOX_KEY"] {
+			return mapboxKey
+		}
+		return ""
+	}
 	
 	
 	var body: some View {
@@ -65,29 +71,30 @@ struct DetailsPlaceScreen: View {
 							.frame(width: 30,height: 30)
 					}
 					
-					AsyncImage(url: URL(string: "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-l+3C6E71(\(place.places.geocode.longitude),\(place.places.geocode.latitude)/\(place.places.geocode.longitude),\(place.places.geocode.latitude),14/600x600?access_token=sk.eyJ1Ijoia2VuamltYWVkYSIsImEiOiJjbTA2bWJ0c3QwNXpmMmxvcWtvaHRnZ2pwIn0.aMeRjYcDf3sJuaPYRNGqZw")) { image in
-						
-						image
-							.resizable()
-							.frame(height: geometry.size.height * 0.3)
-							.clipShape(RoundedRectangle(cornerRadius: 10))
-							.onTapGesture {
-								//verificar se tem mais alguma coisa
-								selectedResult = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: place.places.geocode.latitude, longitude: place.places.geocode.longitude)))
-								getDirections()
-								withAnimation(.easeInOut) {
-									isShowMap.toggle()
+					if(!mapboxKey.isEmpty) {
+						AsyncImage(url: URL(string: "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/pin-s-l+3C6E71(\(place.places.geocode.longitude),\(place.places.geocode.latitude)/\(place.places.geocode.longitude),\(place.places.geocode.latitude),14/600x600?access_token=\(mapboxKey)")) { image in
+							
+							image
+								.resizable()
+								.frame(height: geometry.size.height * 0.3)
+								.clipShape(RoundedRectangle(cornerRadius: 10))
+								.onTapGesture {
+									//verificar se tem mais alguma coisa
+									selectedResult = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: place.places.geocode.latitude, longitude: place.places.geocode.longitude)))
+									getDirections()
+									withAnimation(.easeInOut) {
+										isShowMap.toggle()
+									}
 								}
-							}
-						
-						
-					}placeholder: {
-						Image("imageNotFound")
-							.resizable()
-							.frame(height: geometry.size.height * 0.3)
-							.clipShape(RoundedRectangle(cornerRadius: 10))
-							.redactShimmer(condition: true)
-					}
+							
+							
+						}placeholder: {
+							Image("imageNotFound")
+								.resizable()
+								.frame(height: geometry.size.height * 0.3)
+								.clipShape(RoundedRectangle(cornerRadius: 10))
+								.redactShimmer(condition: true)
+						}					}
 					
 				}
 				.padding([.horizontal],13)
