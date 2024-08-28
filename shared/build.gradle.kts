@@ -57,7 +57,12 @@ kotlin {
             implementation(libs.ktor.negotiation)
             implementation(libs.ktor.serialization)
             implementation(libs.ktor.client.core)
-        }
+            implementation(
+                project.dependencies.platform(libs.superbase.bom))
+            implementation(libs.superbase.gotrue)
+            implementation(libs.superbase.realtime)
+            implementation(libs.superbase.postgrest)
+         }
 
         androidMain.dependencies {
             implementation(libs.viewModel.ktx)

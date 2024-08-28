@@ -20,6 +20,8 @@ coil-compose = "2.7.0"
 beatiful-loading = "1.1.0"
 config-build = "5.4.0"
 compose-animation = "1.7.0-rc01" #precisa attualizar o compose para usar SharedElement
+superbase-core = "2.6.0"
+
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -54,6 +56,10 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor"}
 coil-compose = {module = "io.coil-kt:coil-compose", version.ref = "coil-compose"}
 loading-compose = {module = "com.github.MahboubehSeyedpour:jetpack-loading",version.ref = "beatiful-loading"}
 compose-animation = {module = "androidx.compose.animation:animation", version.ref = "compose-animation"}
+superbase-bom = {module = "io.github.jan-tennert.supabase:bom", version.ref = "superbase-core"}
+superbase-postgrest = {module =  "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "superbase-core"}
+superbase-gotrue = {module = "io.github.jan-tennert.supabase:gotrue-kt", version.ref = "superbase-core"}
+superbase-realtime = {module = "io.github.jan-tennert.supabase:realtime-kt", version.ref = "superbase-core"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

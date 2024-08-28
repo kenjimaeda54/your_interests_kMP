@@ -9,11 +9,16 @@
 import SwiftUI
 
 struct ProfileScreen: View {
+	@StateObject private var profileState: ProfileState = ProfileState()
+	
+	
     var body: some View {
-        Text("Profile")
+			Button(action: { 
+				profileState.signInUser(phone: "")
+			}) {
+				Text("login")
+			}
     }
 }
 
-#Preview {
-    ProfileScreen()
-}
+ 

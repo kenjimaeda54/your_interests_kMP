@@ -1,13 +1,17 @@
 package com.example.yourinterest.di
 
+import com.example.yourinterest.data.client.AuthSapabaseClient
 import com.example.yourinterest.data.client.KtorApi
 import com.example.yourinterest.data.client.KtorApiImplementation
 import com.example.yourinterest.data.client.PlacesNearbyClient
 import com.example.yourinterest.data.client.RecoveryLocationClient
 import com.example.yourinterest.data.client.SearchPlacesByQueryClient
+import com.example.yourinterest.data.client.SupabaseClient
+import com.example.yourinterest.data.client.SupabaseImplementation
 import com.example.yourinterest.data.repository.PlacesNearbyRepository
 import com.example.yourinterest.data.repository.RecoveryLocationRepository
 import com.example.yourinterest.data.repository.SearchPlacesByQueryRepository
+import com.example.yourinterest.viewmodel.AuthSapabaseViewModel
 import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
 import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
 import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
@@ -29,10 +33,12 @@ fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
 
 
 private  val clientModule = module {
-    factory { RecoveryLocationClient() }
-    factory { PlacesNearbyClient(get()) }
-    factory { SearchPlacesByQueryClient(get()) }
+    single{ RecoveryLocationClient() }
+    single { PlacesNearbyClient(get()) }
+    single { SearchPlacesByQueryClient(get()) }
+    factory { AuthSapabaseClient(get()) }
     factory <KtorApi> { KtorApiImplementation()  }
+    factory <SupabaseClient> {  SupabaseImplementation() }
 }
 
 
@@ -40,7 +46,8 @@ private  val clientModule = module {
 private  val viewModelModule  = module {
      single { RecoveryLocationViewModel() }
      single { PlacesNearbyViewModel() }
-    single { SearchPlacesByQueryViewModel() }
+     single { SearchPlacesByQueryViewModel() }
+     single { AuthSapabaseViewModel() }
 
 }
 
@@ -48,6 +55,7 @@ private  val repositoryModule = module {
     single { RecoveryLocationRepository() }
     single { PlacesNearbyRepository() }
     single { SearchPlacesByQueryRepository() }
+
 }
 
 

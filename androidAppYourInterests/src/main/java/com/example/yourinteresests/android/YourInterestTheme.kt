@@ -19,26 +19,24 @@ import com.example.yourinteresests.android.theme.white
 import com.example.yourinteresests.android.theme.error
 
 private val lightColorScheme = lightColorScheme(
-   primary = white,
-    secondary =  blue,
-    tertiary =  green,
+    primary = white,
+    secondary = blue,
+    tertiary = green,
     primaryContainer = black,
     onPrimaryContainer = gray,
     error = error
-    )
-
-
+)
 
 
 @Composable
 fun YourInterestTheme(
-     content: @Composable () -> Unit
+    content: @Composable () -> Unit
 ) {
 
 
     MaterialTheme(
         colorScheme = lightColorScheme,
         typography = Typography,
-         content = content
+        content = content
     )
 }
