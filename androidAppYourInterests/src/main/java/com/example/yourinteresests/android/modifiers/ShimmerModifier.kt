@@ -1,5 +1,6 @@
 package com.example.coffesbarcompose.modifier
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -17,6 +18,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
 
+@SuppressLint("SuspiciousModifierThen")
 fun Modifier.shimmerBackground(shape: Shape = RectangleShape): Modifier = composed {
     val transition = rememberInfiniteTransition(label = "")
 

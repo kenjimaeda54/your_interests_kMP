@@ -13,6 +13,11 @@ class AuthSapabaseViewModel: CoroutineViewModel(), KoinComponent {
     private val _successSendCodeOTP = MutableStateFlow<DataOrException<Boolean, Exception, Boolean>>(DataOrException(isLoading = false))
     val successSendCodeOTP = _successSendCodeOTP
 
+
+    fun clearData() {
+        _successSendCodeOTP.value = DataOrException(isLoading = false)
+    }
+
     fun sendCodeOTP(phone: String) {
 
         scope.launch {

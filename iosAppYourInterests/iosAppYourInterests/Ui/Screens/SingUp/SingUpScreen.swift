@@ -128,6 +128,8 @@ struct SingUpScreen: View {
 				.toast(isPresented: $isShowToastError,dismissAfter: 3.0) {
 					ToastView() {
 						Text("Verifique se o número existe, não foi possível enviar o código")
+							.font(.custom(FontsApp.regular, size: 17))
+							.foregroundStyle(ColorsApp.black)
 					}
 					.frame(width: 250)
 					.onDisappear {

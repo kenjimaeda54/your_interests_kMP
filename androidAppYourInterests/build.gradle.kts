@@ -82,4 +82,7 @@ dependencies {
 
     //animation
     implementation(libs.compose.animation)
+
+    //motion toast
+    implementation(libs.motion.toast)
 }

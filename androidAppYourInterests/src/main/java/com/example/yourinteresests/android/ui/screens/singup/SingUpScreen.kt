@@ -1,5 +1,6 @@
 package com.example.yourinteresests.android.ui.screens.singup
 
+import android.app.Activity
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -40,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,10 +54,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.yourinteresests.android.R
 import com.example.yourinteresests.android.YourInterestTheme
 import com.example.yourinteresests.android.theme.fontsKulimPark
 import com.example.yourinteresests.android.utils.ComposableLifecycle
@@ -63,6 +67,8 @@ import com.example.yourinteresests.android.utils.StackScreens
 import com.example.yourinteresests.android.utils.rememberImeState
 import com.example.yourinterest.viewmodel.AuthSapabaseViewModel
 import com.spr.jetpack_loading.components.indicators.CircularPulsatingIndicator
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,7 +104,7 @@ fun SingUpScreen(navController: NavController) {
     
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.secondary
+        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
     ) {
         Column(
             modifier = Modifier
@@ -113,14 +119,14 @@ fun SingUpScreen(navController: NavController) {
                 fontFamily = fontsKulimPark,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primaryContainer
             )
             Spacer(modifier = Modifier.padding(bottom = 3.dp))
             Text(
                 text = "Seus interesses na palma da mao",
                 fontFamily = fontsKulimPark,
                 fontWeight = FontWeight.Normal, fontSize = 20.sp,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primaryContainer
             )
             Spacer(modifier = Modifier.padding(bottom = configuration.screenHeightDp.dp * 0.09f))
             Column(
@@ -258,7 +264,7 @@ fun SingUpScreen(navController: NavController) {
                         .padding(top = 20.dp),
                     shape = RoundedCornerShape(corner = CornerSize(10.dp)),
                     contentPadding = PaddingValues(horizontal = 3.dp, vertical = 10.dp),
-                    enabled = !successSendCode.isLoading || phoneUser.text.length >= 10,
+                    enabled = successSendCode.isLoading || phoneUser.text.length >= 10,
                     elevation = ButtonDefaults.elevatedButtonElevation(
                         defaultElevation = 0.dp,
                         pressedElevation = 0.dp,
@@ -267,13 +273,15 @@ fun SingUpScreen(navController: NavController) {
                         focusedElevation = 0.dp
                     ),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.secondary,
-                        contentColor = MaterialTheme.colorScheme.secondary,
-                        disabledContentColor = MaterialTheme.colorScheme.secondary.copy(0.7f),
-                        disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(0.7f)
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.primaryContainer,
+                        disabledContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        disabledContainerColor = MaterialTheme.colorScheme.onPrimaryContainer
                     ),
                     onClick = {
-                        viewModel.sendCodeOTP(phone = "+55${phoneUser.text}")
+                        if(phoneUser.text.length >= 10) {
+                            viewModel.sendCodeOTP("+55${phoneUser.text}")
+                        }
                     }) {
                     Text(
                         text = "Entrar",
@@ -285,6 +293,21 @@ fun SingUpScreen(navController: NavController) {
                 }
             }
         }
+
+        if (successSendCode.exception != null) {
+            viewModel.clearData()
+            MotionToast.createColorToast(
+                LocalContext.current as Activity,
+                       "Failed ☹️",
+                "Nao foi possivel enviar o SMS para este numeero verifique se o mesmo esta correto",
+                MotionToastStyle.ERROR,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(LocalContext.current, R.font.kulimpark_regular)
+
+            )
+        }
+
         if (successSendCode.isLoading) {
             Box(
                 modifier = Modifier

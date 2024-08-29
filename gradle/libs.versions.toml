@@ -21,7 +21,7 @@ beatiful-loading = "1.1.0"
 config-build = "5.4.0"
 compose-animation = "1.7.0-rc01" #precisa attualizar o compose para usar SharedElement
 superbase-core = "2.6.0"
-
+motion-toast="1.4"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -60,6 +60,8 @@ superbase-bom = {module = "io.github.jan-tennert.supabase:bom", version.ref = "s
 superbase-postgrest = {module =  "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "superbase-core"}
 superbase-gotrue = {module = "io.github.jan-tennert.supabase:gotrue-kt", version.ref = "superbase-core"}
 superbase-realtime = {module = "io.github.jan-tennert.supabase:realtime-kt", version.ref = "superbase-core"}
+motion-toast = {module = "com.github.Spikeysanju:MotionToast", version.ref = "motion-toast"}
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
