@@ -9,5 +9,5 @@
 import Foundation
 
 enum LoadingState {
-	case loading,success,failure
+	case loading,success,failure,none
 }

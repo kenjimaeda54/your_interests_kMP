@@ -1,5 +1,6 @@
 package com.example.yourinterest.data.client
 
+import com.example.yourinterest.util.DataOrException
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.OTP
 import kotlinx.serialization.builtins.serializer
@@ -8,14 +9,19 @@ import kotlinx.serialization.builtins.serializer
 class AuthSapabaseClient(private val supabaseClient: SupabaseClient): SupabaseClient by supabaseClient {
 
 
-    suspend fun sendCodeOTP(userPhone: String) {
+    suspend fun sendCodeOTP(userPhone: String): DataOrException<Boolean, Exception, Boolean> {
         //se tu colocar o mesmo nome por exemplo phone = phone pode dar erro porque a propriedade e val
         //por isso usei userPhone
-       supabaseClient.supabase.auth.signInWith(OTP) {
-             phone = userPhone;
-             createUser = true
+      return try {
+           supabaseClient.supabase.auth.signInWith(OTP) {
+               phone = userPhone;
+               createUser = true
 
-        }
+           }
+           DataOrException(data = true, exception = null, isLoading = false)
+       } catch (e: Exception) {
+           DataOrException(data = null, exception = e, isLoading = false)
+       }
 
     }
 

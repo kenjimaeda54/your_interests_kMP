@@ -12,8 +12,7 @@ struct iOSApp: App {
 	
 	var body: some Scene {
 		WindowGroup {
-			 TabCustomView()
-				.environmentObject(StateNavigationTabView())
+			 GraphManager()
 		}
  
 	}

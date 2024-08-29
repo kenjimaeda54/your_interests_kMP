@@ -12,3 +12,4 @@ import CoreLocation
 class LocationEnvironment: ObservableObject {
 	@Published var location: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 }
+
