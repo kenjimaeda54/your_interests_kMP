@@ -10,11 +10,13 @@ import org.koin.core.component.inject
 
 class AuthSapabaseViewModel: CoroutineViewModel(), KoinComponent {
     private val client: AuthSapabaseClient by inject()
-    private val _successSendCodeOTP = MutableStateFlow<DataOrException<Boolean, Exception, Boolean>>(DataOrException(isLoading = true))
+    private val _successSendCodeOTP = MutableStateFlow<DataOrException<Boolean, Exception, Boolean>>(DataOrException(isLoading = false))
     val successSendCodeOTP = _successSendCodeOTP
 
     fun sendCodeOTP(phone: String) {
+
         scope.launch {
+            _successSendCodeOTP.value = DataOrException(isLoading = true)
              _successSendCodeOTP.value = client.sendCodeOTP(phone)
 
         }

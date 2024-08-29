@@ -14,8 +14,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.exampl.yourinteresests.android.ui.ProfileScreen
 import com.example.yourinteresests.android.ui.SearchScreen.SearchScreen
+import com.example.yourinteresests.android.ui.screens.confirmcode.ConfirmCodeScreen
 import com.example.yourinteresests.android.ui.screens.detailsplace.SharedDetailsPlace
+import com.example.yourinteresests.android.ui.screens.finisheduserregister.FinishedUserRegister
 import com.example.yourinteresests.android.ui.screens.proflescreen.FavoriteScreen.NearbyInterests
+import com.example.yourinteresests.android.ui.screens.singup.SingUpScreen
 import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
 import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
 
@@ -28,7 +31,7 @@ fun NavGraphApp(navController: NavHostController, isShowBottomBar: MutableState<
     SharedTransitionLayout {
         NavHost(
             navController = navController,
-            startDestination = BottomBarScreen.NearbyInterests.route
+            startDestination = StackScreens.SingUp.name
         ) {
             composable(BottomBarScreen.NearbyInterests.route) {
                 NearbyInterests(isShowBottomBar = isShowBottomBar)
@@ -62,8 +65,17 @@ fun NavGraphApp(navController: NavHostController, isShowBottomBar: MutableState<
                     )
             }
 
+            composable(StackScreens.SingUp.name) {
+                SingUpScreen(navController = navController)
+            }
 
+            composable(StackScreens.ConfirmCode.name) {
+                ConfirmCodeScreen()
+            }
 
+            composable(StackScreens.FinishedUserRegister.name) {
+                FinishedUserRegister()
+            }
 
 
             composable(BottomBarScreen.Profile.route) {

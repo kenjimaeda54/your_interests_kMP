@@ -1,5 +1,6 @@
 package com.example.yourinteresests.android.ui.screens.singup
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -13,17 +14,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,33 +40,72 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.yourinteresests.android.YourInterestTheme
 import com.example.yourinteresests.android.theme.fontsKulimPark
+import com.example.yourinteresests.android.utils.ComposableLifecycle
+import com.example.yourinteresests.android.utils.StackScreens
+import com.example.yourinteresests.android.utils.rememberImeState
 import com.example.yourinterest.viewmodel.AuthSapabaseViewModel
+import com.spr.jetpack_loading.components.indicators.CircularPulsatingIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SingUpScreen() {
+fun SingUpScreen(navController: NavController) {
     var phoneUser by remember {
         mutableStateOf(TextFieldValue(""))
     }
+    val scrollState = rememberScrollState()
+    val keyboardController = LocalSoftwareKeyboardController.current
     val configuration = LocalConfiguration.current
     val interactionSource = remember { MutableInteractionSource() }
-    val buttonInteractionSourceClickable by interactionSource.collectIsPressedAsState()
     val viewModel = viewModel<AuthSapabaseViewModel>()
+    val successSendCode by viewModel.successSendCodeOTP.collectAsState()
+    val imeState = rememberImeState()
 
+    LaunchedEffect(key1 = imeState.value) {
+        if (imeState.value) {
+            scrollState.animateScrollTo(scrollState.maxValue + 300, tween(300))
+        }
+    }
+    
+
+    LaunchedEffect(key1 = successSendCode.data) {
+        if (successSendCode.data == true) {
+            navController.navigate(StackScreens.ConfirmCode.name) {
+                popUpTo(StackScreens.SingUp.name) {
+                    inclusive = true
+
+                }
+            }
+        }
+    }
+    
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.secondary
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 13.dp, vertical = 20.dp),
+            modifier = Modifier
+                .padding(horizontal = 13.dp, vertical = 20.dp)
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .zIndex(1f),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -132,6 +179,22 @@ fun SingUpScreen() {
                             modifier = Modifier.fillMaxWidth(),
                             value = phoneUser,
                             maxLines = 1,
+                            enabled = !successSendCode.isLoading,
+                            keyboardActions = KeyboardActions(onDone = {
+                                keyboardController?.hide()
+                                if (phoneUser.text.length >= 10) {
+                                    viewModel.sendCodeOTP("+55${phoneUser.text}")
+
+                                }
+                            }
+
+                            ),
+                            keyboardOptions = KeyboardOptions(
+                                autoCorrectEnabled = false,
+                                imeAction = ImeAction.Done,
+                                capitalization = KeyboardCapitalization.None,
+                                keyboardType = KeyboardType.Number
+                            ),
                             textStyle = TextStyle(
                                 fontFamily = fontsKulimPark,
                                 fontWeight = FontWeight.Normal,
@@ -169,7 +232,6 @@ fun SingUpScreen() {
                                         isError = false,
                                         interactionSource = interactionSource,
                                         colors = OutlinedTextFieldDefaults.colors(
-
                                             disabledBorderColor = MaterialTheme.colorScheme.primary.copy(
                                                 0.5f
                                             ),
@@ -196,6 +258,7 @@ fun SingUpScreen() {
                         .padding(top = 20.dp),
                     shape = RoundedCornerShape(corner = CornerSize(10.dp)),
                     contentPadding = PaddingValues(horizontal = 3.dp, vertical = 10.dp),
+                    enabled = !successSendCode.isLoading || phoneUser.text.length >= 10,
                     elevation = ButtonDefaults.elevatedButtonElevation(
                         defaultElevation = 0.dp,
                         pressedElevation = 0.dp,
@@ -206,10 +269,12 @@ fun SingUpScreen() {
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.secondary,
                         contentColor = MaterialTheme.colorScheme.secondary,
-                        disabledContentColor = MaterialTheme.colorScheme.secondary,
-                        disabledContainerColor = MaterialTheme.colorScheme.secondary
+                        disabledContentColor = MaterialTheme.colorScheme.secondary.copy(0.7f),
+                        disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(0.7f)
                     ),
-                    onClick = { /*TODO*/ }) {
+                    onClick = {
+                        viewModel.sendCodeOTP(phone = "+55${phoneUser.text}")
+                    }) {
                     Text(
                         text = "Entrar",
                         fontFamily = fontsKulimPark,
@@ -220,5 +285,31 @@ fun SingUpScreen() {
                 }
             }
         }
+        if (successSendCode.isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .zIndex(2f), contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(30.dp),
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    trackColor = MaterialTheme.colorScheme.primaryContainer.copy(0.5f)
+                )
+            }
+
+        }
+
+
     }
+}
+
+@Composable
+@Preview
+fun SingUpScreenPreview() {
+    YourInterestTheme {
+        SingUpScreen(navController = rememberNavController())
+    }
+
 }
