@@ -13,7 +13,7 @@ import ToastUI
 //https://www.quanshousio.com/ToastUI/documentation/toastui/about
 @available(iOS 17.0, *)
 struct SingUpScreen: View {
-	@State private var phone: String = ""
+	@Binding var phone:  String
 	@EnvironmentObject private var graphNavigation: NavigationGraph
 	@StateObject private var stateSingUp = SingUpState()
 	@State private var isShowToastError = false
@@ -29,9 +29,7 @@ struct SingUpScreen: View {
 						Text("Bem vindo")
 							.font(.custom(FontsApp.bold, size: 35))
 							.foregroundStyle(ColorsApp.black)
-						
-						
-						
+
 						Text("Seus interesses na palma da mão")
 							.font(.custom(FontsApp.regular, size: 20))
 							.foregroundStyle(ColorsApp.black)
@@ -144,7 +142,7 @@ struct SingUpScreen: View {
 
 @available(iOS 17.0, *)
 #Preview {
-	SingUpScreen()
+	SingUpScreen(phone: .constant(""))
 		.environmentObject(NavigationGraph())
 }
 
