@@ -93,7 +93,7 @@ fun SingUpScreen(navController: NavController) {
 
     LaunchedEffect(key1 = successSendCode.data) {
         if (successSendCode.data == true) {
-            navController.navigate(StackScreens.ConfirmCode.name) {
+            navController.navigate(StackScreens.ConfirmCode.name + "/+55${phoneUser.text}") {
                 popUpTo(StackScreens.SingUp.name) {
                     inclusive = true
 

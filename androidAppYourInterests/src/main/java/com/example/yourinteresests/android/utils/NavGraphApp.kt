@@ -69,8 +69,9 @@ fun NavGraphApp(navController: NavHostController, isShowBottomBar: MutableState<
                 SingUpScreen(navController = navController)
             }
 
-            composable(StackScreens.ConfirmCode.name) {
-                ConfirmCodeScreen()
+            composable(StackScreens.ConfirmCode.name + "/{phone}", arguments = listOf(navArgument("phone") { type = NavType.StringType })) {
+                val phone = it.arguments?.getString("phone") ?: return@composable
+                ConfirmCodeScreen(phone = phone, navController = navController)
             }
 
             composable(StackScreens.FinishedUserRegister.name) {
