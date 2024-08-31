@@ -298,8 +298,8 @@ fun SingUpScreen(navController: NavController) {
             viewModel.clearData()
             MotionToast.createColorToast(
                 LocalContext.current as Activity,
-                       "Failed ☹️",
-                "Nao foi possivel enviar o SMS para este numeero verifique se o mesmo esta correto",
+                       "Falhou ☹️",
+                "Não foi possível enviar o SMS para este número verifique se o mesmo está correto",
                 MotionToastStyle.ERROR,
                 MotionToast.GRAVITY_BOTTOM,
                 MotionToast.LONG_DURATION,

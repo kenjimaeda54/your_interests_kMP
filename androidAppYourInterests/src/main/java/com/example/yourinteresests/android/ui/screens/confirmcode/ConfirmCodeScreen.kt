@@ -1,19 +1,22 @@
 package com.example.yourinteresests.android.ui.screens.confirmcode
 
+import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -23,50 +26,50 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.yourinteresests.android.R
 import com.example.yourinteresests.android.YourInterestTheme
 import com.example.yourinteresests.android.theme.fontsKulimPark
-import com.example.yourinteresests.android.ui.screens.confirmcode.view.InputCode
+import com.example.yourinteresests.android.ui.screens.confirmcode.view.OtpTextField
+import com.example.yourinteresests.android.utils.StackScreens
 import com.example.yourinterest.viewmodel.AuthSapabaseViewModel
 import kotlinx.coroutines.delay
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 @Composable
 fun ConfirmCodeScreen(phone: String, navController: NavHostController) {
-    var oneTextField by remember {
-        mutableStateOf("")
-    }
-    var twoTextField by remember {
-        mutableStateOf("")
-    }
-    var threeTextField by remember {
-        mutableStateOf("")
-    }
-    var fourTextField by remember {
-        mutableStateOf("")
-    }
-    var fiveTextField by remember {
-        mutableStateOf("")
-    }
-    var sixTextField by remember {
+    var optTextField by remember {
         mutableStateOf("")
     }
     val viewModel = viewModel<AuthSapabaseViewModel>()
-    val configuration = LocalConfiguration.current
-    val focusManager = LocalFocusManager.current
-    val sizeInput = (configuration.screenWidthDp.toFloat() * 0.14).toInt()
+    val verifyCode by viewModel.successVerifyCodeOTP.collectAsState()
     var timer by remember { mutableIntStateOf(60) }
 
     LaunchedEffect(key1 = timer) {
         while (timer > 0) {
             delay(1000)
             timer -= 1
+        }
+    }
+
+    LaunchedEffect(key1 = verifyCode.data) {
+        if (verifyCode.data == true) {
+            navController.navigate(StackScreens.FinishedUserRegister.name) {
+                popUpTo(StackScreens.ConfirmCode.name) {
+                    inclusive = true
+
+                }
+            }
         }
     }
 
@@ -93,50 +96,48 @@ fun ConfirmCodeScreen(phone: String, navController: NavHostController) {
                 color = MaterialTheme.colorScheme.primaryContainer,
 
                 )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                InputCode(value = oneTextField, onValueChange = {
-                    oneTextField = it
-                    focusManager.moveFocus(FocusDirection.Next)
-                }, width = sizeInput, height = sizeInput)
-                InputCode(value = twoTextField, onValueChange = {
-                    twoTextField = it
-                    focusManager.moveFocus(FocusDirection.Next)
-                }, width = sizeInput, height = sizeInput)
-                InputCode(value = threeTextField, onValueChange = {
-                    threeTextField = it
-                    focusManager.moveFocus(FocusDirection.Next)
-                }, width = sizeInput, height = sizeInput)
-                InputCode(value = fourTextField, onValueChange = {
-                    fourTextField = it
-                    focusManager.moveFocus(FocusDirection.Next)
-                }, width = sizeInput, height = sizeInput)
-                InputCode(value = fiveTextField, onValueChange = {
-                    fiveTextField = it
-                    focusManager.moveFocus(FocusDirection.Next)
-                }, width = sizeInput, height = sizeInput)
-                InputCode(value = sixTextField, onValueChange = {
-                    sixTextField = it
-                    focusManager.clearFocus()
-                }, width = sizeInput, height = sizeInput)
+            OtpTextField(otpText = optTextField, onOtpTextChange ={ value,_ ->
+                optTextField = value
+            } , sizeInput = 60.dp) {
+               viewModel.verifyCodeOTP(phone, optTextField)
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 30.dp), contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "$timer",
-                    fontFamily = fontsKulimPark,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    fontSize = 18.sp
+            if (timer > 0) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 30.dp), contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "$timer",
+                        fontFamily = fontsKulimPark,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        fontSize = 18.sp
+                    )
+                }
+            }
+
+            if (verifyCode.exception != null) {
+                viewModel.clearData()
+                MotionToast.createColorToast(
+                    LocalContext.current as Activity,
+                    "Falhou ☹️",
+                    "Numero digitado esta incorreto",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(LocalContext.current, R.font.kulimpark_regular)
+
                 )
             }
+
             if (timer == 0) {
-                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 30.dp),
+                    contentAlignment = Alignment.Center
+                ) {
                     Text(
                         modifier = Modifier.clickable {
                             timer = 60

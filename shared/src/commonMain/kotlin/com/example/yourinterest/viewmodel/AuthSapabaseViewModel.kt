@@ -17,6 +17,7 @@ class AuthSapabaseViewModel: CoroutineViewModel(), KoinComponent {
 
     fun clearData() {
         _successSendCodeOTP.value = DataOrException(isLoading = false)
+        _successVerifyCodeOTP.value = DataOrException(isLoading = false)
     }
 
     fun sendCodeOTP(phone: String) {

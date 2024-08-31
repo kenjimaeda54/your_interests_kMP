@@ -62,7 +62,6 @@ superbase-gotrue = {module = "io.github.jan-tennert.supabase:gotrue-kt", version
 superbase-realtime = {module = "io.github.jan-tennert.supabase:realtime-kt", version.ref = "superbase-core"}
 motion-toast = {module = "com.github.Spikeysanju:MotionToast", version.ref = "motion-toast"}
 
-
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }

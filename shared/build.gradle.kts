@@ -27,9 +27,11 @@ kotlin {
     val properties = Properties()
     properties.load(project.rootProject.file("local.properties").inputStream())
     val apikey = properties.getProperty("API_KEY")
+    val supabaseKey = properties.getProperty("SUPABASE_KEY")
     
     buildConfig {
         buildConfigField("String", "API_KEY", "\"$apikey\"")
+        buildConfigField("String", "SUPABASE_KEY", "\"$supabaseKey\"")
     }
 
 
