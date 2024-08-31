@@ -12,7 +12,8 @@ class AuthSapabaseViewModel: CoroutineViewModel(), KoinComponent {
     private val client: AuthSapabaseClient by inject()
     private val _successSendCodeOTP = MutableStateFlow<DataOrException<Boolean, Exception, Boolean>>(DataOrException(isLoading = false))
     val successSendCodeOTP = _successSendCodeOTP
-
+    private  val _successVerifyCodeOTP = MutableStateFlow<DataOrException<Boolean, Exception, Boolean>>(DataOrException(isLoading = false))
+    val successVerifyCodeOTP = _successVerifyCodeOTP
 
     fun clearData() {
         _successSendCodeOTP.value = DataOrException(isLoading = false)
@@ -27,5 +28,11 @@ class AuthSapabaseViewModel: CoroutineViewModel(), KoinComponent {
         }
     }
 
+    fun verifyCodeOTP(phone: String, code: String) {
+        scope.launch {
+             _successVerifyCodeOTP.value = DataOrException(isLoading = true)
+             _successVerifyCodeOTP.value = client.verifyCodeOTP(phone, code)
+        }
+    }
 
 }

@@ -15,7 +15,7 @@ import ToastUI
 struct SingUpScreen: View {
 	@Binding var phone:  String
 	@EnvironmentObject private var graphNavigation: NavigationGraph
-	@StateObject private var stateSingUp = SingUpState()
+	@StateObject private var authState = AuthState()
 	@State private var isShowToastError = false
  
 	
@@ -57,7 +57,7 @@ struct SingUpScreen: View {
 									.foregroundStyle(ColorsApp.black.opacity(0.5))
 													
 								)
-								.disabled(stateSingUp.loading == .loading)
+								.disabled(authState.loading == .loading)
 								.keyboardType(.numbersAndPunctuation)
 								.submitLabel(.done)
 								.autocorrectionDisabled()
@@ -88,10 +88,10 @@ struct SingUpScreen: View {
 									.font(.custom(FontsApp.light, size: 18))
 									.foregroundStyle(ColorsApp.white)
 							}
-							.disabled(phone.count <= 10 || stateSingUp.loading == .loading)
+							.disabled(phone.count <= 10 || authState.loading == .loading)
 							.padding([.vertical],7)
 							.frame(minWidth: 0,maxWidth: .infinity)
-							.background( phone.count <= 10 || stateSingUp.loading == .loading ? ColorsApp.gray.clipShape(RoundedRectangle(cornerRadius: 10)) :	ColorsApp.black.clipShape(RoundedRectangle(cornerRadius: 10)))
+							.background( phone.count <= 10 || authState.loading == .loading ? ColorsApp.gray.clipShape(RoundedRectangle(cornerRadius: 10)) :	ColorsApp.black.clipShape(RoundedRectangle(cornerRadius: 10)))
 						}
 						.padding([.horizontal], 13)
 						.padding([.vertical],15)
@@ -100,7 +100,7 @@ struct SingUpScreen: View {
 						Spacer(minLength: geometry.size.height * 0.3)
 					}
 					
-					if(stateSingUp.loading == .loading) {
+					if(authState.loading == .loading) {
 						ProgressView()
 							.tint(ColorsApp.black)
 							.frame(width: 100,height: 100)
@@ -111,8 +111,7 @@ struct SingUpScreen: View {
 				.padding([.horizontal],13)
 				.frame(minWidth: 0,maxWidth: .infinity, minHeight: 0,maxHeight: .infinity)
 				.background(ColorsApp.gray.opacity(0.7))
-				 
-				.onChange(of: stateSingUp.loading) { _, newValue in
+				.onChange(of: authState.loading) { _, newValue in
 					if(newValue == .success) {
 						graphNavigation.switchView = .confirmCode
 						isShowToastError = false
@@ -151,7 +150,7 @@ extension SingUpScreen {
 	
 	func sendCode(with phone: String) {
 		Task {
-			await stateSingUp.sendCode(with: "+55\(phone)")
+			await authState.sendCode(with: "+55\(phone)")
 		}
 	}
 	

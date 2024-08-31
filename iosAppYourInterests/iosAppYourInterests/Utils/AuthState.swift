@@ -11,11 +11,31 @@ import shared
 
 
 @MainActor
-class SingUpState: ObservableObject {
+class AuthState: ObservableObject {
 	@Published  var loading: LoadingState = .none
 	var isSuccessMessage: Bool = false
+	var verifyCode: Bool = false
 	private var viewModel = AuthSapabaseViewModel()
 	
+	
+	func verifyCode(with phone: String,code: String) async {
+		loading = .loading
+		viewModel.verifyCodeOTP(phone: phone, code: code)
+		
+		for await verify in viewModel.successVerifyCodeOTP {
+			
+			if(verify.exception != nil) {
+				print("failed verify code \(String(describing: verify.exception))")
+				loading = .failure
+			}
+			
+			if let data = verify.data as? Bool {
+				loading = .success
+				verifyCode = data
+				
+			}
+		}
+	}
 	
 	func sendCode(with phone: String) async {
 		loading = .loading
@@ -41,9 +61,4 @@ class SingUpState: ObservableObject {
 		}
 		
 	}
-	
-	
-	
-	
-	
 }
