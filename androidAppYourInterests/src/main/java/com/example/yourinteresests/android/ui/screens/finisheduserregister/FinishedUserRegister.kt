@@ -113,7 +113,7 @@ fun FinishedUserRegister(phone: String) {
                                 focusRequester.requestFocus()
                             }
                         },
-                        text = "Clique para informar o nome",
+                        text = userName.ifEmpty { "Clique para inserir seu  nome" },
                         fontFamily = fontsKulimPark,
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp,
@@ -129,7 +129,7 @@ fun FinishedUserRegister(phone: String) {
                         color = MaterialTheme.colorScheme.primaryContainer
                     )
                     Text(
-                        text = "phone",
+                        text =  phone,
                         fontFamily = fontsKulimPark,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,

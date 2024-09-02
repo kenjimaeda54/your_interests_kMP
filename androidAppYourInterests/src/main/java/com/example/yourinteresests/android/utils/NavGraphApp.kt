@@ -79,7 +79,6 @@ fun NavGraphApp(navController: NavHostController, isShowBottomBar: MutableState<
                 FinishedUserRegister(phone)
             }
 
-
             composable(BottomBarScreen.Profile.route) {
                 ProfileScreen()
             }

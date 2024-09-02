@@ -28,7 +28,7 @@ struct GraphManager: View {
 						.transition(transition)
 					
 				case .finishedRegister:
-					CompletedRegisterUserScreen()
+					CompletedRegisterUserScreen(phone: $phone)
 						.environmentObject(graph)
 						.transition(transition)
 			}
