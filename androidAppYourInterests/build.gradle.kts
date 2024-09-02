@@ -86,4 +86,6 @@ dependencies {
     //motion toast
     implementation(libs.motion.toast)
 
+    //camera
+    implementation(libs.compose.camera)
 }
