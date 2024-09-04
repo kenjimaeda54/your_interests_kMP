@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
 
+
     //seriliation
     alias(libs.plugins.serialization)
 
@@ -64,6 +65,9 @@ kotlin {
             implementation(libs.superbase.gotrue)
             implementation(libs.superbase.realtime)
             implementation(libs.superbase.postgrest)
+            implementation(libs.superbase.storage)
+            implementation(libs.peekaboo.image)
+            implementation(libs.peekaboo.image.picker)
          }
 
         androidMain.dependencies {
@@ -93,3 +97,4 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
+

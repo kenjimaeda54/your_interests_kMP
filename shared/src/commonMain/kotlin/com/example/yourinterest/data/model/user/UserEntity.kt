@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserEntityResponse(
-    val id: String,
+    val id:  Int,
     val name: String,
     val phone: String,
     val photoUrl: String

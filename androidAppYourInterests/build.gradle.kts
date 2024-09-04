@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.yourinteresests.android"
-        minSdk = 24
+        minSdk = 26 //precisa alterar para 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.bottom.navigation)
     debugImplementation(libs.compose.ui.tooling)
+
+    //mapbox
     implementation(libs.mapbox.compose)
     implementation(libs.mapbox.android)
 
@@ -88,4 +90,5 @@ dependencies {
 
     //camera
     implementation(libs.compose.camera)
+    implementation(libs.accompanist.permission)
 }

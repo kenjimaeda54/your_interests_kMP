@@ -1,7 +1,10 @@
 package com.example.yourinterest.viewmodel
 
+import com.example.yourinterest.data.client.StorageSupabaseClient
 import com.example.yourinterest.data.model.user.UserEntityResponse
 import com.example.yourinterest.data.model.user.UserModel
+import com.example.yourinterest.data.model.user.UserWithPhotoByTeArray
+import com.example.yourinterest.data.model.user.toUserModel
 import com.example.yourinterest.data.repository.UserRepository
 import com.example.yourinterest.util.CoroutineViewModel
 import com.example.yourinterest.util.DataOrException
@@ -13,6 +16,7 @@ import org.koin.core.component.inject
 
 class UserSapabaseViewModel: CoroutineViewModel(), KoinComponent {
     private val repository : UserRepository by inject()
+    private  val storageSupabaseClient: StorageSupabaseClient by inject()
     private val _insertIsSuccess = MutableStateFlow<DataOrException<Boolean, Exception, Boolean>>(
         DataOrException(data = null, exception = null, isLoading = false)
     )
@@ -34,10 +38,23 @@ class UserSapabaseViewModel: CoroutineViewModel(), KoinComponent {
         _user.value = DataOrException(isLoading = false)
     }
 
-    fun insertUser(user: UserEntityResponse) {
+    fun insertUser(user: UserWithPhotoByTeArray) {
         scope.launch {
             _insertIsSuccess.value = DataOrException(isLoading = true)
-            _insertIsSuccess.value = repository.insertUser(user)
+            storageSupabaseClient.insertPhotoStorage(userId = user.phone, byteArray = user.photo)
+            val resultURL = storageSupabaseClient.downloadPhotoStorage(userId = user.phone)
+            if (resultURL.exception != null) {
+               _insertIsSuccess.value = DataOrException(data = null, exception = resultURL.exception, isLoading = false)
+                return@launch
+            }
+            val userEntity = UserEntityResponse(
+                id = user.id,
+                name = user.name,
+                photoUrl = resultURL.data!!,
+                phone = user.phone
+            )
+            _user.value = DataOrException(data = userEntity.toUserModel(), exception = null, isLoading = false)
+            _insertIsSuccess.value = repository.insertUser(user = userEntity)
         }
     }
 }

@@ -17,6 +17,7 @@
 		81263DC62C70262800CE92D8 /* CustoCameraStateTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81263DC52C70262800CE92D8 /* CustoCameraStateTransition.swift */; };
 		81263DC92C7033A800CE92D8 /* UiColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81263DC82C7033A800CE92D8 /* UiColor.swift */; };
 		81263DCB2C7036AA00CE92D8 /* CustomStandardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81263DCA2C7036AA00CE92D8 /* CustomStandardStyle.swift */; };
+		814F13C72C8720D700389AE6 /* CompletedRegisterUserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814F13C62C8720D700389AE6 /* CompletedRegisterUserState.swift */; };
 		81511B972C6A337500E67BF0 /* CustomAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81511B962C6A337500E67BF0 /* CustomAsyncImage.swift */; };
 		8153C8262C6E7CD900BDC64E /* NavigationMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8153C8252C6E7CD900BDC64E /* NavigationMapController.swift */; };
 		8153C8292C6E8ECC00BDC64E /* MapboxNavigationCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8153C8282C6E8ECC00BDC64E /* MapboxNavigationCore */; };
@@ -97,6 +98,7 @@
 		81263DC52C70262800CE92D8 /* CustoCameraStateTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustoCameraStateTransition.swift; sourceTree = "<group>"; };
 		81263DC82C7033A800CE92D8 /* UiColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiColor.swift; sourceTree = "<group>"; };
 		81263DCA2C7036AA00CE92D8 /* CustomStandardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStandardStyle.swift; sourceTree = "<group>"; };
+		814F13C62C8720D700389AE6 /* CompletedRegisterUserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedRegisterUserState.swift; sourceTree = "<group>"; };
 		81511B962C6A337500E67BF0 /* CustomAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAsyncImage.swift; sourceTree = "<group>"; };
 		8153C8252C6E7CD900BDC64E /* NavigationMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationMapController.swift; sourceTree = "<group>"; };
 		815611D12C739A0300AFB1CE /* MaganagerTabEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaganagerTabEnvironment.swift; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				81B7AF722C7FB17700FE1176 /* CompletedRegisterUserScreen.swift */,
+				814F13C62C8720D700389AE6 /* CompletedRegisterUserState.swift */,
 			);
 			path = CompletedRegisterUser;
 			sourceTree = "<group>";
@@ -589,6 +592,7 @@
 				815611D22C739A0300AFB1CE /* MaganagerTabEnvironment.swift in Sources */,
 				81FE46642C5D1A5D00FCE904 /* FontsApp.swift in Sources */,
 				817EFC982C7BDAF0005FC448 /* ButtonBackTopAppBar.swift in Sources */,
+				814F13C72C8720D700389AE6 /* CompletedRegisterUserState.swift in Sources */,
 				81CD62F52C6D853B00413CE9 /* WrapperIdentifiblePhotosPlaces.swift in Sources */,
 				81263DC62C70262800CE92D8 /* CustoCameraStateTransition.swift in Sources */,
 				81819C4E2C7D461C005D5E87 /* ProfileState.swift in Sources */,
