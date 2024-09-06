@@ -23,6 +23,7 @@ class CompletedRegisterUserState: ObservableObject  {
 		for await result in viewModel.insertIsSuccess {
 			if(result.exception != nil ){
 				loading = .failure
+				print("error insert user: \(String(describing: result.exception))")
 			}
 			
 			if let data = result.data as? Bool {

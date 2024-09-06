@@ -19,6 +19,7 @@ struct CompletedRegisterUserScreen: View {
 	@FocusState private var focus: Bool
 	@State private var isShowCamera = false
 	@State private var photo: Data = Data()
+	@State private var goNewRoute = false
 	@ObservedObject private var cameraManager:  CameraManager = .init(
 		outputType: .photo,
 		cameraPosition: .front,
@@ -31,73 +32,90 @@ struct CompletedRegisterUserScreen: View {
 		)}
 	
 	var body: some View {
-		VStack {
-			if(isShowCamera) {
-				MCameraController(manager: cameraManager)
-					.onImageCaptured { image in
-						if let data = image.pngData() {
-							photo = data
-							Task {
-								await stateRegisterUser.registerUser(user: user)
+		NavigationStack {
+			VStack {
+				if(isShowCamera) {
+					MCameraController(manager: cameraManager)
+						.onImageCaptured { image in
+							if let data = image.pngData() {
+								photo = data
+								Task {
+									await stateRegisterUser.registerUser(user: user)
+								}
+								
 							}
+							isShowCamera = false
 							
 						}
-						isShowCamera = false
+						.cameraScreen(CustomCameraView.init)
+						.onCloseController {
+							isShowCamera = false
+						}
+				}else {
+					Spacer()
+					Button(action: {
+						isShowCamera = true
+					}, label: {
+						Image("photo_user")
+							.resizable()
+							.frame(width: 80,height: 80)
+							.clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
 						
-					}
-					.cameraScreen(CustomCameraView.init)
-					.onCloseController {
-						isShowCamera = false
-					}
-			}else {
-				Button(action: {
-					isShowCamera = true
-				}, label: {
-					Image("photo_user")
-						.resizable()
-						.frame(width: 80,height: 80)
-						.clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+					})
+					Text("Clique acima para trocar a foto")
+						.font(.custom(FontsApp.light, size: 18))
+						.foregroundStyle(ColorsApp.black)
 					
-				})
-				Text("Clique acima para trocar a foto")
-					.font(.custom(FontsApp.light, size: 18))
-					.foregroundStyle(ColorsApp.black)
-				
-				
-				VStack(alignment: .leading,spacing: 5) {
-					HStack {
-						Text("Nome:")
-							.font(.custom(FontsApp.regular, size: 20))
-							.foregroundStyle(ColorsApp.black)
-						
-						Button(action: {
-							showSheet = true
-							focus = true
-						}, label: {
-							Text("Clique aqui para inserir nome")
-								.font(.custom(FontsApp.light, size: 18))
-								.foregroundStyle(ColorsApp.black.opacity(0.8))
+					
+					VStack(alignment: .leading,spacing: 5) {
+						HStack {
+							Text("Nome:")
+								.font(.custom(FontsApp.regular, size: 20))
+								.foregroundStyle(ColorsApp.black)
 							
-						})
+							Button(action: {
+								showSheet = true
+								focus = true
+							}, label: {
+								Text("Clique aqui para inserir nome")
+									.font(.custom(FontsApp.light, size: 18))
+									.foregroundStyle(ColorsApp.black.opacity(0.8))
+								
+							})
+							
+						}
+						HStack {
+							Text("Telefone:")
+								.font(.custom(FontsApp.regular, size: 20))
+								.foregroundStyle(ColorsApp.black)
+							
+							
+							Text(phone)
+								.font(.custom(FontsApp.bold,  size: 20))
+								.foregroundStyle(ColorsApp.black)
+							
+							
+						}
 						
 					}
-					HStack {
-						Text("Telefone:")
-							.font(.custom(FontsApp.regular, size: 20))
-							.foregroundStyle(ColorsApp.black)
-						
-						
-						Text(phone)
-							.font(.custom(FontsApp.bold,  size: 20))
-							.foregroundStyle(ColorsApp.black)
-						
-						
-					}
+					.padding([.top],30)
+					.padding(.horizontal, 20)
+					
 				}
-				.padding([.top],30)
-				.padding(.horizontal, 20)
+				Spacer()
+				ButtonDefault(
+					action: {
+						goNewRoute = true
+					}, title: "Confrimar", isDisable: userName.isEmpty || photo.isEmpty
+				)
+				.padding([.horizontal], 13)
+				.padding(.bottom,20)
 				
 			}
+			.navigationDestination(isPresented:  $goNewRoute) {
+				TabCustomView()
+			}
+			
 		}
 		.frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,maxWidth: .infinity, minHeight: 0,maxHeight: .infinity)
 		.background(ColorsApp.gray.opacity(0.7))

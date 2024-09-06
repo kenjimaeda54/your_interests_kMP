@@ -81,7 +81,7 @@ fun FinishedUserRegister(phone: String) {
     var isClickedShowCamera by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val cameraState = rememberCameraState()
-    var camSelector by rememberCamSelector(CamSelector.Back)
+    var camSelector by rememberCamSelector(CamSelector.Front)
     val cameraPermission = rememberPermissionState(android.Manifest.permission.CAMERA)
     val userName by remember {
         mutableStateOf("")
@@ -129,6 +129,7 @@ fun FinishedUserRegister(phone: String) {
                             modifier = Modifier
                                 .size(30.dp)
                                 .clickable {
+                                    //quando da erro de combine object é porque enum commo o CamSelector
                                     camSelector =
                                         if (camSelector == CamSelector.Back) CamSelector.Front else CamSelector.Back
                                 },

@@ -54,6 +54,7 @@
 		81CD62F52C6D853B00413CE9 /* WrapperIdentifiblePhotosPlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CD62F42C6D853B00413CE9 /* WrapperIdentifiblePhotosPlaces.swift */; };
 		81CE82E72C807BD500BB7151 /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CE82E62C807BD500BB7151 /* GraphManager.swift */; };
 		81D466EA2C8B6FAF0086A379 /* KotlinByteArray+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D466E92C8B6FAF0086A379 /* KotlinByteArray+Extension.swift */; };
+		81D466EC2C8B80600086A379 /* ButtonDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D466EB2C8B80600086A379 /* ButtonDefault.swift */; };
 		81ED9BE32C695B2D004BF053 /* NearbyInterestsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ED9BE22C695B2D004BF053 /* NearbyInterestsState.swift */; };
 		81ED9BE62C699B7B004BF053 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ED9BE52C699B7B004BF053 /* PlaceAnnotation.swift */; };
 		81F1F4642C666ED000511205 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F1F4632C666ED000511205 /* LocationManager.swift */; };
@@ -132,6 +133,7 @@
 		81CD62F42C6D853B00413CE9 /* WrapperIdentifiblePhotosPlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapperIdentifiblePhotosPlaces.swift; sourceTree = "<group>"; };
 		81CE82E62C807BD500BB7151 /* GraphManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
 		81D466E92C8B6FAF0086A379 /* KotlinByteArray+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinByteArray+Extension.swift"; sourceTree = "<group>"; };
+		81D466EB2C8B80600086A379 /* ButtonDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDefault.swift; sourceTree = "<group>"; };
 		81ED9BE22C695B2D004BF053 /* NearbyInterestsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyInterestsState.swift; sourceTree = "<group>"; };
 		81ED9BE52C699B7B004BF053 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		81F1F4632C666ED000511205 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -289,7 +291,6 @@
 			children = (
 				81CD62EB2C6D302400413CE9 /* Screens */,
 				81C046132C5EB7EF0072EFD4 /* View */,
-				816FD6512C5BC52C00232E27 /* TabCustomView */,
 			);
 			path = Ui;
 			sourceTree = "<group>";
@@ -408,6 +409,7 @@
 				81511B962C6A337500E67BF0 /* CustomAsyncImage.swift */,
 				817EFC972C7BDAF0005FC448 /* ButtonBackTopAppBar.swift */,
 				81CE82E62C807BD500BB7151 /* GraphManager.swift */,
+				81D466EB2C8B80600086A379 /* ButtonDefault.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -415,6 +417,7 @@
 		81CD62EB2C6D302400413CE9 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				816FD6512C5BC52C00232E27 /* TabCustomView */,
 				81B7AF712C7FB12300FE1176 /* CompletedRegisterUser */,
 				81B7AF6B2C7F8CBC00FE1176 /* ConfirmCode */,
 				815FD5BC2C7E3EA9009B005E /* SingUp */,
@@ -575,6 +578,7 @@
 				81F1F4642C666ED000511205 /* LocationManager.swift in Sources */,
 				8123FBB52C7120B0000A8761 /* NavigationRouteScreen.swift in Sources */,
 				81FE464D2C5D160300FCE904 /* ColorsApp.swift in Sources */,
+				81D466EC2C8B80600086A379 /* ButtonDefault.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				816FD6532C5BC55C00232E27 /* StateNavigationTabView.swift in Sources */,
 				81A939222C76629C0081F298 /* RowItemShimmer.swift in Sources */,
