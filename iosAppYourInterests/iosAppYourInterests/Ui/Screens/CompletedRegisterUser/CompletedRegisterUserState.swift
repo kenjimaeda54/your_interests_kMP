@@ -17,7 +17,7 @@ class CompletedRegisterUserState: ObservableObject  {
 	
 	
 	
-	func registerUser(user: UserEntityResponse) async {
+	func registerUser(user: UserWithPhotoByTeArray) async {
 		loading = .loading
 		viewModel.insertUser(user: user)
 		for await result in viewModel.insertIsSuccess {

@@ -41,7 +41,7 @@ struct ConfirmCodeScreen: View {
 						.onChange(of: otp) { newOtp in
 							if newOtp.count == numbersOfFIelds {
 								Task {
-								  await	authState.verifyCode(with: "+55\(phone)", code: otp)
+								  //await	authState.verifyCode(with: "+55\(phone)", code: otp)
 									
 								}
 							}

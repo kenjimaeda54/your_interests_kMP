@@ -12,7 +12,8 @@ struct iOSApp: App {
 	
 	var body: some Scene {
 		WindowGroup {
-			 GraphManager()
+			 //GraphManager()
+			CompletedRegisterUserScreen(phone: .constant("+5535902840"))
 		}
  
 	}

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.random.Random
 
 class UserSapabaseViewModel: CoroutineViewModel(), KoinComponent {
     private val repository : UserRepository by inject()
@@ -48,7 +49,7 @@ class UserSapabaseViewModel: CoroutineViewModel(), KoinComponent {
                 return@launch
             }
             val userEntity = UserEntityResponse(
-                id = user.id,
+                id =   (Random.nextInt() * 10000 + Random.nextInt() + Random.nextInt() * 3),
                 name = user.name,
                 photoUrl = resultURL.data!!,
                 phone = user.phone

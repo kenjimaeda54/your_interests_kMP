@@ -8,7 +8,6 @@ data class UserModel(
 )
 
 data class  UserWithPhotoByTeArray(
-    val id: Int,
     val name: String,
     val phone: String,
     val photo: ByteArray

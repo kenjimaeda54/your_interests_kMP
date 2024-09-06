@@ -163,10 +163,6 @@ fun FinishedUserRegister(phone: String) {
                                                 val encoded =
                                                     Files.readAllBytes(Paths.get(result.savedUri!!.path))
                                                 val userModel = UserWithPhotoByTeArray(
-                                                    id = UUID
-                                                        .randomUUID()
-                                                        .toString()
-                                                        .hashCode(),
                                                     name = userName,
                                                     phone = phone,
                                                     photo = encoded
