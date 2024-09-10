@@ -18,11 +18,8 @@ struct SingUpScreen: View {
 	@StateObject private var authState = AuthState()
 	@State private var isShowToastError = false
 	@StateObject private var locationManager = LocationManager()
-	
-	
-	
+
 	var body: some View {
-		
 		GeometryReader { geometry in
 			ZStack {
 				VStack(alignment: .leading,spacing: 10 ) {

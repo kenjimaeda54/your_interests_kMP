@@ -12,6 +12,7 @@ import SwiftUI
 struct GraphManagerView: View {
 	@StateObject private var graph = NavigationGraph()
 	@StateObject private var locationEnviroment = LocationEnvironment()
+	@StateObject private var userEnvironment = UserEnvironment()
 	@State private var phone = ""
 	let transition: AnyTransition = .asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top))
 	
@@ -47,6 +48,7 @@ struct GraphManagerView: View {
 		.animation(.default,value: graph.switchView)
 		.environmentObject(graph)
 		.environmentObject(locationEnviroment)
+		.environmentObject(userEnvironment)
 		
 	}
 	

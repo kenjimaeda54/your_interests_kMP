@@ -37,9 +37,6 @@ fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
     )
 }
 
-
-
-
 private  val clientModule = module {
     single { RecoveryLocationClient() }
     single { PlacesNearbyClient(get()) }

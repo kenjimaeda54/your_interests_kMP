@@ -38,7 +38,7 @@
 		817EFC982C7BDAF0005FC448 /* ButtonBackTopAppBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817EFC972C7BDAF0005FC448 /* ButtonBackTopAppBar.swift */; };
 		817EFC9C2C7BE963005FC448 /* DetailsPlaceShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817EFC9B2C7BE963005FC448 /* DetailsPlaceShared.swift */; };
 		8180646D2C6435A200C0908E /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8180646C2C6435A200C0908E /* LoadingState.swift */; };
-		81819C4E2C7D461C005D5E87 /* ProfileState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81819C4D2C7D461C005D5E87 /* ProfileState.swift */; };
+		818F6AAB2C906F6E00CD74F0 /* UserEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818F6AAA2C906F6E00CD74F0 /* UserEnvironment.swift */; };
 		8195AE9D2C88FF4E0009CD2E /* MijickCameraView in Frameworks */ = {isa = PBXBuildFile; productRef = 8195AE9C2C88FF4E0009CD2E /* MijickCameraView */; };
 		8195AEA02C89044E0009CD2E /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8195AE9F2C89044E0009CD2E /* CustomCameraView.swift */; };
 		81A9391A2C7657740081F298 /* ResearchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A939192C7657740081F298 /* ResearchState.swift */; };
@@ -123,7 +123,7 @@
 		817EFC972C7BDAF0005FC448 /* ButtonBackTopAppBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonBackTopAppBar.swift; sourceTree = "<group>"; };
 		817EFC9B2C7BE963005FC448 /* DetailsPlaceShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPlaceShared.swift; sourceTree = "<group>"; };
 		8180646C2C6435A200C0908E /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
-		81819C4D2C7D461C005D5E87 /* ProfileState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileState.swift; sourceTree = "<group>"; };
+		818F6AAA2C906F6E00CD74F0 /* UserEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEnvironment.swift; sourceTree = "<group>"; };
 		8195AE9F2C89044E0009CD2E /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
 		81A939192C7657740081F298 /* ResearchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchState.swift; sourceTree = "<group>"; };
 		81A9391B2C765B0B0081F298 /* LocationEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEnvironment.swift; sourceTree = "<group>"; };
@@ -202,6 +202,7 @@
 		7555FF7D242A565900829871 /* iosAppYourInterests */ = {
 			isa = PBXGroup;
 			children = (
+				818F6AA92C906F1100CD74F0 /* Environment */,
 				81263DC72C70339900CE92D8 /* Extensions */,
 				8153C8242C6E7CC700BDC64E /* Representable */,
 				816FD65D2C5BC86700232E27 /* Utils */,
@@ -347,7 +348,6 @@
 			isa = PBXGroup;
 			children = (
 				816FD6572C5BC7E100232E27 /* ProfileScreen.swift */,
-				81819C4D2C7D461C005D5E87 /* ProfileState.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -356,13 +356,9 @@
 			isa = PBXGroup;
 			children = (
 				815FD5BF2C7E3EEC009B005E /* AuthState.swift */,
-				816FD6522C5BC55C00232E27 /* StateNavigationTabView.swift */,
 				8180646C2C6435A200C0908E /* LoadingState.swift */,
 				81F1F4632C666ED000511205 /* LocationManager.swift */,
 				81CD62F42C6D853B00413CE9 /* WrapperIdentifiblePhotosPlaces.swift */,
-				815611D12C739A0300AFB1CE /* MaganagerTabEnvironment.swift */,
-				81A9391B2C765B0B0081F298 /* LocationEnvironment.swift */,
-				81B7AF742C7FB20E00FE1176 /* NavigationGraph.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -383,6 +379,18 @@
 				817EFC952C7B9E27005FC448 /* InformationItem.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		818F6AA92C906F1100CD74F0 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				816FD6522C5BC55C00232E27 /* StateNavigationTabView.swift */,
+				81B7AF742C7FB20E00FE1176 /* NavigationGraph.swift */,
+				81A9391B2C765B0B0081F298 /* LocationEnvironment.swift */,
+				815611D12C739A0300AFB1CE /* MaganagerTabEnvironment.swift */,
+				818F6AAA2C906F6E00CD74F0 /* UserEnvironment.swift */,
+			);
+			path = Environment;
 			sourceTree = "<group>";
 		};
 		8195AE9E2C8904380009CD2E /* View */ = {
@@ -635,9 +643,9 @@
 				81FE46642C5D1A5D00FCE904 /* FontsApp.swift in Sources */,
 				817EFC982C7BDAF0005FC448 /* ButtonBackTopAppBar.swift in Sources */,
 				814F13C72C8720D700389AE6 /* CompletedRegisterUserState.swift in Sources */,
+				818F6AAB2C906F6E00CD74F0 /* UserEnvironment.swift in Sources */,
 				81CD62F52C6D853B00413CE9 /* WrapperIdentifiblePhotosPlaces.swift in Sources */,
 				81263DC62C70262800CE92D8 /* CustoCameraStateTransition.swift in Sources */,
-				81819C4E2C7D461C005D5E87 /* ProfileState.swift in Sources */,
 				81CE82E72C807BD500BB7151 /* GraphManagerView.swift in Sources */,
 				8195AEA02C89044E0009CD2E /* CustomCameraView.swift in Sources */,
 				81D466EA2C8B6FAF0086A379 /* KotlinByteArray+Extension.swift in Sources */,
