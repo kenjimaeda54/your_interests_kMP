@@ -9,8 +9,9 @@
 import SwiftUI
 
 @available(iOS 17.0, *)
-struct GraphManager: View {
+struct GraphManagerView: View {
 	@StateObject private var graph = NavigationGraph()
+	@StateObject private var locationEnviroment = LocationEnvironment()
 	@State private var phone = ""
 	let transition: AnyTransition = .asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .top))
 	
@@ -19,21 +20,34 @@ struct GraphManager: View {
 			switch (graph.switchView) {
 				case .singUp:
 					SingUpScreen(phone: $phone)
-						.environmentObject(graph)
 						.transition(transition)
 					
 				case .confirmCode:
 					ConfirmCodeScreen(phone: $phone)
-						.environmentObject(graph)
 						.transition(transition)
+					
+					
 					
 				case .finishedRegister:
 					CompletedRegisterUserScreen(phone: $phone)
-						.environmentObject(graph)
 						.transition(transition)
+					
+					
+				case .splashScreen:
+					SplashScreen()
+						.transition(transition)
+					
+					
+				case .tabCustomView:
+					TabCustomView()
+						.transition(transition)
+					
 			}
 		}
 		.animation(.default,value: graph.switchView)
+		.environmentObject(graph)
+		.environmentObject(locationEnviroment)
+		
 	}
 	
 	
@@ -42,5 +56,5 @@ struct GraphManager: View {
 
 @available(iOS 17.0, *)
 #Preview {
-	GraphManager()
+	GraphManagerView()
 }

@@ -1,11 +1,9 @@
 package com.example.yourinteresests.android.ui.screens.searchscreen.view
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.yourinteresests.android.YourInterestTheme
+import com.example.yourinteresests.android.theme.YourInterestTheme
 import com.example.yourinteresests.android.theme.fontsKulimPark
 import com.example.yourinterest.data.model.photosrelationswithplace.GeocodeModel
 import com.example.yourinterest.data.model.photosrelationswithplace.PhotoPlacesModel

@@ -38,7 +38,8 @@ fun CustomOutlineTextField(
     actionKeyboard: (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     leadingIcon:  @Composable() (() -> Unit)? = null,
-    singleLine: Boolean = false
+    singleLine: Boolean = false,
+    keyboardAction: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val enabled = true
@@ -54,16 +55,17 @@ fun CustomOutlineTextField(
         textStyle = TextStyle(
             fontFamily = fontsKulimPark,
             fontSize = 17.sp,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primaryContainer
         ),
         keyboardActions = KeyboardActions(onDone = {
             actionKeyboard?.invoke()
             keyboardController?.hide()
+            keyboardAction()
         }),
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done,
-            autoCorrect = false,
-            capitalization = KeyboardCapitalization.None
+            capitalization = KeyboardCapitalization.None,
+            autoCorrectEnabled = false,
+            imeAction = ImeAction.Done
         ),
         singleLine = false,
         modifier = modifier

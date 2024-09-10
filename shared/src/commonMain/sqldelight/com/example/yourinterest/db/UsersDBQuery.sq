@@ -1,0 +1,14 @@
+CREATE TABLE UsersData(
+   id INTEGER NOT NULL,
+   name TEXT,
+   phone TEXT NOT NULL,
+   photoUrl TEXT NOT NULL
+);
+
+insertUser:
+INSERT INTO UsersData (id, name, phone, photoUrl)
+VALUES (?, ?, ?, ?);
+
+
+getUser:
+SELECT UsersData.* FROM UsersData;

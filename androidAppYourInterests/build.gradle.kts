@@ -91,4 +91,8 @@ dependencies {
     //camera
     implementation(libs.compose.camera)
     implementation(libs.accompanist.permission)
+
+
+    //lottie-compose
+    implementation(libs.lottie.compose)
 }

@@ -13,6 +13,9 @@ plugins {
 
     //build config
     alias(libs.plugins.config.build)
+
+    //plugin sqldelight
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -68,16 +71,29 @@ kotlin {
             implementation(libs.superbase.storage)
             implementation(libs.peekaboo.image)
             implementation(libs.peekaboo.image.picker)
-         }
+            implementation(libs.sql.coroutines.extensions)
+            //apesar de precisar deles para copiilar no ios
+            //ao fazer o make project no android stuido vai falhar
+            //porque nao va encontrar o modulo no ios,porem e necessario
+            implementation(libs.touchlab.stately.common)
+        }
 
         androidMain.dependencies {
             implementation(libs.viewModel.ktx)
             implementation(libs.koin.android)
             implementation(libs.ktor.client.android)
+            implementation(libs.sql.android.driver)
         }
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.sql.native.driver)
+            //apesar de precisar deles para copiilar no ios
+            //ao fazer o make project no android stuido vai falhar
+            //porque nao va encontrar o modulo no ios,porem e necessario
+            implementation(libs.touchlab.stately.isolate)
+            implementation(libs.touchlab.stately.common)
+
         }
 
         commonTest.dependencies {
@@ -98,3 +114,11 @@ android {
     }
 }
 
+
+sqldelight {
+    databases {
+        create("InterestsDB") {
+            packageName = "com.example.yourinterest.db"
+        }
+    }
+}

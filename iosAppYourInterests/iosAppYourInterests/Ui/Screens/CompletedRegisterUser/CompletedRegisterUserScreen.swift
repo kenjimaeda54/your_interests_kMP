@@ -18,8 +18,9 @@ struct CompletedRegisterUserScreen: View {
 	@State private var userName = ""
 	@FocusState private var focus: Bool
 	@State private var isShowCamera = false
+	@State private var image: Image?
 	@State private var photo: Data = Data()
-	@State private var goNewRoute = false
+	@EnvironmentObject private var grapNavigation: NavigationGraph
 	@ObservedObject private var cameraManager:  CameraManager = .init(
 		outputType: .photo,
 		cameraPosition: .front,
@@ -28,7 +29,7 @@ struct CompletedRegisterUserScreen: View {
 	@StateObject private var stateRegisterUser: CompletedRegisterUserState = CompletedRegisterUserState()
 	//para transformar bytearray in swift criei uma extensao
 	private var user: UserWithPhotoByTeArray {
-		return UserWithPhotoByTeArray( name: userName, phone: phone, photo: KotlinByteArray.from(data: photo)
+		return UserWithPhotoByTeArray( name: userName, phone: "+55\(phone)", photo: KotlinByteArray.from(data: photo)
 		)}
 	
 	var body: some View {
@@ -39,11 +40,9 @@ struct CompletedRegisterUserScreen: View {
 						.onImageCaptured { image in
 							if let data = image.pngData() {
 								photo = data
-								Task {
-									await stateRegisterUser.registerUser(user: user)
-								}
 								
 							}
+							self.image = Image(uiImage: image)
 							isShowCamera = false
 							
 						}
@@ -56,10 +55,8 @@ struct CompletedRegisterUserScreen: View {
 					Button(action: {
 						isShowCamera = true
 					}, label: {
-						Image("photo_user")
-							.resizable()
-							.frame(width: 80,height: 80)
-							.clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+						
+						returnUserImage()
 						
 					})
 					Text("Clique acima para trocar a foto")
@@ -77,7 +74,7 @@ struct CompletedRegisterUserScreen: View {
 								showSheet = true
 								focus = true
 							}, label: {
-								Text("Clique aqui para inserir nome")
+								Text(userName.isEmpty ?  "Clique aqui para inserir nome" : userName)
 									.font(.custom(FontsApp.light, size: 18))
 									.foregroundStyle(ColorsApp.black.opacity(0.8))
 								
@@ -90,7 +87,7 @@ struct CompletedRegisterUserScreen: View {
 								.foregroundStyle(ColorsApp.black)
 							
 							
-							Text(phone)
+							Text("+55\(phone)")
 								.font(.custom(FontsApp.bold,  size: 20))
 								.foregroundStyle(ColorsApp.black)
 							
@@ -100,22 +97,34 @@ struct CompletedRegisterUserScreen: View {
 					}
 					.padding([.top],30)
 					.padding(.horizontal, 20)
-					
+					Spacer()
+					if(stateRegisterUser.loading == .loading) {
+						ProgressView()
+							.tint(ColorsApp.black)
+							.frame(width: 100,height: 100)
+							.controlSize(.large)
+					}else {
+						ButtonDefault(
+							action: {
+								Task {
+									await stateRegisterUser.registerUser(user: user)
+								}
+							}, title: "Confirmar", isDisable: userName.isEmpty || photo.isEmpty
+						)
+						.padding([.horizontal], 13)
+						.padding(.bottom,20)
+						
+					}
 				}
-				Spacer()
-				ButtonDefault(
-					action: {
-						goNewRoute = true
-					}, title: "Confrimar", isDisable: userName.isEmpty || photo.isEmpty
-				)
-				.padding([.horizontal], 13)
-				.padding(.bottom,20)
 				
 			}
-			.navigationDestination(isPresented:  $goNewRoute) {
-				TabCustomView()
-			}
 			
+			
+		}
+		.onChange(of: stateRegisterUser.isSuccessRegisterUser) { _,newValue in
+			if(newValue) {
+				grapNavigation.switchView = .tabCustomView
+			}
 		}
 		.frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,maxWidth: .infinity, minHeight: 0,maxHeight: .infinity)
 		.background(ColorsApp.gray.opacity(0.7))
@@ -124,6 +133,11 @@ struct CompletedRegisterUserScreen: View {
 				.font(.custom(FontsApp.light, size: 18))
 				.foregroundStyle(ColorsApp.black.opacity(0.7))
 			)
+			.submitLabel(.done)
+			.onSubmit {
+				focus = false
+				showSheet = false
+			}
 			.focused($focus)
 			.font(.custom(FontsApp.regular, size: 18))
 			.foregroundStyle(ColorsApp.black)
@@ -143,8 +157,32 @@ struct CompletedRegisterUserScreen: View {
 }
 
 
+
+
+
+
+
 @available(iOS 17.0, *)
 extension CompletedRegisterUserScreen {
+	
+	func returnUserImage() ->  some View {
+		
+		if let image = image {
+			image
+				.resizable()
+				.frame(width: 80,height: 80)
+				.clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+			
+			
+		} else {
+			Image("photo_user")
+				.resizable()
+				.frame(width: 80,height: 80)
+				.clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+			
+		}
+		
+	}
 	
 	func limitText()  {
 		if userName.count > 10 {
@@ -154,6 +192,9 @@ extension CompletedRegisterUserScreen {
 	
 	
 }
+
+
+
 
 @available(iOS 17.0, *)
 #Preview {

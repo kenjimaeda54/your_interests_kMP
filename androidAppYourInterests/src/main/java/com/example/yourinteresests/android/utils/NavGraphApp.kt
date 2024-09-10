@@ -19,6 +19,7 @@ import com.example.yourinteresests.android.ui.screens.detailsplace.SharedDetails
 import com.example.yourinteresests.android.ui.screens.finisheduserregister.FinishedUserRegister
 import com.example.yourinteresests.android.ui.screens.proflescreen.FavoriteScreen.NearbyInterests
 import com.example.yourinteresests.android.ui.screens.singup.SingUpScreen
+import com.example.yourinteresests.android.ui.screens.splash.SplashScreen
 import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
 import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
 
@@ -26,13 +27,19 @@ import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
 @OptIn(ExperimentalSharedTransitionApi::class)
 @SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
-fun NavGraphApp(navController: NavHostController, isShowBottomBar: MutableState<Boolean>) {
+fun NavGraphApp(
+    navController: NavHostController,
+    isShowBottomBar: MutableState<Boolean>,
+) {
 
     SharedTransitionLayout {
         NavHost(
             navController = navController,
-            startDestination = StackScreens.SingUp.name
+            startDestination =  StackScreens.SplashScreen.name
         ) {
+            composable(StackScreens.SplashScreen.name) {
+                SplashScreen(navController)
+            }
             composable(BottomBarScreen.NearbyInterests.route) {
                 NearbyInterests(isShowBottomBar = isShowBottomBar)
             }
@@ -44,39 +51,53 @@ fun NavGraphApp(navController: NavHostController, isShowBottomBar: MutableState<
                 }
 
                 val location = viewModel<RecoveryLocationViewModel>(parent)
-                if( location.location.value.data == null) return@composable
-                SearchScreen( location = location.location.value.data!!,navController = navController)
+                if (location.location.value.data == null) return@composable
+                SearchScreen(
+                    location = location.location.value.data!!,
+                    navController = navController
+                )
             }
 
-            composable(StackScreens.DetailsPlace.name + "/{fsqId}", arguments = listOf(navArgument("fsqId") { type = NavType.StringType })) {
+            composable(
+                StackScreens.DetailsPlace.name + "/{fsqId}",
+                arguments = listOf(navArgument("fsqId") { type = NavType.StringType })
+            ) {
                 val parentSearchRoute = remember(it) {
                     navController.getBackStackEntry(BottomBarScreen.Search.route)
                 }
                 val parentNearbyRoute = remember {
                     navController.getBackStackEntry(BottomBarScreen.NearbyInterests.route)
                 }
-                val place =  viewModel<SearchPlacesByQueryViewModel>(parentSearchRoute)
-                if (place.placesByQuery.value.data == null ) return@composable
-                val findPlace = place.placesByQuery.value.data!!.find { placeByQuery -> placeByQuery.fsqId == it.arguments?.getString("fsqId") }
-                if(findPlace == null) return@composable
+                val place = viewModel<SearchPlacesByQueryViewModel>(parentSearchRoute)
+                if (place.placesByQuery.value.data == null) return@composable
+                val findPlace = place.placesByQuery.value.data!!.find { placeByQuery ->
+                    placeByQuery.fsqId == it.arguments?.getString("fsqId")
+                }
+                if (findPlace == null) return@composable
                 SharedDetailsPlace(
                     place = findPlace,
                     navController = navController
-                    )
+                )
             }
 
             composable(StackScreens.SingUp.name) {
                 SingUpScreen(navController = navController)
             }
 
-            composable(StackScreens.ConfirmCode.name + "/{phone}", arguments = listOf(navArgument("phone") { type = NavType.StringType })) {
+            composable(
+                StackScreens.ConfirmCode.name + "/{phone}",
+                arguments = listOf(navArgument("phone") { type = NavType.StringType })
+            ) {
                 val phone = it.arguments?.getString("phone") ?: return@composable
                 ConfirmCodeScreen(phone = phone, navController = navController)
             }
 
-            composable(StackScreens.FinishedUserRegister.name + "/{phone}", arguments = listOf(navArgument("phone") { type = NavType.StringType })) {
+            composable(
+                StackScreens.FinishedUserRegister.name + "/{phone}",
+                arguments = listOf(navArgument("phone") { type = NavType.StringType })
+            ) {
                 val phone = it.arguments?.getString("phone") ?: return@composable
-                FinishedUserRegister(phone)
+                FinishedUserRegister(phone, navController)
             }
 
             composable(BottomBarScreen.Profile.route) {
@@ -86,5 +107,6 @@ fun NavGraphApp(navController: NavHostController, isShowBottomBar: MutableState<
     }
 
 
-
 }
+
+

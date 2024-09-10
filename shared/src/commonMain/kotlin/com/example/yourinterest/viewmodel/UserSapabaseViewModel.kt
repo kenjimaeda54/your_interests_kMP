@@ -27,10 +27,10 @@ class UserSapabaseViewModel: CoroutineViewModel(), KoinComponent {
     val user: StateFlow<DataOrException<UserModel, Exception, Boolean>> = _user
     val insertIsSuccess: StateFlow<DataOrException<Boolean, Exception, Boolean>> = _insertIsSuccess
 
-    fun fetchUser(phone: String) {
+    fun fetchUser(phone: String? = null) {
         scope.launch {
             _user.value = DataOrException(isLoading = true)
-            _user.value = repository.fetchDataBaseUser(phone)
+            _user.value = repository.fetchUser(phone)
         }
     }
 

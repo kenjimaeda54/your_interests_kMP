@@ -1,7 +1,6 @@
 package com.example.yourinteresests.android.ui.screens.confirmcode
 
 import android.app.Activity
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,10 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,7 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.yourinteresests.android.R
-import com.example.yourinteresests.android.YourInterestTheme
+import com.example.yourinteresests.android.theme.YourInterestTheme
 import com.example.yourinteresests.android.theme.fontsKulimPark
 import com.example.yourinteresests.android.ui.screens.confirmcode.view.OtpTextField
 import com.example.yourinteresests.android.utils.StackScreens
@@ -64,7 +59,7 @@ fun ConfirmCodeScreen(phone: String, navController: NavHostController) {
 
     LaunchedEffect(key1 = verifyCode.data) {
         if (verifyCode.data == true) {
-            navController.navigate(StackScreens.FinishedUserRegister.name) {
+            navController.navigate(StackScreens.FinishedUserRegister.name + "/${phone}") {
                 popUpTo(StackScreens.ConfirmCode.name) {
                     inclusive = true
 

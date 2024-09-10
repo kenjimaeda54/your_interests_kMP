@@ -14,9 +14,9 @@ import Foundation
 class NavigationGraph: ObservableObject {
 	
 	enum CurrentView: Int {
-		case  singUp,confirmCode,finishedRegister
+		case  singUp,confirmCode,finishedRegister,splashScreen,tabCustomView
 	}
 	
-	@Published var switchView = CurrentView.singUp
+	@Published var switchView = CurrentView.splashScreen
 	
 }

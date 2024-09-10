@@ -4,7 +4,6 @@ import android.app.Activity
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,18 +54,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.yourinteresests.android.R
-import com.example.yourinteresests.android.YourInterestTheme
+import com.example.yourinteresests.android.theme.YourInterestTheme
 import com.example.yourinteresests.android.theme.fontsKulimPark
-import com.example.yourinteresests.android.utils.ComposableLifecycle
 import com.example.yourinteresests.android.utils.StackScreens
 import com.example.yourinteresests.android.utils.rememberImeState
+import com.example.yourinteresests.android.view.ButtonDefault
 import com.example.yourinterest.viewmodel.AuthSapabaseViewModel
-import com.spr.jetpack_loading.components.indicators.CircularPulsatingIndicator
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 
@@ -89,7 +86,7 @@ fun SingUpScreen(navController: NavController) {
             scrollState.animateScrollTo(scrollState.maxValue + 300, tween(300))
         }
     }
-    
+
 
     LaunchedEffect(key1 = successSendCode.data) {
         if (successSendCode.data == true) {
@@ -101,7 +98,7 @@ fun SingUpScreen(navController: NavController) {
             }
         }
     }
-    
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
@@ -258,72 +255,45 @@ fun SingUpScreen(navController: NavController) {
                     }
 
                 }
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp),
-                    shape = RoundedCornerShape(corner = CornerSize(10.dp)),
-                    contentPadding = PaddingValues(horizontal = 3.dp, vertical = 10.dp),
+                ButtonDefault(
                     enabled = successSendCode.isLoading || phoneUser.text.length >= 10,
-                    elevation = ButtonDefaults.elevatedButtonElevation(
-                        defaultElevation = 0.dp,
-                        pressedElevation = 0.dp,
-                        disabledElevation = 0.dp,
-                        hoveredElevation = 0.dp,
-                        focusedElevation = 0.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        contentColor = MaterialTheme.colorScheme.primaryContainer,
-                        disabledContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        disabledContainerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    onClick = {
-                        if(phoneUser.text.length >= 10) {
-                            viewModel.sendCodeOTP("+55${phoneUser.text}")
-                        }
-                    }) {
-                    Text(
-                        text = "Entrar",
-                        fontFamily = fontsKulimPark,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    text = "Entrar"
+                ) {
+                    if (phoneUser.text.length >= 10) {
+                        viewModel.sendCodeOTP("+55${phoneUser.text}")
+                    }
                 }
             }
         }
+    }
 
-        if (successSendCode.exception != null) {
-            viewModel.clearData()
-            MotionToast.createColorToast(
-                LocalContext.current as Activity,
-                       "Falhou ☹️",
-                "Não foi possível enviar o SMS para este número verifique se o mesmo está correto",
-                MotionToastStyle.ERROR,
-                MotionToast.GRAVITY_BOTTOM,
-                MotionToast.LONG_DURATION,
-                ResourcesCompat.getFont(LocalContext.current, R.font.kulimpark_regular)
+    if (successSendCode.exception != null) {
+        viewModel.clearData()
+        MotionToast.createColorToast(
+            LocalContext.current as Activity,
+            "Falhou ☹️",
+            "Não foi possível enviar o SMS para este número verifique se o mesmo está correto",
+            MotionToastStyle.ERROR,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.LONG_DURATION,
+            ResourcesCompat.getFont(LocalContext.current, R.font.kulimpark_regular)
 
+        )
+    }
+
+    if (successSendCode.isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(2f), contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(30.dp),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                trackColor = MaterialTheme.colorScheme.primaryContainer.copy(0.5f)
             )
         }
-
-        if (successSendCode.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .zIndex(2f), contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .size(30.dp),
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    trackColor = MaterialTheme.colorScheme.primaryContainer.copy(0.5f)
-                )
-            }
-
-        }
-
 
     }
 }

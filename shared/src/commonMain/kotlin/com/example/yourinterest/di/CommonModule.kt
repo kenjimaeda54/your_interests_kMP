@@ -10,10 +10,12 @@ import com.example.yourinterest.data.client.SearchPlacesByQueryClient
 import com.example.yourinterest.data.client.StorageSupabaseClient
 import com.example.yourinterest.data.client.SupabaseClient
 import com.example.yourinterest.data.client.SupabaseImplementation
+import com.example.yourinterest.data.local.UsersDBLocalSource
 import com.example.yourinterest.data.repository.PlacesNearbyRepository
 import com.example.yourinterest.data.repository.RecoveryLocationRepository
 import com.example.yourinterest.data.repository.SearchPlacesByQueryRepository
 import com.example.yourinterest.data.repository.UserRepository
+import com.example.yourinterest.db.InterestsDB
 import com.example.yourinterest.viewmodel.AuthSapabaseViewModel
 import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
 import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
@@ -29,7 +31,9 @@ fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
         clientModule,
         viewModelModule,
         repositoryModule,
-
+        driverSQLModule,
+        coreDataBase,
+        localModule
     )
 }
 
@@ -48,6 +52,13 @@ private  val clientModule = module {
 }
 
 
+private val coreDataBase = module {
+    single { InterestsDB(get()) }
+}
+
+private val localModule = module {
+    single { UsersDBLocalSource(get()) }
+}
 
 private  val viewModelModule  = module {
      single { RecoveryLocationViewModel() }
@@ -55,7 +66,6 @@ private  val viewModelModule  = module {
      single { SearchPlacesByQueryViewModel() }
      single { AuthSapabaseViewModel() }
      single { UserSapabaseViewModel() }
-
 
 }
 

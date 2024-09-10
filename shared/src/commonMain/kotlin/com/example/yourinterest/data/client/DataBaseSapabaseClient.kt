@@ -4,12 +4,11 @@ import com.example.yourinterest.data.model.user.UserEntityResponse
 import com.example.yourinterest.util.DataOrException
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
-import io.ktor.http.HttpStatusCode
 
 class DataBaseSapabaseClient(private val supabaseClient: SupabaseClient): SupabaseClient by supabaseClient {
 
 
-    suspend fun fetchUsers(phone: String): DataOrException<UserEntityResponse, Exception, Boolean> {
+    suspend fun fetchUser(phone: String): DataOrException<UserEntityResponse, Exception, Boolean> {
         return try {
             val result = supabaseClient.supabase.from("users").select(
             columns = Columns.ALL){

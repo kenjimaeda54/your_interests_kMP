@@ -18,7 +18,7 @@ sealed  class BottomBarScreen (
 
     data object Profile : BottomBarScreen(
         route = "profile",
-        icon = com.example.yourinteresests.android.R.drawable.photo_user
+        icon = com.example.yourinteresests.android.R.drawable.profile
     )
 
 

@@ -17,6 +17,8 @@ struct SingUpScreen: View {
 	@EnvironmentObject private var graphNavigation: NavigationGraph
 	@StateObject private var authState = AuthState()
 	@State private var isShowToastError = false
+	@StateObject private var locationManager = LocationManager()
+	
 	
 	
 	var body: some View {
@@ -57,7 +59,7 @@ struct SingUpScreen: View {
 								.foregroundStyle(ColorsApp.black.opacity(0.5))
 												
 							)
-							.disabled(authState.loading == .loading)
+							.disabled(authState.loadingSendCode == .loading)
 							.keyboardType(.numbersAndPunctuation)
 							.submitLabel(.done)
 							.autocorrectionDisabled()
@@ -79,15 +81,40 @@ struct SingUpScreen: View {
 							)
 							
 						}
-						ButtonDefault(
-							action: {
-								if(phone.count >= 10) {
-									sendCode(with: phone)
+						if(locationManager.authorizationStatus == .denied) {
+							Button(action:{
+								
+								UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+								
+							}) {
+								VStack(spacing: 2) {
+									Text("Voce recusou acesso a localização.Sua localização importante para aplicativo.\n")
+									.font(.custom(FontsApp.regular , size: 15))
+									.foregroundStyle(ColorsApp.black)
+									.fixedSize(horizontal: false, vertical: true)
+								Text("Ajustes > Privacidade e Segurança > Serviços de Localização e iosAppYourInterests.\n")
+									.font(.custom(FontsApp.bold , size: 13))
+									.foregroundStyle(ColorsApp.black)
+									.fixedSize(horizontal: false, vertical: true)
+								Text("Se desejar caminho clique aqui.\n")
+									.font(.custom(FontsApp.regular , size: 15))
+									.foregroundStyle(ColorsApp.black)
+									.fixedSize(horizontal: false, vertical: true)
+
 								}
-							}, 
-							title: "Entrar", 
-							isDisable: phone.count <= 10 || authState.loading == .loading
-						)
+															
+							}
+						}else {
+							ButtonDefault(
+								action: {
+									if(phone.count >= 10) {
+										sendCode(with: phone)
+									}
+								},
+								title: "Entrar",
+								isDisable: phone.count <= 10 || authState.loadingSendCode == .loading
+							)
+						}
 						
 					}
 					.padding([.horizontal], 13)
@@ -97,7 +124,7 @@ struct SingUpScreen: View {
 					Spacer(minLength: geometry.size.height * 0.3)
 				}
 				
-				if(authState.loading == .loading) {
+				if(authState.loadingSendCode == .loading) {
 					ProgressView()
 						.tint(ColorsApp.black)
 						.frame(width: 100,height: 100)
@@ -108,7 +135,7 @@ struct SingUpScreen: View {
 			.padding([.horizontal],13)
 			.frame(minWidth: 0,maxWidth: .infinity, minHeight: 0,maxHeight: .infinity)
 			.background(ColorsApp.gray.opacity(0.7))
-			.onChange(of: authState.loading) { _, newValue in
+			.onChange(of: authState.loadingSendCode) { _, newValue in
 				if(newValue == .success) {
 					graphNavigation.switchView = .confirmCode
 					isShowToastError = false
@@ -128,6 +155,11 @@ struct SingUpScreen: View {
 				.frame(width: 250)
 				.onDisappear {
 					isShowToastError = false
+				}
+			}
+			.onAppear {
+				if(locationManager.authorizationStatus == .notDetermined){
+					locationManager.requestLocationPermission()
 				}
 			}
 			.environmentObject(graphNavigation)

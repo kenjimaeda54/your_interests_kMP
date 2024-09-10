@@ -1,16 +1,17 @@
 package com.example.yourinteresests.android.ui.screens.finisheduserregister
 
-import android.media.Image
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,15 +23,22 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
-import androidx.compose.material.icons.rounded.KeyboardArrowLeft
-import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -48,14 +56,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.request.ImageResult
-import com.example.yourinteresests.R
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.model.content.ContentModel
+import com.example.yourinteresests.android.theme.YourInterestTheme
 import com.example.yourinteresests.android.theme.fontsKulimPark
 import com.example.yourinteresests.android.ui.screens.finisheduserregister.view.CustomOutlineTextField
+import com.example.yourinteresests.android.utils.BottomBarScreen
+import com.example.yourinteresests.android.utils.ComposableLifecycle
+import com.example.yourinteresests.android.utils.StackScreens
+import com.example.yourinteresests.android.view.ButtonDefault
 import com.example.yourinterest.data.model.user.UserWithPhotoByTeArray
 import com.example.yourinterest.viewmodel.UserSapabaseViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.ujizin.camposer.CameraPreview
@@ -65,38 +82,53 @@ import com.ujizin.camposer.state.ImageCaptureResult
 import com.ujizin.camposer.state.rememberCamSelector
 import com.ujizin.camposer.state.rememberCameraState
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.UUID
+import java.util.Stack
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPermissionsApi::class,
+    ExperimentalMaterial3Api::class
+)
 @Composable
-fun FinishedUserRegister(phone: String) {
+fun FinishedUserRegister(phone: String, navController: NavController) {
     val configuration = LocalConfiguration.current
     val coroutineScope = rememberCoroutineScope()
     val userViewModel = viewModel<UserSapabaseViewModel>()
-    val focusRequester = FocusRequester()
+    val isInterUser by userViewModel.insertIsSuccess.collectAsState()
     var isClickedShowCamera by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val cameraState = rememberCameraState()
     var camSelector by rememberCamSelector(CamSelector.Front)
     val cameraPermission = rememberPermissionState(android.Manifest.permission.CAMERA)
-    val userName by remember {
+    var userName = remember {
         mutableStateOf("")
     }
     val modalSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded }, skipHalfExpanded = false
+        skipPartiallyExpanded = false,
     )
+    var userModel  by remember {
+        mutableStateOf<UserWithPhotoByTeArray>(UserWithPhotoByTeArray("", "", ByteArray(3)))
+    }
+    var isPhotoSelected by remember { mutableStateOf(false) }
 
 
+    LaunchedEffect(key1 = isInterUser) {
+        if(isInterUser.data == true) {
+            navController.navigate(BottomBarScreen.NearbyInterests.route) {
+                popUpTo(StackScreens.FinishedUserRegister.name) {
+                    inclusive = true
+                }
+
+            }
+        }
+    }
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.7f)),
+
     ) {
         if (isClickedShowCamera && cameraPermission.status.isGranted) {
             CameraPreview(
@@ -161,18 +193,23 @@ fun FinishedUserRegister(phone: String) {
                                     cameraState.takePicture(file = file) { result ->
                                         when (result) {
                                             is ImageCaptureResult.Success -> {
+                                                isPhotoSelected = true
                                                 val encoded =
                                                     Files.readAllBytes(Paths.get(result.savedUri!!.path))
-                                                val userModel = UserWithPhotoByTeArray(
-                                                    name = userName,
+
+                                                //nao inserir o usuario aqui so apos o confirmar
+                                                //tambem testar tirar foto novamente apos fechar
+                                                userModel = UserWithPhotoByTeArray(
+                                                    name = userName.value,
                                                     phone = phone,
                                                     photo = encoded
                                                 )
-                                                userViewModel.insertUser(userModel)
+                                                isClickedShowCamera = false
                                             }
 
                                             is ImageCaptureResult.Error -> {
                                                 Log.d("Error", "Error when take picture")
+                                                isClickedShowCamera = false
                                             }
                                         }
 
@@ -186,109 +223,167 @@ fun FinishedUserRegister(phone: String) {
 
         } else {
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 13.dp, vertical = 50.dp),
+                verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .clickable {
-                            isClickedShowCamera = true
-                        },
-                    painter = painterResource(id = com.example.yourinteresests.android.R.drawable.photo_user),
-                    contentDescription = "Image profile"
-                )
-                Text(
-                    text = "Clique acima para alterar a foto",
-                    fontFamily = fontsKulimPark,
-                    fontWeight = FontWeight.Light,
-                    fontSize = 13.sp,
-                    color = MaterialTheme.colorScheme.primaryContainer
-                )
+                Box {
+
+                }
                 Column(
-                    modifier = Modifier.padding(horizontal = configuration.screenWidthDp.dp * 0.1f),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Row(
-                        modifier = Modifier.padding(bottom = 10.dp, top = 40.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp)
-                    ) {
-                        Text(
-                            text = "Nome:",
-                            fontFamily = fontsKulimPark,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 18.sp,
-                            color = MaterialTheme.colorScheme.primaryContainer
-                        )
-                        Text(
-                            modifier = Modifier.clickable {
-                                coroutineScope.launch {
-                                    modalSheetState.show()
-                                    focusRequester.requestFocus()
+                    verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(CircleShape)
+                            .clickable {
+                                isClickedShowCamera = true
+                                if (!cameraPermission.status.isGranted) {
+                                    cameraPermission.launchPermissionRequest()
                                 }
                             },
-                            text = userName.ifEmpty { "Clique para inserir seu  nome" },
-                            fontFamily = fontsKulimPark,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 15.sp,
-                            color = MaterialTheme.colorScheme.primaryContainer.copy(0.5f)
-                        )
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
-                        Text(
-                            text = "Telefone:",
-                            fontFamily = fontsKulimPark,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 18.sp,
-                            color = MaterialTheme.colorScheme.primaryContainer
-                        )
-                        Text(
-                            text = phone,
-                            fontFamily = fontsKulimPark,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            color = MaterialTheme.colorScheme.primaryContainer
-                        )
+                        painter = painterResource(id = com.example.yourinteresests.android.R.drawable.photo_user),
+                        contentDescription = "Image profile"
+                    )
+                    Text(
+                        text = "Clique acima para alterar a foto",
+                        fontFamily = fontsKulimPark,
+                        fontWeight = FontWeight.Light,
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.primaryContainer
+                    )
+                    Column(
+                        modifier = Modifier.padding(horizontal = configuration.screenWidthDp.dp * 0.1f),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(bottom = 10.dp, top = 40.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp)
+                        ) {
+                            Text(
+                                text = "Nome:",
+                                fontFamily = fontsKulimPark,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 18.sp,
+                                color = MaterialTheme.colorScheme.primaryContainer
+                            )
+                            Text(
+                                modifier = Modifier.clickable {
+                                    coroutineScope.launch {
+                                        modalSheetState.show()
+                                    }
+                                },
+                                text = userName.value.ifEmpty { "Clique para inserir seu  nome" },
+                                fontFamily = fontsKulimPark,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp,
+                                color = MaterialTheme.colorScheme.primaryContainer.copy(0.5f)
+                            )
+                        }
+                        Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
+                            Text(
+                                text = "Telefone:",
+                                fontFamily = fontsKulimPark,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 18.sp,
+                                color = MaterialTheme.colorScheme.primaryContainer
+                            )
+                            Text(
+                                text = phone,
+                                fontFamily = fontsKulimPark,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp,
+                                color = MaterialTheme.colorScheme.primaryContainer
+                            )
 
+                        }
                     }
                 }
+                if(!isInterUser.isLoading) {
+                    ButtonDefault(enabled = userName.value.isNotEmpty()  && isPhotoSelected
+                        , text = "Confirmar") {
+                        userViewModel.insertUser(userModel)
+                    }
+
+                }
+
+                if(isInterUser.isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .size(30.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            trackColor = MaterialTheme.colorScheme.primaryContainer.copy(0.5f)
+                        )
+                }
+
             }
 
 
         }
 
     }
-    ModalBottomSheetLayout(
-        sheetState = modalSheetState,
-        sheetShape = RoundedCornerShape(12.dp),
-        sheetContent = {
-            Column(
-                modifier = Modifier
-                    .padding(top = 10.dp, bottom = 15.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CustomOutlineTextField(
-                    modifier = Modifier.focusRequester(focusRequester = focusRequester),
-                    placeHolder = "ex: João da Silva",
-                    value = userName,
-                    onValueChange = {
-
-                    })
+    if(modalSheetState.isVisible) {
+        ModalBottomSheet(
+            sheetState = modalSheetState,
+            onDismissRequest = {
+                coroutineScope.launch {
+                    modalSheetState.hide()
+                }
             }
 
-        }) {
 
+        )  {
+            ModalContent(userName) {
+                coroutineScope.launch {
+                    modalSheetState.hide()
+                }
+            }
+        }
+
+    }
+
+}
+
+@Composable
+@Preview
+fun FinishedUserRegisterPreview() {
+    YourInterestTheme {
+        FinishedUserRegister(navController = rememberNavController(), phone = "123456789")
     }
 }
 
 
 @Composable
-@Preview
-fun FinishedUserRegisterPreview() {
-    FinishedUserRegister(phone = "+55355555555")
+fun ModalContent(userName: MutableState<String>,keyBoardAction : () -> Unit) {
+    val focusRequester = FocusRequester()
+
+    ComposableLifecycle { _,event ->
+        if (event ==  Lifecycle.Event.ON_START) {
+            focusRequester.requestFocus()
+        }
+    }
+
+
+    Column(
+        modifier = Modifier
+            .padding(top = 10.dp, bottom = 15.dp)
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CustomOutlineTextField(
+            modifier = Modifier.focusRequester(focusRequester = focusRequester),
+            placeHolder = "ex: João da Silva",
+            value = userName.value,
+            onValueChange = {
+                if (userName.value.length <= 13) {
+                    userName.value = it
+                }
+            },
+            keyboardAction =  { keyBoardAction() }
+            )
+    }
 }

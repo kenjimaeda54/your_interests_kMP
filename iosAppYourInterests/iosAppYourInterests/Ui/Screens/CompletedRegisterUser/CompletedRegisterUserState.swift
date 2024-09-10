@@ -11,7 +11,7 @@ import shared
 
 @MainActor
 class CompletedRegisterUserState: ObservableObject  {
-	@Published private var loading: LoadingState = .none
+	@Published  var loading: LoadingState = .none
   private var viewModel = UserSapabaseViewModel()
 	var isSuccessRegisterUser = false
 	
@@ -31,6 +31,7 @@ class CompletedRegisterUserState: ObservableObject  {
 				if(data) {
 					loading = .success
 					isSuccessRegisterUser = true
+					return
 				}
 				
 				loading = .failure

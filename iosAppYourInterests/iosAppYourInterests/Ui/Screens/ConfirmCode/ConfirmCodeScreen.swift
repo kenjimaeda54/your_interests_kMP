@@ -22,7 +22,7 @@ struct ConfirmCodeScreen: View {
 	@FocusState private var focusTextField: Bool
 	@Binding var phone: String
 	@State private var timeRemaining = 60
-	@State private var otp = ""
+	@State private var codeOtp = ""
 	@State private var isShowToastError = false
 	var numbersOfFIelds = 6
 	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -36,18 +36,27 @@ struct ConfirmCodeScreen: View {
 					.foregroundStyle(ColorsApp.black)
 					.padding([.bottom],60)
 					.frame(minWidth: 0, maxWidth: .infinity,alignment: .leading)
-				HStack(alignment: .center, spacing: geometry.size.width * 0.03) {
-					OTPFieldView(numberOfFields: numbersOfFIelds, otp: $otp, size: geometry.size.width * 0.12)
-						.onChange(of: otp) { newOtp in
-							if newOtp.count == numbersOfFIelds {
-								Task {
-								  //await	authState.verifyCode(with: "+55\(phone)", code: otp)
-									
+				ZStack  {
+					
+					if(authState.loadingVerifiCode == .loading) {
+						ProgressView()
+							.tint(ColorsApp.black)
+							.frame(width: 100,height: 100)
+							.controlSize(.large)
+					}
+					HStack(alignment: .center, spacing: geometry.size.width * 0.03) {
+						OTPFieldView(numberOfFields: numbersOfFIelds, otp: $codeOtp, size: geometry.size.width * 0.12,loading: authState.loadingVerifiCode  == .loading)
+							.onChange(of: codeOtp) { newOtp in
+								if newOtp.count == numbersOfFIelds {
+									Task {
+										await	authState.verifyCode(with: "+55\(phone)", code: codeOtp)
+										
+									}
 								}
+								
 							}
-							
-						}
-						.focused($focusTextField)
+							.focused($focusTextField)
+					}
 				}
 				
 				if(timeRemaining > 0) {
@@ -84,14 +93,15 @@ struct ConfirmCodeScreen: View {
 			.padding([.horizontal],13)
 			.frame(minHeight: 0, maxHeight: .infinity,alignment: .center)
 			.background(ColorsApp.gray.opacity(0.7))
-			.onChange(of: authState.loading) { _,newValue in
-				  if(newValue == .success) {
-						environmentGraph.switchView = .finishedRegister
-				  }
+			.onChange(of: authState.loadingVerifiCode) { _,newValue in
+				if(newValue == .success) {
+					environmentGraph.switchView = .finishedRegister
+				}
 				
-				  if(newValue == .failure) {
-					  isShowToastError = true
-				 }
+				if(newValue == .failure) {
+					isShowToastError = true
+					codeOtp = ""
+				}
 				
 			}
 			.onChange(of: authState.isSuccessMessage) { oldValue, newValue in
@@ -100,17 +110,17 @@ struct ConfirmCodeScreen: View {
 				}
 			}
 			.toast(isPresented: $isShowToastError,dismissAfter: 3.0) {
-					ToastView() {
-						Text("Codigo digitado esta errado")
-							.font(.custom(FontsApp.regular, size: 17))
-							.foregroundStyle(ColorsApp.black)
-					}
-					.frame(width: 250)
-					.onDisappear {
-						isShowToastError = false
-					}
+				ToastView() {
+					Text("Codigo digitado esta errado")
+						.font(.custom(FontsApp.regular, size: 17))
+						.foregroundStyle(ColorsApp.black)
 				}
-
+				.frame(width: 250)
+				.onDisappear {
+					isShowToastError = false
+				}
+			}
+			
 			.environmentObject(environmentGraph)
 			
 		}

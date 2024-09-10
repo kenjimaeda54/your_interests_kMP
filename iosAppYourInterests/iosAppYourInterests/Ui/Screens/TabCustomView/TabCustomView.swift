@@ -12,8 +12,7 @@ import SwiftUI
 struct TabCustomView: View {
 	@ObservedObject var stateTagSelected = StateNavigationTabView()
 	@StateObject private var tabEnviroment = ManagerTabEnvironment()
-	@StateObject private var locationEnviroment = LocationEnvironment()
-	
+		
 	
 	var body: some View {
 		TabView(selection: $stateTagSelected.tagSelected){
@@ -66,7 +65,6 @@ struct TabCustomView: View {
 			
 		}
 		.environmentObject(tabEnviroment)
-		.environmentObject(locationEnviroment)
 	}
 	
 	

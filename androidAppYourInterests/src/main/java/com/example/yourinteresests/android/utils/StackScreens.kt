@@ -1,6 +1,7 @@
 package com.example.yourinteresests.android.utils
 
 enum class StackScreens {
+    SplashScreen,
     DetailsPlace,
     SingUp,
     ConfirmCode,
@@ -9,6 +10,7 @@ enum class StackScreens {
 
     companion object {
         fun fromRoute(route: String): StackScreens = when (route.substringBefore("/")) {
+            SplashScreen.name -> SplashScreen
             DetailsPlace.name -> DetailsPlace
             ShowMap.name -> ShowMap
             SingUp.name -> SingUp
