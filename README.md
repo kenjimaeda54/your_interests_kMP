@@ -107,7 +107,7 @@ class KtorApiImplementation() : KtorApi {
 - Depois consigo pegar os dados normalmente pelo getBackStackEntry
 - - Recordando que se for usar passagem de dados pelas rotas precisam ser dados simples nao complexo
 
-```koltin
+```kotlin
  //na camada de apresentaçao que desejo usar o dado
  val userViewModel = viewModel<UserSapabaseViewModel>()
 
