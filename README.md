@@ -271,7 +271,7 @@ struct SplashScreen: View {
 .onChange(of: scenePhase) {_, newPhase in
     //para lidar com ciclo de viida sempre que retornar a tetla esse codigo e chamado	 
 		if(newPhase == .active) {
-								locationManager.requestLocationPermission()
+		locationManager.requestLocationPermission()
       }
 }
 ```
