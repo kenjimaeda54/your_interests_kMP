@@ -1,4 +1,4 @@
-## Seus interesses
+## Your interests
 Aplicativo possibilita trazer os pontos de interesse próximo da sua localização,   consultar um ponto de interesse pela barra de pesquisa(telefone, nome ou categoria) por fim traz os dados do usuário cadastrado
 
 ## Feature
