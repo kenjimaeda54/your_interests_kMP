@@ -285,8 +285,8 @@ struct SplashScreen: View {
 
 
 
-
-
+## Publicação
+[linkedin](https://www.linkedin.com/feed/update/urn:li:activity:7239980687372521473/)
 
 
 
