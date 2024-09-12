@@ -22,10 +22,11 @@ import com.example.yourinteresests.android.ui.screens.singup.SingUpScreen
 import com.example.yourinteresests.android.ui.screens.splash.SplashScreen
 import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
 import com.example.yourinterest.viewmodel.SearchPlacesByQueryViewModel
+import com.example.yourinterest.viewmodel.UserSapabaseViewModel
 
 
 @OptIn(ExperimentalSharedTransitionApi::class)
-@SuppressLint("UnrememberedGetBackStackEntry")
+@SuppressLint("UnrememberedGetBackStackEntry", "RememberReturnType")
 @Composable
 fun NavGraphApp(
     navController: NavHostController,
@@ -65,9 +66,7 @@ fun NavGraphApp(
                 val parentSearchRoute = remember(it) {
                     navController.getBackStackEntry(BottomBarScreen.Search.route)
                 }
-                val parentNearbyRoute = remember {
-                    navController.getBackStackEntry(BottomBarScreen.NearbyInterests.route)
-                }
+
                 val place = viewModel<SearchPlacesByQueryViewModel>(parentSearchRoute)
                 if (place.placesByQuery.value.data == null) return@composable
                 val findPlace = place.placesByQuery.value.data!!.find { placeByQuery ->
@@ -100,8 +99,17 @@ fun NavGraphApp(
                 FinishedUserRegister(phone, navController)
             }
 
+            //precisei chamar o user novamente no homescreenm,
+            //porque quando entra no bottom bar se perde o getBackStackEntry das Stacks
+            //ja que sao estilos diferentes e matamos a stack na splah
             composable(BottomBarScreen.Profile.route) {
-                ProfileScreen()
+                val parentSearchRoute = remember(it) {
+                    navController.getBackStackEntry(BottomBarScreen.NearbyInterests.route)
+                }
+
+                val user = viewModel<UserSapabaseViewModel>(parentSearchRoute)
+                if(user.user.value.data == null) return@composable
+                ProfileScreen(user = user.user.value.data!!)
             }
         }
     }

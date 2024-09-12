@@ -42,6 +42,7 @@ import com.example.yourinterest.data.model.Coordinates
 import com.example.yourinterest.util.GeolocationError
 import com.example.yourinterest.viewmodel.PlacesNearbyViewModel
 import com.example.yourinterest.viewmodel.RecoveryLocationViewModel
+import com.example.yourinterest.viewmodel.UserSapabaseViewModel
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraState
 import com.mapbox.maps.EdgeInsets
@@ -66,10 +67,12 @@ fun NearbyInterests(isShowBottomBar: MutableState<Boolean>) {
     val location by recoveryLocationViewModelModel.location.collectAsState()
     val address by recoveryLocationViewModelModel.address.collectAsState()
     val dataPlacesNearby by nearbyViewModel.placesNearby.collectAsState()
+    val userViewModel = viewModel<UserSapabaseViewModel>()
 
     ComposableLifecycle { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
             recoveryLocationViewModelModel.getLocation()
+            userViewModel.fetchUser()
         }
 
     }

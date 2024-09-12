@@ -21,6 +21,4 @@ sealed  class BottomBarScreen (
         icon = com.example.yourinteresests.android.R.drawable.profile
     )
 
-
-
 }

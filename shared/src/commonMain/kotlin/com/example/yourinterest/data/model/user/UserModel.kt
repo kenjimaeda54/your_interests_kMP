@@ -8,9 +8,9 @@ data class UserModel(
 )
 
 data class  UserWithPhotoByTeArray(
-    val name: String,
+    var name: String,
     val phone: String,
-    val photo: ByteArray
+    var photo: ByteArray
 )
 
 fun UserEntityResponse.toUserModel() = UserModel(

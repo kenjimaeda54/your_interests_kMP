@@ -1,5 +1,6 @@
 package com.example.yourinteresests.android.ui.screens.finisheduserregister
 
+import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
@@ -49,6 +50,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -61,6 +63,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.airbnb.lottie.model.content.ContentModel
 import com.example.yourinteresests.android.theme.YourInterestTheme
 import com.example.yourinteresests.android.theme.fontsKulimPark
@@ -96,19 +100,23 @@ fun FinishedUserRegister(phone: String, navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val userViewModel = viewModel<UserSapabaseViewModel>()
     val isInterUser by userViewModel.insertIsSuccess.collectAsState()
+    var userName by remember {
+        mutableStateOf("")
+    }
     var isClickedShowCamera by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val cameraState = rememberCameraState()
     var camSelector by rememberCamSelector(CamSelector.Front)
     val cameraPermission = rememberPermissionState(android.Manifest.permission.CAMERA)
-    var userName = remember {
-        mutableStateOf("")
+    var imageURI by remember {
+        mutableStateOf<Uri?>(null)
     }
+
     val modalSheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = false,
     )
     var userModel  by remember {
-        mutableStateOf<UserWithPhotoByTeArray>(UserWithPhotoByTeArray("", "", ByteArray(3)))
+        mutableStateOf<UserWithPhotoByTeArray>(UserWithPhotoByTeArray("", phone, ByteArray(3)))
     }
     var isPhotoSelected by remember { mutableStateOf(false) }
 
@@ -194,16 +202,14 @@ fun FinishedUserRegister(phone: String, navController: NavController) {
                                         when (result) {
                                             is ImageCaptureResult.Success -> {
                                                 isPhotoSelected = true
+
+                                                imageURI = result.savedUri!!
                                                 val encoded =
                                                     Files.readAllBytes(Paths.get(result.savedUri!!.path))
 
                                                 //nao inserir o usuario aqui so apos o confirmar
                                                 //tambem testar tirar foto novamente apos fechar
-                                                userModel = UserWithPhotoByTeArray(
-                                                    name = userName.value,
-                                                    phone = phone,
-                                                    photo = encoded
-                                                )
+                                                userModel.photo = encoded
                                                 isClickedShowCamera = false
                                             }
 
@@ -234,19 +240,38 @@ fun FinishedUserRegister(phone: String, navController: NavController) {
                 }
                 Column(
                     verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .clip(CircleShape)
-                            .clickable {
-                                isClickedShowCamera = true
-                                if (!cameraPermission.status.isGranted) {
-                                    cameraPermission.launchPermissionRequest()
-                                }
-                            },
-                        painter = painterResource(id = com.example.yourinteresests.android.R.drawable.photo_user),
-                        contentDescription = "Image profile"
-                    )
+                    if(imageURI != null) {
+                        AsyncImage(
+                            modifier = Modifier
+                                .size(50.dp)
+                                .clip(CircleShape)
+                                .clickable {
+                                    isClickedShowCamera = true
+                                    if (!cameraPermission.status.isGranted) {
+                                        cameraPermission.launchPermissionRequest()
+                                    }
+                                },
+                            model = ImageRequest.Builder(LocalContext.current).data(imageURI).build(),
+                            contentDescription = "Image Profile",
+                            contentScale = ContentScale.FillBounds
+                        )
+                    } else {
+                        Image(
+                            modifier = Modifier
+                                .size(50.dp)
+                                .clip(CircleShape)
+                                .clickable {
+                                    isClickedShowCamera = true
+                                    if (!cameraPermission.status.isGranted) {
+                                        cameraPermission.launchPermissionRequest()
+                                    }
+                                },
+                            painter = painterResource(id = com.example.yourinteresests.android.R.drawable.photo_user),
+                            contentDescription = "Image profile"
+                        )
+                    }
+
+
                     Text(
                         text = "Clique acima para alterar a foto",
                         fontFamily = fontsKulimPark,
@@ -276,7 +301,7 @@ fun FinishedUserRegister(phone: String, navController: NavController) {
                                         modalSheetState.show()
                                     }
                                 },
-                                text = userName.value.ifEmpty { "Clique para inserir seu  nome" },
+                                text = userName.ifEmpty { "Clique para inserir seu  nome" },
                                 fontFamily = fontsKulimPark,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 15.sp,
@@ -303,7 +328,7 @@ fun FinishedUserRegister(phone: String, navController: NavController) {
                     }
                 }
                 if(!isInterUser.isLoading) {
-                    ButtonDefault(enabled = userName.value.isNotEmpty()  && isPhotoSelected
+                    ButtonDefault(enabled = userName.isNotEmpty()  && isPhotoSelected
                         , text = "Confirmar") {
                         userViewModel.insertUser(userModel)
                     }
@@ -336,7 +361,12 @@ fun FinishedUserRegister(phone: String, navController: NavController) {
 
 
         )  {
-            ModalContent(userName) {
+            ModalContent(userName, onchange = {
+                if (userName.length <= 13) {
+                    userName = it
+                    userModel.name = it
+                }
+            }) {
                 coroutineScope.launch {
                     modalSheetState.hide()
                 }
@@ -357,7 +387,7 @@ fun FinishedUserRegisterPreview() {
 
 
 @Composable
-fun ModalContent(userName: MutableState<String>,keyBoardAction : () -> Unit) {
+fun ModalContent(userName: String, onchange : (String) -> Unit, keyBoardAction : () -> Unit) {
     val focusRequester = FocusRequester()
 
     ComposableLifecycle { _,event ->
@@ -377,12 +407,8 @@ fun ModalContent(userName: MutableState<String>,keyBoardAction : () -> Unit) {
         CustomOutlineTextField(
             modifier = Modifier.focusRequester(focusRequester = focusRequester),
             placeHolder = "ex: João da Silva",
-            value = userName.value,
-            onValueChange = {
-                if (userName.value.length <= 13) {
-                    userName.value = it
-                }
-            },
+            value = userName,
+            onValueChange = onchange,
             keyboardAction =  { keyBoardAction() }
             )
     }

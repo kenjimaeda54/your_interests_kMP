@@ -58,7 +58,7 @@ struct ResearchScreen: View {
 						ColorsApp.gray
 							.clipShape(RoundedRectangle(cornerRadius: 10))
 					)
-					Text("Pesquise por: telefone, categoria ou telefone")
+					Text("Pesquise por: telefone, categoria ou nome")
 						.font(.custom(FontsApp.light, size: 15))
 					
 					if(researchState.loading == .success) {
