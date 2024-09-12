@@ -1,9 +1,8 @@
 ## Seus interesses
-Aplicativo posibilita trazer os pontos de interesse proximo da sua localizacao, posibilita   consultar um ponto de interesse pela barra de pesquisa(telefone,nome ou categoria) por fim traz os dados do usuario cadastrado
-
+Aplicativo possibilita trazer os pontos de interesse próximo da sua localização,   consultar um ponto de interesse pela barra de pesquisa(telefone, nome ou categoria) por fim traz os dados do usuário cadastrado
 
 ## Feature
-- Precisei usar bear token nas apis para isto implementei diretamente no ktor
+- Precisei usar bear token na API para isto implementei diretamente no ktor
 
 ```kotlin
 class KtorApiImplementation() : KtorApi {
@@ -38,8 +37,10 @@ class KtorApiImplementation() : KtorApi {
 ```
 
 ##
-- Dentro do mapbox precisava mostrar varios pontos de interese se usar lazyColumn com algum valor opcional ira acusar erro de LayoutNode
+- Dentro do mapbox precisava mostrar vários pontos de interesse se usar lazyColumn com algum valor opcional ira acusar erro de LayoutNode
 - Por isso optei pelo uso do forEach como abaixo
+- Se for uma lista grande não ideal uso do forEach
+
 
 ```kotlin
  dataPlaces.forEach {
@@ -98,14 +99,14 @@ class KtorApiImplementation() : KtorApi {
 ```
 
 ##
-- Para trabalhar coom lottie usei uma lib do [airbnb](https://airbnb.io/lottie/#/android-compose)
-- Esta lib muito boa porque consiigo usar no IOS tambem
-- Quando preciso navegar para as tabs posso usar mesmo conceito da stack usando navController.navigate(dai insiro a primeria rota no caso meu seria NearbyInterests)
-- Quando se trabalha com mabpox e presiar alterar o estilo recomendo o uso do MapBox Studio , com essa ferrametna consegue remover os pontos de interesse que vem por padrao em outros recurso
-- Para recuperar os dadoos da viewModel usando injecao dependencia segue o exemplo abaixo
-- As rotas stack e bottom se diferem por isso nao consigo usar uma viewModel atraves delas ou no meu projeto precisei novamente chamar a viewModel responsavel pelos user na primeria tela da bottomTab
+- Para trabalhar com lottie usei uma lib do [airbnb](https://airbnb.io/lottie/#/android-compose)
+- Esta lib ótima, porque consigo usar no IOS também
+- Quando preciso navegar para as tabs posso usar mesmo conceito da stack usando navController.navigate(dai insiro a primeira rota neste caso de uso é o NearbyInterests)
+- Quando se trabalha com mabpox, caso precisa alterar o estilo recomendo o uso do MapBox Studio, com essa ferramenta consegue remover os pontos de interesse que vem por padrão é altear outros recursos
+- Para recuperar os dados da viewModel usando injeção dependência segue o exemplo abaixo
+- As rotas stack e bottom se diferem por isso não consigo usar mesma viewModel através delas  no meu projeto precisei novamente chamar a viewModel responsável pelos user na primeira tela da bottomTab
 - Depois consigo pegar os dados normalmente pelo getBackStackEntry
-- - Recordando que se for usar passagem de dados pelas rotas precisam ser dados simples nao complexo
+- Recordando que se for usar passagem de dados pelas rotas precisam ser dados simples não complexo
 
 ```kotlin
  //na camada de apresentaçao que desejo usar o dado
@@ -144,8 +145,8 @@ composable(
 
 ##
 - Quando precisar navegar sem o NavigatorStack, pode usar conceito abaixo ou [ler aqui](https://kevin-harijanto.medium.com/swiftui-navigation-without-navigation-view-274c50b3d143)
-- Muitos casos nao precisamos de uma tela root, quando criio  algo com navigatorstack pernece sempre uma rot porque o conceito e uma pilha por isso stack, uma rota empilhada na outra
-- Repara que o TabCustomView esta nesse GraphManager se eu precisar navegar para as tabas faço mesmo do exemplo abaixo da splashscreen so que chamo o tabCustomView
+- Muitos casos não precisa de uma tela root, quando crio algo com navigatorstack permanece sempre uma root, porque o conceito e uma pilha, por isso stack, uma rota empilhada na outra
+- Repara que o TabCustomView esta nesse GraphManager se eu precisar navegar para as tabs faço mesmo do exemplo abaixo da splashscreen só que chamo o tabCustomView
 
 ```swift
 
@@ -262,8 +263,7 @@ struct SplashScreen: View {
 
 ```
 ##
-- Para saber se a tela esta em foco posso usar o Environment que o Swiftui compartilha
-
+- Para saber se a tela está em foco posso usar o Environment que o Swiftui compartilha
 
 ```swift
 @Environment(\.scenePhase) var scenePhase
@@ -278,9 +278,9 @@ struct SplashScreen: View {
 
 
 ##
-- Existem codigos comentados e a implementacao do Mapbox,porem estava aumentando muito complexidade e partir para Apple Maps
-- Bom que reforecei um pouco do conceito do uso de representable, este recurso server para usarmos libs que nao dao suporte ao SwiftUI ou ainda implementa o antigo UiViewController
-- Se querere entender mais pode [consultar aqui](https://github.com/kenjimaeda54/todo_sophisticated_swiftUi)
+- Existem códigos comentados sobre a implementação do Mapbox, porem estava aumentando muito complexidade, dai decide usar Apple Maps, porem funciona
+- Bom que reforcei um pouco do conceito do uso de representable, este recurso serve para usarmos libs que não dão suporte ao SwiftUI ou ainda implementa o antigo UiViewController
+- Se querer entender mais pode [consultar aqui](https://github.com/kenjimaeda54/todo_sophisticated_swiftUi)
 
 
 
