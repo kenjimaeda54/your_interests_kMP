@@ -1,6 +1,12 @@
 ## Your interests
 Aplicativo possibilita trazer os pontos de interesse próximo da sua localização,   consultar um ponto de interesse pela barra de pesquisa(telefone, nome ou categoria) por fim traz os dados do usuário cadastrado
 
+
+
+## Publicação
+[linkedin](https://www.linkedin.com/feed/update/urn:li:activity:7239980687372521473/)
+
+
 ## Feature
 - Precisei usar bear token na API para isto implementei diretamente no ktor
 
@@ -285,8 +291,6 @@ struct SplashScreen: View {
 
 
 
-## Publicação
-[linkedin](https://www.linkedin.com/feed/update/urn:li:activity:7239980687372521473/)
 
 
 
